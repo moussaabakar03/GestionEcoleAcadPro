@@ -10,12 +10,15 @@ urlpatterns = [
     path('all-student/', views.all_student, name='all-student'),
     path('admit-form/', views.admit_form, name='admit-form'),
     path('student-promotion/', views.student_promotion, name='student-promotion'),
+    path('student-detail/', views.student_detail, name = 'students-detail'),
 
     path('all-teacher/', views.all_teacher, name='all-teacher'),
     path('add-teacher/', views.add_teacher, name='add-teacher'),
+    path('teacher-detail/', views.teacher_detail, name = 'teachers-detail'),
 
     path('all-parents/', views.all_parents, name='all-parents'),
     path('add-parents/', views.add_parents, name='add-parents'),
+    path('parents-detail/', views.parents_detail, name = 'parents-detail'),
 
     path('all-class/', views.all_class, name='all-class'),
     path('add-class/', views.add_class, name='add-class'),

@@ -21,17 +21,26 @@ def admit_form(request):
 def student_promotion(request):
     return render(request, 'student-promotion.html')
 
+def student_detail(request):
+    return render(request, 'student-details.html')
+
 def all_teacher(request):
     return render(request, 'all-teacher.html')
 
 def add_teacher(request):
     return render(request, 'add-teacher.html')
 
+def teacher_detail(request):
+    return render(request, 'teacher-details.html')
+
 def all_parents(request):
     return render(request, 'all-parents.html')
 
 def add_parents(request):
     return render(request, 'add-parents.html')
+
+def parents_detail(request):
+    return render(request, 'parents-details.html')
 
 def all_class(request):
     return render(request, 'all-class.html')
