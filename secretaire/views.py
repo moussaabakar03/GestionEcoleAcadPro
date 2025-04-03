@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from . models import Etudiant
 
 def index(request):
     return render(request, 'index.html')
@@ -13,10 +15,51 @@ def index5(request):
     return render(request, 'index5.html')
 
 def all_student(request):
-    return render(request, 'all-student.html')
+    etudiants = Etudiant.objects.all()
+    context = {'etudiants': etudiants}
+    return render(request, 'all-student.html', context)
 
 def admit_form(request):
-    return render(request, 'admit-form.html')
+    if request.method == "POST":
+        nom = request.POST["nom"]
+        prenom = request.POST["prenom"]
+        matricule = request.POST["matricule"]
+        genre = request.POST["genre"]
+        date_naissance = request.POST["date_naissance"]
+        groupe_sanguin = request.POST["groupe_sanguin"]
+        mail = request.POST["mail"]
+        salleDeClasse = request.POST["salleDeClasse"]
+        niveau = request.POST["niveau"]
+        telephone = request.POST["telephone"]
+        nationnalite = request.POST["nationnalite"]
+        photo = request.FILES.get("photo")
+
+        # Vérifier si un étudiant avec le même matricule existe déjà
+        if Etudiant.objects.filter(matricule=matricule).exists():
+            return render(request, "admit-form.html", {"error": "Matricule déjà utilisé !"})
+
+        # Enregistrement dans la base de données
+        Etudiant.objects.create(
+            nom=nom,
+            prenom=prenom,
+            matricule=matricule,
+            genre=genre,
+            date_naissance=date_naissance,
+            groupe_sanguin=groupe_sanguin,
+            mail=mail,
+            salleDeClasse=salleDeClasse,
+            niveau=niveau,
+            telephone=telephone,
+            nationnalite=nationnalite,
+            photo=photo
+        )
+
+        return redirect("all-student")  # Redirection après ajout
+
+    return render(request, "admit-form.html")
+
+# def admit_form(request):
+#     return render(request, 'admit-form.html')
 
 def student_promotion(request):
     return render(request, 'student-promotion.html')
