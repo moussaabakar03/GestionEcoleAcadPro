@@ -11,6 +11,7 @@ urlpatterns = [
     path('admit-form/', views.admit_form, name='admit-form'),
     path('student-promotion/', views.student_promotion, name='student-promotion'),
     path('student-detail/', views.student_detail, name = 'students-detail'),
+    # path('ajouter_etudiant/', views.ajouter_etudiant, name = 'ajouter_etudiant'),
 
     path('all-teacher/', views.all_teacher, name='all-teacher'),
     path('add-teacher/', views.add_teacher, name='add-teacher'),
