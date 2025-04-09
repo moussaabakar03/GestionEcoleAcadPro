@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'acadPro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'acadPro_BD',
+        'NAME': 'AcadPro_BD',
         'USER': 'postgres',
         'PASSWORD' : 'Moussa68444436@',
         'HOST': 'localhost',
@@ -143,3 +143,7 @@ import os
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

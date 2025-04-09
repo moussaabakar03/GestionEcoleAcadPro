@@ -1,16 +1,17 @@
 {% load static %}
 
+
 <!doctype html>
 <html class="no-js" lang="">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | Add Teacher</title>
+    <title>AKKHOR | Admission Form</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'secretaire/img/favicon.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
     <!-- Normalize CSS -->
     <link rel="stylesheet" href="{% static 'secretaire/css/normalize.css' %}">
     <!-- Main CSS -->
@@ -31,149 +32,171 @@
     <link rel="stylesheet" href="{% static 'secretaire/style.css' %}">
     <!-- Modernize js -->
     <script src="{% static 'secretaire/js/modernizr-3.6.0.min.js' %}"></script>
-
-    
 </head>
+
 
 <body>
     <!-- Preloader Start Here -->
     <div id="preloader"></div>
     <!-- Preloader End Here -->
     <div id="wrapper" class="wrapper bg-ash">
-         <!-- Header Menu Area Start Here -->
+        <!-- Header Menu Area Start Here -->
        
-         {% include 'partial/header.html' %}
+        
+        {% include 'partial/header.html' %}
+
 
         <!-- Header Menu Area End Here -->
         <!-- Page Area Start Here -->
         <div class="dashboard-page-one">
             <!-- Sidebar Area Start Here -->
-
-
+           
             {% include 'partial/aside.html' %}
-
 
             <!-- Sidebar Area End Here -->
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Teacher</h3>
+                    <h3>Students</h3>
                     <ul>
                         <li>
                             <a href="{% url 'index' %}">Home</a>
                         </li>
-                        <li>Add New Teacher</li>
+                        <li>Student Admit Form</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
-                <!-- Add New Teacher Area Start Here -->
+                <!-- Admit Form Area Start Here -->
                 <div class="card height-auto">
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Add New Teacher</h3>
+                                <h3>Add New Students</h3>
                             </div>
-                           <div class="dropdown">
-                                <a class="dropdown-toggle" href="#" role="button" 
-                                data-toggle="dropdown" aria-expanded="false">...</a>
-        
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                    aria-expanded="false">...</a>
+
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                    <a class="dropdown-item" href="#"><i
+                                            class="fas fa-times text-orange-red"></i>Close</a>
+                                    <a class="dropdown-item" href="#"><i
+                                            class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                    <a class="dropdown-item" href="#"><i
+                                            class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                                 </div>
                             </div>
                         </div>
-                        <form class="new-added-form" method="post" enctype="multipart/form-data">
+                        <form class="new-added-form" action="" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Matricule</label>
-                                    <input type="text" name="matricule" placeholder="" class="form-control">
+                                    <input type="text" name="matricule" value="{{ student.matricule }}" readonly>
                                 </div>
+                        
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Nom *</label>
-                                    <input type="text" name="nom" placeholder="" class="form-control">
+                                    <input type="text" name="nom" value="{{ student.nom }}" class="form-control">
                                 </div>
+                        
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Prenom *</label>
-                                    <input type="text" name="prenom" placeholder="" class="form-control">
+                                    <label>Prénom *</label>
+                                    <input type="text" name="prenom" value="{{ student.prenom }}" class="form-control">
                                 </div>
+                        
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Sexe *</label>
-                                    <select class="select2" name="sexe">
-                                        <option value="Non-specifié">Please Select Gender *</option>
-                                        <option value="Masculin">Male</option>
-                                        <option value="Feminin">Female</option>
-                                        <option value="Autres">Others</option>
+                                    <label>Genre *</label>
+                                    <select class="select2" name="genre">
+                                        <option value="">Please Select Gender *</option>
+                                        <option value="Masculin" {% if student.genre == "Masculin" %}selected{% endif %}>Masculin</option>
+                                        <option value="Feminin" {% if student.genre == "Feminin" %}selected{% endif %}>Feminin</option>
+                                        <option value="Non-renseigné" {% if student.genre == "Non-renseigné" %}selected{% endif %}>Autre</option>
                                     </select>
                                 </div>
+                        
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Date de naissance *</label>
-                                    <input type="date" name="date_naissance" placeholder="dd/mm/yyyy" class="form-control">
-                                    {% comment %} <i class="far fa-calendar-alt"></i> {% endcomment %}
+                                    <input type="date" name="date_naissance" value="{{ student.date_naissance|date:'Y-m-d' }}" class="form-control air-datepicker">
                                 </div>
+                        
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Groupe sanguin *</label>
                                     <select class="select2" name="groupe_sanguin">
                                         <option value="">Please Select Group *</option>
-                                        <option value="A+">A+</option>
-                                        <option value="A-">A-</option>
-                                        <option value="B+">B+</option>
-                                        <option value="B-">B-</option>
-                                        <option value="O+">O+</option>
-                                        <option value="O-">O-</option>
-                                    </select>
+                                        {% for group in groupes_sanguins %}
+                                            <option value="{{ group }}" {% if student.groupe_sanguin == group %}selected{% endif %}>{{ group }}</option>
+                                        {% endfor %}
+                                    </select>                                    
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Diplome</label>
-                                    <input type="text" name="diplome" placeholder="" class="form-control">
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Profession</label>
-                                    <input type="text" name="profession" placeholder="" class="form-control">
-                                </div>
+                        
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>E-Mail</label>
-                                    <input type="email" name="email" placeholder="" class="form-control">
+                                    <input type="email" name="mail" value="{{ student.mail }}" class="form-control">
                                 </div>
+                        
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Section *</label>
-                                    <select class="select2" name="section">
-                                        <option value="">Please Select Section *</option>
-                                        <option value="Pink">Pink</option>
-                                        <option value="Blue">Blue</option>
-                                        <option value="Bird">Bird</option>
-                                        <option value="Rose">Rose</option>
-                                        <option value="Red">Red</option>
+                                    <label>Niveau *</label>
+                                    <select class="select2" name="niveau">
+                                        <option value="">Please Select Class *</option>
+                                        {% for niveau in niveaux %}
+                                            <option value="{{ niveau }}" {% if student.niveau == niveau %}selected{% endif %}>{{ niveau }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
+                        
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Section *</label>
+                                    <select class="select2" name="salleDeClasse">
+                                        <option value="">Please Select Section *</option>
+                                        {% for section in sections %}
+                                            <option value="{{ section }}" {% if student.salleDeClasse == section %}selected{% endif %}>Section {{ section }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                        
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Phone</label>
-                                    <input type="text" name="phone" placeholder="" class="form-control">
+                                    <input type="text" name="telephone" value="{{ student.telephone }}" class="form-control">
                                 </div>
+                        
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Nationalité</label>
+                                    <input type="text" name="nationnalite" value="{{ student.nationnalite }}" class="form-control">
+                                </div>
+                        
+                                <div class="col-lg-6 col-12 form-group">
+                                    <label>Short BIO</label>
+                                    <textarea class="textarea form-control" name="message" id="form-message" cols="10" rows="9">{{ student.message }}</textarea>
+                                </div>
+                        
                                 <div class="col-lg-6 col-12 form-group mg-t-30">
                                     <label class="text-dark-medium">Upload Student Photo (150px X 150px)</label>
                                     <input type="file" name="photo" class="form-control-file">
+                                    {% if student.photo %}
+                                    <img src="{{ student.photo.url }}" alt="Photo actuelle" style="max-width: 150px; margin-top: 10px;">
+                                    {% endif %}
                                 </div>
+                        
                                 <div class="col-12 form-group mg-t-8">
-                                    <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
-                                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                                    <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Mettre à jour</button>
+                                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Annuler</button>
                                 </div>
                             </div>
                         </form>
                         
                     </div>
                 </div>
-                <!-- Add New Teacher Area End Here -->
+                <!-- Admit Form Area End Here -->
                 <footer class="footer-wrap-layout1">
-                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
+                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a
+                            href="#">PsdBosS</a></div>
                 </footer>
             </div>
         </div>
         <!-- Page Area End Here -->
     </div>
-   <!-- jquery-->
+    <!-- jquery-->
     <script src="{% static 'secretaire/js/jquery-3.3.1.min.js' %}"></script>
     <!-- Plugins js -->
     <script src="{% static 'secretaire/js/plugins.js' %}"></script>
@@ -185,13 +208,10 @@
     <script src="{% static 'secretaire/js/select2.min.js' %}"></script>
     <!-- Date Picker Js -->
     <script src="{% static 'secretaire/js/datepicker.min.js' %}"></script>
-    <!-- Smoothscroll Js -->
-    <script src="{% static 'secretaire/js/jquery.smoothscroll.min.js' %}"></script>
     <!-- Scroll Up Js -->
     <script src="{% static 'secretaire/js/jquery.scrollUp.min.js' %}"></script>
     <!-- Custom Js -->
     <script src="{% static 'secretaire/js/main.js' %}"></script>
-
 
 </body>
 

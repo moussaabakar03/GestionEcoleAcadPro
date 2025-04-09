@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'partial\index.html')
 
 def index3(request):
     return render(request, 'index3.html')
@@ -29,7 +29,7 @@ def grid(request):
     return render(request, 'grid.html')
 
 def messaging(request):
-    return render(request, 'messaging.html')
+    return render(request, 'partial/messaging.html')
 
 def modal(request):
     return render(request, 'modal.html')

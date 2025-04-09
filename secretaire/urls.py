@@ -11,11 +11,15 @@ urlpatterns = [
     path('admit-form/', views.admit_form, name='admit-form'),
     path('student-promotion/', views.student_promotion, name='student-promotion'),
     path('student-detail/', views.student_detail, name = 'students-detail'),
+    path('modifier_student/<str:matricule>', views.modifier_student, name = 'modifier_student'),
+    path('supprimer_student/<str:matricule>', views.supprimer_student, name = 'supprimer_student'),
     # path('ajouter_etudiant/', views.ajouter_etudiant, name = 'ajouter_etudiant'),
 
     path('all-teacher/', views.all_teacher, name='all-teacher'),
     path('add-teacher/', views.add_teacher, name='add-teacher'),
     path('teacher-detail/', views.teacher_detail, name = 'teachers-detail'),
+    path('modifier_teacher/<str:matricule>/', views.modifier_teacher, name = 'modifier_teacher'),
+    path('supprimer_teacher/<str:matricule>/', views.supprimer_teacher, name = 'supprimer_teacher'),
 
     path('all-parents/', views.all_parents, name='all-parents'),
     path('add-parents/', views.add_parents, name='add-parents'),

@@ -60,7 +60,7 @@
                     <h3>Students</h3>
                     <ul>
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="{% url 'index' %}">Home</a>
                         </li>
                         <li>Student Admit Form</li>
                     </ul>
@@ -87,9 +87,14 @@
                                 </div>
                             </div>
                         </div>
-                        <form class="new-added-form" action="" method="POST" enctype="multipart/form-data">
+                        <form class="new-added-form" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
+
                             <div class="row">
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Matricule</label>
+                                    <input type="text" name="matricule" class="form-control">
+                                </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Nom *</label>
                                     <input type="text" name = "nom" placeholder="" class="form-control">
@@ -102,9 +107,9 @@
                                     <label>Genre *</label>
                                     <select class="select2" name = "genre">
                                         <option value="">Please Select Gender *</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Others</option>
+                                        <option value="Masculin">Masculin</option>
+                                        <option value="Feminin">Feminin</option>
+                                        <option value="Non-renseigné">Autre</option>
                                     </select>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
@@ -113,32 +118,18 @@
                                     
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Matricule</label>
-                                    <input type="text" name = "matricule" placeholder="" class="form-control">
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Groupe sanguin*</label>
                                     <select class="select2" name = "groupe_sanguin">
                                         <option value="">Please Select Group *</option>
-                                        <option value="1">A+</option>
-                                        <option value="2">A-</option>
-                                        <option value="3">B+</option>
-                                        <option value="3">B-</option>
-                                        <option value="3">O+</option>
-                                        <option value="3">O-</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="0-">O-</option>
                                     </select>
                                 </div>
-                                {% comment %} <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Religion *</label>
-                                    <select class="select2" name = "religion">
-                                        <option value="">Please Select Religion *</option>
-                                        <option value="1">Islam</option>
-                                        <option value="2">Hindu</option>
-                                        <option value="3">Christian</option>
-                                        <option value="3">Buddish</option>
-                                        <option value="3">Others</option>
-                                    </select>
-                                </div> {% endcomment %}
+                                
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>E-Mail</label>
                                     <input type="email" name = "mail" placeholder="" class="form-control">
@@ -147,13 +138,13 @@
                                     <label>Niveau *</label>
                                     <select class="select2" name = "niveau">
                                         <option value="">Please Select Class *</option>
-                                        <option value="1">Play</option>
-                                        <option value="2">Nursery</option>
-                                        <option value="3">One</option>
-                                        <option value="3">Two</option>
-                                        <option value="3">Three</option>
-                                        <option value="3">Four</option>
-                                        <option value="3">Five</option>
+                                        <option value="6e">6e</option>
+                                        <option value="5e">5e</option>
+                                        <option value="4e">4e</option>
+                                        <option value="3e">3e</option>
+                                        <option value="2e">2e</option>
+                                        <option value="1e">1e</option>
+                                        <option value="Tl">Tl</option>
                                     </select>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
@@ -186,7 +177,7 @@
                                 </div>
                                 <div class="col-lg-6 col-12 form-group mg-t-30">
                                     <label class="text-dark-medium">Upload Student Photo (150px X 150px)</label>
-                                    <input type="file" name = "photot" class="form-control-file">
+                                    <input type="file" name="photo" class="form-control-file">
                                 </div>
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Soumettre</button>

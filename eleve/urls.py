@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('eleveIndex', views.index, name='index'),
     path('index3/', views.index3, name='index3'),
     path('index4/', views.index4, name='index4'),
     path('index5/', views.index5, name='index5'),
@@ -25,6 +25,6 @@ urlpatterns = [
 
     path('notification-alart/', views.notification_alart, name='notification-alart'),
 
-    path('progress-bar/', views.progress_bar, name='progress-bar'),
+    path('progress-bar/', views.progress_bar, name='progress-bar')
     
 ]

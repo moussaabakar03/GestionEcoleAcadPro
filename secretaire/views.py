@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 
-from . models import Etudiant
+from . models import Etudiant, Enseignant
 
 def index(request):
     return render(request, 'index.html')
@@ -35,8 +35,8 @@ def admit_form(request):
         photo = request.FILES.get("photo")
 
         # Vérifier si un étudiant avec le même matricule existe déjà
-        if Etudiant.objects.filter(matricule=matricule).exists():
-            return render(request, "admit-form.html", {"error": "Matricule déjà utilisé !"})
+        # if Etudiant.objects.filter(matricule=matricule).exists():
+        #     return render(request, "admit-form.html", {"error": "Matricule déjà utilisé !"})
 
         # Enregistrement dans la base de données
         Etudiant.objects.create(
@@ -58,9 +58,44 @@ def admit_form(request):
 
     return render(request, "admit-form.html")
 
-# def admit_form(request):
-#     return render(request, 'admit-form.html')
+def modifier_student(request, matricule):
+    
+    mtrcle = mtrcle = get_object_or_404(Etudiant, matricule=matricule)
+    
+    groupes_sanguins = ["A+", "A-", "B+", "B-", "O+", "O-"]
+    niveaux = ["6e", "5e", "4e", "3e", "2e", "1e", "Tl"]
+    sections = ["1", "2", "3"]
 
+    if request.method == "POST":
+        mtrcle.nom = request.POST["nom"]
+        mtrcle.prenom = request.POST["prenom"]
+        mtrcle.matricule = request.POST["matricule"]
+        mtrcle.genre = request.POST["genre"]
+        mtrcle.date_naissance = request.POST["date_naissance"]
+        mtrcle.groupe_sanguin = request.POST["groupe_sanguin"]
+        mtrcle.mail = request.POST["mail"]
+        mtrcle.salleDeClasse = request.POST["salleDeClasse"]
+        mtrcle.niveau = request.POST["niveau"]
+        mtrcle.telephone = request.POST["telephone"]
+        mtrcle.nationnalite = request.POST["nationnalite"]
+        mtrcle.photo = request.FILES.get("photo")
+        mtrcle.save()
+        return redirect("all-student")
+    
+
+    return render(request, "modifier-student.html", {
+        "student": mtrcle,
+        "groupes_sanguins": groupes_sanguins,
+        "niveaux": niveaux,
+        "sections": sections,
+    })
+
+def supprimer_student(request, matricule):
+    mtrcle = Etudiant.objects.get(matricule = matricule)
+    if request.method == "GET":
+        mtrcle.delete()
+        return redirect("all-student")
+    
 def student_promotion(request):
     return render(request, 'student-promotion.html')
 
@@ -68,13 +103,55 @@ def student_detail(request):
     return render(request, 'student-details.html')
 
 def all_teacher(request):
-    return render(request, 'all-teacher.html')
+    enseignants = Enseignant.objects.all()
+    content = {"enseignants": enseignants }
+    return render(request, 'all-teacher.html', content)
 
 def add_teacher(request):
+    if request.method == "POST":
+        matricule = request.POST["matricule"]
+        nom = request.POST["nom"]
+        prenom = request.POST["prenom"]
+        sexe = request.POST["sexe"]
+        date_naissance = request.POST["date_naissance"]
+        groupe_sanguin = request.POST["groupe_sanguin"]
+        diplome = request.POST["diplome"]
+        profession = request.POST["profession"]
+        email = request.POST["email"]
+        section = request.POST["section"]
+        phone = request.POST["phone"]
+        photo = request.FILES.get("photo")  
+    
+        Enseignant.objects.create( matricule = matricule, nom = nom, prenom = prenom, profession = profession, tel = phone, 
+                                diplome = diplome,  photo = photo , date_naissance = date_naissance, sexe = sexe, mail = email)
+        return redirect("all-teacher")
     return render(request, 'add-teacher.html')
 
 def teacher_detail(request):
     return render(request, 'teacher-details.html')
+
+def modifier_teacher(request, matricule):
+    enseignant = Enseignant.objects.get(matricule = matricule)
+    groupes_sanguins = ["A+", "A-", "B+", "B-", " AB+", "AB-", "O+", "O-"]
+    if request.method == "POST":
+        enseignant.matricule = request.POST["matricule"]
+        enseignant.nom = request.POST["nom"]
+        enseignant.prenom = request.POST["prenom"]
+        enseignant.profession = request.POST["profession"]
+        enseignant.tel = request.POST["phone"]
+        enseignant.diplome = request.POST["diplome"]
+        enseignant.photo = request.FILES.get("photo")
+        enseignant.date_naissance = request.POST["date_naissance"]
+        enseignant.sexe = request.POST["sexe"]
+        enseignant.mail = request.POST["email"]
+        enseignant.save()
+        return redirect("all-teacher")
+    return render(request, 'modifier-teacher.html', {"enseignant": enseignant, "groupes_sanguins": groupes_sanguins})
+
+def supprimer_teacher(request, matricule):
+    enseignant = Enseignant.objects.get(matricule = matricule)
+    enseignant.delete()
+    return redirect("all-teacher")
 
 def all_parents(request):
     return render(request, 'all-parents.html')
