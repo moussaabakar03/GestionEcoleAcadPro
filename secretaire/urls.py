@@ -11,6 +11,7 @@ urlpatterns = [
     path('admit-form/', views.admit_form, name='admit-form'),
     path('student-promotion/', views.student_promotion, name='student-promotion'),
     path('student-detail/', views.student_detail, name = 'students-detail'),
+    path('detailEtudiant/<str:matricule>', views.detailEtudiant, name = 'detailEtudiant'),
     path('modifier_student/<str:matricule>', views.modifier_student, name = 'modifier_student'),
     path('supprimer_student/<str:matricule>', views.supprimer_student, name = 'supprimer_student'),
     # path('ajouter_etudiant/', views.ajouter_etudiant, name = 'ajouter_etudiant'),
@@ -28,6 +29,12 @@ urlpatterns = [
     path('all-class/', views.all_class, name='all-class'),
     path('add-class/', views.add_class, name='add-class'),
 
+
+    path('all-salle/', views.all_salle, name='all-salle'),
+    path('add-salle/', views.add_salle, name='add-salle'),
+    path('modifierSalle/<str:nom>', views.modifierSalle, name='modifierSalle'),
+    path('supprimerSalle/<str:nom>', views.supprimerSalle, name='supprimerSalle'),
+    
     path('all-subject/', views.all_subject, name='all-subject'),
     path('class-routine/', views.class_routine, name='class-routine'),
     path('student-attendance/', views.student_attendance, name='student-attendance'),

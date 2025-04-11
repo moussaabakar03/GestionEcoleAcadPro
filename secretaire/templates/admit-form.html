@@ -104,6 +104,16 @@
                                     <input type="text" name = "prenom" placeholder="" class="form-control">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Parent *</label>
+                                    <select class="select2" name = "parent">
+                                        <option value="">Please Select parent *</option>
+                                        {% for parent in parentss %}
+                                            <option value="{{ parent.id }}">{{parent.nom}} {{parent.prenom}}</option>
+                                        {% endfor %}
+                                        <option value="Non-renseigné">Autre</option>
+                                    </select>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Genre *</label>
                                     <select class="select2" name = "genre">
                                         <option value="">Please Select Gender *</option>
@@ -114,7 +124,7 @@
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Date de naissance *</label>
-                                    <input type="date" name = "date_naissance" placeholder="dd/mm/yyyy" class="form-control air-datepicker">
+                                    <input type="date" name = "date_naissance" placeholder="dd/mm/yyyy" class="form-control">
                                     
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
@@ -135,27 +145,12 @@
                                     <input type="email" name = "mail" placeholder="" class="form-control">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Niveau *</label>
-                                    <select class="select2" name = "niveau">
-                                        <option value="">Please Select Class *</option>
-                                        <option value="6e">6e</option>
-                                        <option value="5e">5e</option>
-                                        <option value="4e">4e</option>
-                                        <option value="3e">3e</option>
-                                        <option value="2e">2e</option>
-                                        <option value="1e">1e</option>
-                                        <option value="Tl">Tl</option>
-                                    </select>
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Section *</label>
+                                    <label>Salle de classe *</label>
                                     <select class="select2" name = "salleDeClasse">
-                                        <option value="">Please Select Section *</option>
-                                        <option value="1">Pink</option>
-                                        <option value="2">Blue</option>
-                                        <option value="3">Bird</option>
-                                        <option value="3">Rose</option>
-                                        <option value="3">Red</option>
+                                        <option value="">Please Select classroom *</option>
+                                        {% for salle in salles%}
+                                            <option value="{{ salle.id }}">{{ salle.nom }} ({{ salle.capacite }})</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 {% comment %} <div class="col-xl-3 col-lg-6 col-12 form-group">

@@ -1,8 +1,9 @@
+{% load static %}
 <div class="navbar navbar-expand-md header-menu-one bg-light">
     <div class="nav-bar-header-one">
         <div class="header-logo">
-            <a href="index.html">
-                <img src="img/log.png" alt="logo">
+            <a href="{% url 'index'%} ">
+                <img src="{% static 'secretaire/img/logo.png' %}" alt="logo">
             </a>
         </div>
          <div class="toggle-button sidebar-toggle">
@@ -45,7 +46,7 @@
                         <span>Admin</span>
                     </div>
                     <div class="admin-img">
-                        <img src="img/figure/admin.jpg" alt="Admin">
+                        <img src="{% static 'secretaire/img/figure/admin.jpg' %}" alt="Admin">
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -78,7 +79,7 @@
                     <div class="item-content">
                         <div class="media">
                             <div class="item-img bg-skyblue author-online">
-                                <img src="img/figure/student11.png" alt="img">
+                                <img src="{% static 'secretaire/img/figure/student11.png' %}" alt="img">
                             </div>
                             <div class="media-body space-sm">
                                 <div class="item-title">
@@ -93,7 +94,7 @@
                         </div>
                         <div class="media">
                             <div class="item-img bg-yellow author-online">
-                                <img src="img/figure/student12.png" alt="img">
+                                <img src="{% static 'secretaire/img/figure/student12.png' %}" alt="secretaire/img">
                             </div>
                             <div class="media-body space-sm">
                                 <div class="item-title">
@@ -108,7 +109,7 @@
                         </div>
                         <div class="media">
                             <div class="item-img bg-pink">
-                                <img src="img/figure/student13.png" alt="img">
+                                <img src="{% static 'secretaire/img/figure/student13.png' %}" alt="img">
                             </div>
                             <div class="media-body space-sm">
                                 <div class="item-title">
@@ -123,7 +124,7 @@
                         </div>
                         <div class="media">
                             <div class="item-img bg-violet-blue">
-                                <img src="img/figure/student11.png" alt="img">
+                                <img src="{% static 'secretaire/img/figure/student11.png' %}" alt="secretaire/img">
                             </div>
                             <div class="media-body space-sm">
                                 <div class="item-title">

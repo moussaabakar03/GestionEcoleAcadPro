@@ -1,0 +1,297 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AKKHOR | etudiants Details</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'secretaire/img/favicon.png' %}">
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="{% static 'secretaire/css/normalize.css' %}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'secretaire/css/main.css' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'secretaire/css/bootstrap.min.css' %}">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{% static 'secretaire/css/all.min.css' %}">
+    <!-- Flaticon CSS -->
+    <link rel="stylesheet" href="{% static 'secretaire/fonts/flaticon.css' %}">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="{% static 'secretaire/css/animate.min.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'secretaire/style.css' %}">
+    <!-- Modernize js -->
+    <script src="{% static 'secretaire/js/modernizr-3.6.0.min.js' %}"></script>
+
+    <style>
+        {% comment %} body {
+          font-family: Arial, sans-serif;
+          background: #f2f2f2;
+          margin: 0;
+          padding: 20px;
+        } {% endcomment %}
+    
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            overflow-x: auto; /* permet le scroll horizontal si nécessaire */
+          }
+          
+        .table-wrapper {
+        overflow-x: auto;
+        width: 100%;
+        }
+
+        h2 {
+          font-size: 18px;
+          margin-bottom: 10px;
+          color: #333;
+        }
+    
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 10px;
+        }
+    
+        th, td {
+          text-align: left;
+          padding: 8px;
+        }
+    
+        th {
+          color:rgb(203, 150, 58);
+          font-weight: bold;
+          background: #f9f9f9;
+        }
+    
+        tr:nth-child(even) {
+          background: #f1f1f1;
+        }
+    
+        .action-icons img {
+          height: 24px;
+          margin-right: 10px;
+          cursor: pointer;
+        }
+    
+        .flex-boxes {
+          display: flex;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+    
+        .box {
+          flex: 1;
+          min-width: 300px;
+        }
+
+        .table-wrapper table tr {
+            height: 70px; /* augmente la hauteur des lignes */
+        }
+{% comment %} 
+        .table-wrapper table td, 
+        .table-wrapper table th {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            vertical-align: middle;
+        } {% endcomment %}
+
+        .detailEtudiant{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffa001;
+            {% comment %} padding: 20px; {% endcomment %}
+            width: 50%;
+            margin: 20px auto;
+            border-radius: 10px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+         <!-- Header Menu Area Start Here -->
+       
+         {% include 'partial/header.html' %}
+
+
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+           
+            {% include 'partial/aside.html' %}
+
+
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+
+                <div class="detailEtudiant">
+                    <div>
+                        <p style = "text-align: center; margin-top: 15px;" > DETAILS ELEVE: [<span style = "font-weight: bold;">{{etudiant.nom}}</span>] </p>
+                    </div>
+                </div>
+
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>etudiants</h3>
+                    <ul>
+                        <li>
+                            <a href="{% url 'all-student' %}">All students</a>
+                        </li>
+                        <li> <a href ="{% url 'students-detail' %}" ><i class="fas fa-id-card"></i>  Génerer la carte scolaire de l'étudiant</a></li>
+                        <li>etudiant Details</li>
+                    </ul>
+                </div>
+                <!-- Breadcubs Area End Here -->
+                <!-- etudiant Details Area Start Here -->
+                <div class="card height-auto">
+                    <div class="container">
+                        <h2>IDENTIFICATION DE L'APPRENANT</h2>
+                        <p><small>Information personnelle</small></p>
+                        <div class="table-wrapper" style="max-height: 500px; overflow-y: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                    <th>MAT</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Parent</th>
+                                    <th>Date_naissance</th>
+                                    <th>Lieu_naissance</th>
+                                    <th>Adresse</th>
+                                    <th>Sexe</th>
+                                    <th>Nationalité</th>
+                                    <th>Mobile</th>
+                                    <th>Email</th>
+                                    <th>Date_enregistrement</th>
+                                    <th>Salle_Capacacté_niveau</th>
+                                    <th>Groupe_sanguin</th>
+                                    <th>Photo</th>
+                                    <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style = "color: red; font-weight: bold;">{{etudiant.matricule}}</td>
+                                        <td>{{etudiant.nom}}</td>
+                                        <td>{{etudiant.prenom}}</td>
+                                        <td>{{etudiant.parent}}</td>
+                                        <td>{{etudiant.date_naissance}}</td>
+                                        <td>ntsoudjini</td>
+                                        <td>ntsoudjini</td>
+                                        <td>{{etudiant.genre}}</td>
+                                        <td>{{etudiant.nationnalite}}</td>
+                                        <td>{{etudiant.telephone}}</td>
+                                        <td>d{{etudiant.mail}}</td>
+                                        <td>d{{etudiant.date_enregistrement}}</td>
+                                        <td>{{etudiant.salleDeClasse_id}}</td>
+                                        <td>{{etudiant.groupe_sanguin}}</td>
+                                        <td>
+                                            <img src="{{etudiant.photo.url}}" alt="Photo" style="width: 160px; height: 50px; border-radius: 7px; object-fit: cover;">
+                                        </td>
+                                        <td class="action-icons" style= "display:flex;gap: 15px;">
+                                            <a href="{% url 'modifier_student' etudiant.matricule %}" class='btn btn-warning btn-sm'><i class='fas fa-edit' style="width:100%; height: 40px;"></i></a>
+                                            <a href="" onclick= "return confirm('voulez-vous vraiment supprimer ce test?')"  class='btn btn-danger btn-sm'><i class='fas fa-trash'></i></a>
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-boxes">
+                        <div class="container box">
+                            <h2>RESPONSABLE FINANCIÈRE</h2>
+                            <p><small>Information personnelle</small></p>
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+                                        <th>Profession</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <td>Mohamed</td>
+                                        <td>Rachad</td>
+                                        <td>77777</td>
+                                        <td>dawal@hotmail.com</td>
+                                        <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="container box">
+                            <h2>INSCRIPTION</h2>
+                            <p><small>Détaille inscription</small></p>
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                        <th>Date Inscrite</th>
+                                        <th>Classe</th>
+                                        <th>Groupe</th>
+                                        <th>Coût A.</th>
+                                        <th>Montant Versé</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                          
+                    </div>
+                </div>
+                <!-- etudiant Details Area End Here -->
+                <footer class="footer-wrap-layout1">
+                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
+                </footer>
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+   <!-- jQuery -->
+    <script src="{% static 'secretaire/js/jquery-3.3.1.min.js' %}"></script>
+    <!-- Plugins js -->
+    <script src="{% static 'secretaire/js/plugins.js' %}"></script>
+    <!-- Popper js -->
+    <script src="{% static 'secretaire/js/popper.min.js' %}"></script>
+    <!-- Bootstrap js -->
+    <script src="{% static 'secretaire/js/bootstrap.min.js' %}"></script>
+    <!-- Scroll Up Js -->
+    <script src="{% static 'secretaire/js/jquery.scrollUp.min.js' %}"></script>
+    <!-- Custom Js -->
+    <script src="{% static 'secretaire/js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,11 +1,12 @@
 {% load static %}
+
 <!doctype html>
 <html class="no-js" lang="">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | Add Parents</title>
+    <title>AKKHOR | Add Class</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
@@ -38,43 +39,35 @@
     <!-- Preloader End Here -->
     <div id="wrapper" class="wrapper bg-ash">
          <!-- Header Menu Area Start Here -->
-          
+        
          {% include 'partial/header.html' %}
 
         <!-- Header Menu Area End Here -->
         <!-- Page Area Start Here -->
         <div class="dashboard-page-one">
             <!-- Sidebar Area Start Here -->
-           <div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
-               <div class="mobile-sidebar-header d-md-none">
-                    <div class="header-logo">
-                        <a href="index.html"><img src="img/logo1.png" alt="logo"></a>
-                    </div>
-               </div>
-               
-                {% include 'partial/aside.html' %}
+           
+            {% include 'partial/aside.html' %}
 
-                
-            </div>
             <!-- Sidebar Area End Here -->
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Parents</h3>
+                    <h3>Classes</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'index' %}">Home</a>
+                            <a href="index.html">Home</a>
                         </li>
-                        <li>Add New Parents</li>
+                        <li>Add New Class</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
-                <!-- Add New Teacher Area Start Here -->
+                <!-- Add Class Area Start Here -->
                 <div class="card height-auto">
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Add New Parents</h3>
+                                <h3>Add New Class Schedule</h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
@@ -87,60 +80,53 @@
                                 </div>
                             </div>
                         </div>
-                        <form class="new-added-form" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
+                        <form class="new-added-form" method="POST">
+                            {% csrf_token%}
                             <div class="row">
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Nom *</label>
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Nom de la matière *</label>
                                     <input type="text" name="nom" class="form-control" required>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Prénom *</label>
-                                    <input type="text" name="prenom" class="form-control" required>
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Genre *</label>
-                                    <select name="genre" class="select2 form-control" required>
-                                        <option value="">Sélectionner le genre</option>
-                                        <option value="M">Masculin</option>
-                                        <option value="F">Féminin</option>
+                                    <label>Niveau *</label>
+                                    <select class="select2" name = "niveau">
+                                        <option value="">Please Select Class *</option>
+                                        <option value="6ème">6e</option>
+                                        <option value="5ème">5e</option>
+                                        <option value="4ème">4e</option>
+                                        <option value="3ème">3e</option>
+                                        <option value="2nd">2e</option>
+                                        <option value="1re">1e</option>
+                                        <option value="Tl">Tl</option>
                                     </select>
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Profession</label>
-                                    <input type="text" name="profession" class="form-control">
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Coefficient *</label>
+                                    <input type="number" name="coefficient" class="form-control" required min="1">
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Téléphone *</label>
-                                    <input type="text" name="telephone" class="form-control" required>
+                                <div class="col-12 form-group">
+                                    <label>Description</label>
+                                    <textarea name="description" class="form-control" rows="3" placeholder="Description de la matière (facultatif)"></textarea>
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Email *</label>
-                                    <input type="email" name="email" class="form-control" required>
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Lien de parenté *</label>
-                                    <select name="lien_de_parente" class="select2 form-control" required>
-                                        <option value="">Sélectionner un lien</option>
-                                        <option value="Père">Père</option>
-                                        <option value="Mère">Mère</option>
-                                        <option value="Tuteur">Tuteur</option>
+                                <div class="col-xl-6 col-lg-6 col-12 form-group">
+                                    <label>Enseignant responsable</label>
+                                    <select name="enseignant" class="select2 form-control">
+                                        <option value="">Veuillez sélectionner</option>
+                                        {% for enseignant in enseignants %}
+                                            <option value="{{ enseignant.id }}">{{ enseignant.prenom }} {{ enseignant.nom }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
-                                <div class="col-lg-6 col-12 form-group mg-t-30">
-                                    <label class="text-dark-medium">Photo du parent</label>
-                                    <input type="file" name="photo" class="form-control-file">
-                                </div>
+                                
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Enregistrer</button>
                                     <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Réinitialiser</button>
                                 </div>
                             </div>
                         </form>
-                        
                     </div>
                 </div>
-                <!-- Add New Teacher Area End Here -->
+                <!-- Add Class Area End Here -->
                 <footer class="footer-wrap-layout1">
                     <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
                 </footer>
@@ -148,6 +134,7 @@
         </div>
         <!-- Page Area End Here -->
     </div>
+    <!-- jquery-->
     <script src="{% static 'secretaire/js/jquery-3.3.1.min.js' %}"></script>
     <!-- Plugins js -->
     <script src="{% static 'secretaire/js/plugins.js' %}"></script>
