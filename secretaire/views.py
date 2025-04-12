@@ -110,8 +110,10 @@ def supprimer_student(request, matricule):
 def student_promotion(request):
     return render(request, 'student-promotion.html')
 
-def student_detail(request):
-    return render(request, 'student-details.html')
+def student_detail(request, matricule):
+    etudiant = Etudiant.objects.get(matricule = matricule)
+    context = {"etudiant": etudiant }
+    return render(request, 'student-details.html', context)
 
 def detailEtudiant(request, matricule):
     etudiant = Etudiant.objects.get(matricule = matricule)
