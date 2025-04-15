@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html class="no-js" lang="">
 
@@ -8,25 +10,26 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="eleve/img/favicon.png">
     <!-- Normalize CSS -->
-    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/normalize.css' %}">
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/main.css' %}">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/bootstrap.min.css' %}">
     <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/all.min.css' %}">
     <!-- Flaticon CSS -->
-    <link rel="stylesheet" href="fonts/flaticon.css">
+    <link rel="stylesheet" href="{% static 'eleve/fonts/flaticon.css' %}">
     <!-- Full Calender CSS -->
-    <link rel="stylesheet" href="css/fullcalendar.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/fullcalendar.min.css' %}">
     <!-- Animate CSS -->
-    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/animate.min.css' %}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'eleve/style.css' %}">
     <!-- Modernize js -->
-    <script src="js/modernizr-3.6.0.min.js"></script>
+    <script src="{% static 'eleve/js/modernizr-3.6.0.min.js' %}"></script>
+
 </head>
 
 <body>
@@ -39,7 +42,7 @@
             <div class="nav-bar-header-one">
                 <div class="header-logo">
                     <a href="index.html">
-                        <img src="img/logo.png" alt="logo">
+                        <img src="eleve/img/logo.png" alt="logo">
                     </a>
                 </div>
                  <div class="toggle-button sidebar-toggle">
@@ -82,7 +85,7 @@
                                 <span>Admin</span>
                             </div>
                             <div class="admin-img">
-                                <img src="img/figure/admin.jpg" alt="Admin">
+                                <img src="eleve/img/figure/admin.jpg" alt="Admin">
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -115,7 +118,7 @@
                             <div class="item-content">
                                 <div class="media">
                                     <div class="item-img bg-skyblue author-online">
-                                        <img src="img/figure/student11.png" alt="img">
+                                        <img src="eleve/img/figure/student11.png" alt="eleve/img">
                                     </div>
                                     <div class="media-body space-sm">
                                         <div class="item-title">
@@ -130,7 +133,7 @@
                                 </div>
                                 <div class="media">
                                     <div class="item-img bg-yellow author-online">
-                                        <img src="img/figure/student12.png" alt="img">
+                                        <img src="eleve/img/figure/student12.png" alt="eleve/img">
                                     </div>
                                     <div class="media-body space-sm">
                                         <div class="item-title">
@@ -145,7 +148,7 @@
                                 </div>
                                 <div class="media">
                                     <div class="item-img bg-pink">
-                                        <img src="img/figure/student13.png" alt="img">
+                                        <img src="eleve/img/figure/student13.png" alt="eleve/img">
                                     </div>
                                     <div class="media-body space-sm">
                                         <div class="item-title">
@@ -160,7 +163,7 @@
                                 </div>
                                 <div class="media">
                                     <div class="item-img bg-violet-blue">
-                                        <img src="img/figure/student11.png" alt="img">
+                                        <img src="eleve/img/figure/student11.png" alt="eleve/img">
                                     </div>
                                     <div class="media-body space-sm">
                                         <div class="item-title">
@@ -238,7 +241,7 @@
             <div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
                <div class="mobile-sidebar-header d-md-none">
                     <div class="header-logo">
-                        <a href="index.html"><img src="img/logo1.png" alt="logo"></a>
+                        <a href="index.html"><img src="eleve/img/logo1.png" alt="logo"></a>
                     </div>
                </div>
                 <div class="sidebar-menu-content">
@@ -256,6 +259,12 @@
                         <li class="nav-item">
                             <a href="messaging.html" class="nav-link"><i
                                     class="flaticon-chat"></i><span>Messeage</span></a>
+                        </li>
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="presence.html" class="nav-link"><i class="flaticon-clock"></i><span>Presence</span></a>
+                        </li>
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="payments.html" class="nav-link"><i class="flaticon-credit-card"></i><span>Payments</span></a>
                         </li>
                     </ul>
                 </div>
@@ -696,28 +705,28 @@
         </div>
         <!-- Page Area End Here -->
     </div>
-    <!-- jquery-->
-    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- jquery -->
+    <script src="{% static 'eleve/js/jquery-3.3.1.min.js' %}"></script>
     <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
+    <script src="{% static 'eleve/js/plugins.js' %}"></script>
     <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="{% static 'eleve/js/popper.min.js' %}"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{% static 'eleve/js/bootstrap.min.js' %}"></script>
     <!-- Counterup Js -->
-    <script src="js/jquery.counterup.min.js"></script>
+    <script src="{% static 'eleve/js/jquery.counterup.min.js' %}"></script>
     <!-- Moment Js -->
-    <script src="js/moment.min.js"></script>
+    <script src="{% static 'eleve/js/moment.min.js' %}"></script>
     <!-- Waypoints Js -->
-    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="{% static 'eleve/js/jquery.waypoints.min.js' %}"></script>
     <!-- Scroll Up Js -->
-    <script src="js/jquery.scrollUp.min.js"></script>
+    <script src="{% static 'eleve/js/jquery.scrollUp.min.js' %}"></script>
     <!-- Full Calender Js -->
-    <script src="js/fullcalendar.min.js"></script>
+    <script src="{% static 'eleve/js/fullcalendar.min.js' %}"></script>
     <!-- Chart Js -->
-    <script src="js/Chart.min.js"></script>
+    <script src="{% static 'eleve/js/Chart.min.js' %}"></script>
     <!-- Custom Js -->
-    <script src="js/main.js"></script>
+    <script src="{% static 'eleve/js/main.js' %}"></script>
 
 </body>
 

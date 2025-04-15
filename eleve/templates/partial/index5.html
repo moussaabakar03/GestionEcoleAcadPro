@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html class="no-js" lang="">
 
@@ -7,27 +9,31 @@
     <title>AcadPro | Home 5</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'eleve/img/favicon.png' %}">
+
     <!-- Normalize CSS -->
-    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/normalize.css' %}">
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/main.css' %}">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/bootstrap.min.css' %}">
     <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/all.min.css' %}">
     <!-- Flaticon CSS -->
-    <link rel="stylesheet" href="fonts/flaticon.css">
+    <link rel="stylesheet" href="{% static 'eleve/fonts/flaticon.css' %}">
     <!-- Animate CSS -->
-    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/animate.min.css' %}">
     <!-- Data Table CSS -->
-    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/jquery.dataTables.min.css' %}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'eleve/style.css' %}">
+
     <!-- Modernize js -->
-    <script src="js/modernizr-3.6.0.min.js"></script>
+    <script src="{% static 'eleve/js/modernizr-3.6.0.min.js' %}"></script>
 </head>
+
 
 <body>
     <!-- Preloader Start Here -->
@@ -260,6 +266,12 @@
                         </li>
                         <li class="nav-item">
                             <a href="messaging.html" class="nav-link"><i class="flaticon-chat"></i><span>Messeage</span></a>
+                        </li>
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="presence.html" class="nav-link"><i class="flaticon-clock"></i><span>Presence</span></a>
+                        </li>
+                        <li class="nav-item sidebar-nav-item">
+                            <a href="payments.html" class="nav-link"><i class="flaticon-credit-card"></i><span>Payments</span></a>
                         </li>
                     </ul>
                 </div>
@@ -850,26 +862,28 @@
         </div>
         <!-- Page Area End Here -->
     </div>
-    <!-- jquery-->
-    <script src="js/jquery-3.3.1.min.js"></script>
+   
+    <!-- jquery -->
+    <script src="{% static 'eleve/js/jquery-3.3.1.min.js' %}"></script>
     <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
+    <script src="{% static 'eleve/js/plugins.js' %}"></script>
     <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="{% static 'eleve/js/popper.min.js' %}"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{% static 'eleve/js/bootstrap.min.js' %}"></script>
     <!-- Counterup Js -->
-    <script src="js/jquery.counterup.min.js"></script>
+    <script src="{% static 'eleve/js/jquery.counterup.min.js' %}"></script>
     <!-- Waypoints Js -->
-    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="{% static 'eleve/js/jquery.waypoints.min.js' %}"></script>
     <!-- Scroll Up Js -->
-    <script src="js/jquery.scrollUp.min.js"></script>
+    <script src="{% static 'eleve/js/jquery.scrollUp.min.js' %}"></script>
     <!-- Data Table Js -->
-    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="{% static 'eleve/js/jquery.dataTables.min.js' %}"></script>
     <!-- Chart Js -->
-    <script src="js/Chart.min.js"></script>
+    <script src="{% static 'eleve/js/Chart.min.js' %}"></script>
     <!-- Custom Js -->
-    <script src="js/main.js"></script>
+    <script src="{% static 'eleve/js/main.js' %}"></script>
+    
 
 </body>
 

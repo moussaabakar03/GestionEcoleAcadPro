@@ -133,7 +133,11 @@
                                                 <label class="form-check-label">{{parent.id}}</label>
                                             </div>
                                         </td>
-                                        <td class="text-center"><img src="{{ parent.photo.url }}" alt="student"></td>
+                                        {% if parent.photo %}
+                                            <td class="text-center"><img src="{{ parent.photo.url }}" alt="student"></td>
+                                        {% else %}
+                                            <td class="text-center"><i class="fa fa-user"></i></td> 
+                                        {% endif %}
                                         <td>{{parent.nom}}</td>
                                         <td>{{parent.prenom}}</td>
                                         <td>{{parent.genre}}</td>
@@ -148,13 +152,10 @@
                                                     <span class="flaticon-more-button-of-three-dots"></span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#"><i
+                                                    <a class="dropdown-item" href="{% url 'supprimer_parent' parent.id %}" onclick = "return confirm('Voulez-vous vraiment supprimer ce parent?')"><i
                                                             class="fas fa-times text-orange-red"></i>Close</a>
-                                                    <a class="dropdown-item" href="#"><i
+                                                    <a class="dropdown-item" href="{% url 'modifier_parent' parent.id %}"><i
                                                             class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                    <a class="dropdown-item" href="#"><i
-                                                            class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                     <a class="dropdown-item" href="{% url 'parents-detail' %} "><i class="fas fa-eye" title = "voir plus"></i>voir plus</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -166,10 +167,8 @@
                     </div>
                 </div>
                 <!-- Teacher Table Area End Here -->
-                <footer class="footer-wrap-layout1">
-                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a
-                            href="#">PsdBosS</a></div>
-                </footer>
+                {% include 'partial/copyright.html' %}
+
             </div>
         </div>
         <!-- Page Area End Here -->

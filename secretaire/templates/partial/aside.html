@@ -74,13 +74,38 @@
                 </ul>
             </li>
             <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"><i class="flaticon-maths-class-materials-cross-of-a-pencil-and-a-ruler"></i><span>Salle</span></a>
+                <a href="#" class="nav-link"><i class="fas fa-layer-group"></i><span>Niveau</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'all_niveau' %}" class="nav-link"><i class="fas fa-angle-right"></i>All Niveau</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'add_niveau' %}" class="nav-link"><i class="fas fa-angle-right"></i>Add New Niveau</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fas fa-chalkboard"></i> <span>Salle</span></a>
                 <ul class="nav sub-group-menu">
                     <li class="nav-item">
                         <a href="{% url 'all-salle' %}" class="nav-link"><i class="fas fa-angle-right"></i>All Salle</a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'add-salle' %}" class="nav-link"><i class="fas fa-angle-right"></i>Add New Salle</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fas fa-clipboard-check"></i><span>Notes</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><i class="fas fa-angle-right"></i>Ajout de Note individuelle</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><i class="fas fa-angle-right"></i>Ajout de Note groupée</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><i class="fas fa-angle-right"></i>Détail des Notes</a>
                     </li>
                 </ul>
             </li>

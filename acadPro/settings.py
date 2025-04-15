@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'secretaire',
+    'eleve',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'acadPro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'AcadPro_BD',
+        'NAME': 'AcadPro_DB',
         'USER': 'postgres',
         'PASSWORD' : 'Moussa68444436@',
         'HOST': 'localhost',
@@ -133,10 +134,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = '/static/'
 
-# Optionnel : si tu veux centraliser tous les fichiers statiques au même endroit lors du déploiement
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# # Optionnel : si tu veux centraliser tous les fichiers statiques au même endroit lors du déploiement
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
 
 
 import os

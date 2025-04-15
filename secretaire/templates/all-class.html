@@ -29,12 +29,12 @@
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Classes</h3>
+                    <h3>Matières</h3>
                     <ul>
                         <li>
                             <a href="{% url 'index' %}">Home</a>
                         </li>
-                        <li>All Classes</li>
+                        <li>All Matières</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -43,7 +43,7 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>All Class Schedules</h3>
+                                <h3>All Matières</h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
@@ -54,6 +54,24 @@
                                     <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
                                     <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                                 </div>
+                                {% comment %} {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show flash-message" role="alert" style="color: red;">
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            
+                                <script>
+                                    setTimeout(function() {
+                                        const flashMessages = document.querySelectorAll(".flash-message");
+                                        flashMessages.forEach(function(flash) {
+                                            flash.classList.remove("show");
+                                            flash.classList.add("hide");
+                                        });
+                                    }, 5000);
+                                </script> {% endcomment %}
                             </div>
                         </div>
                         <form class="mg-b-20">
@@ -82,7 +100,7 @@
                                                 <label class="form-check-label">ID</label>
                                             </div>
                                         </th>
-                                        <th>Nom</th>
+                                        <th>Désignation</th>
                                         <th>Niveau</th>
                                         <th>Coefficient</th>
                                         <th>Enseignant</th>
@@ -111,8 +129,8 @@
                                                     <span class="flaticon-more-button-of-three-dots"></span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                                    <a class="dropdown-item" href="{% url 'supprimer_matiere' matiere.id %}" onclick = "return confirm('Voulez-vous vraiment supprimer cette matière?')"><i class="fas fa-times text-orange-red"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{% url 'modifier_matiere' matiere.id %}"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
                                                     <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                                                 </div>
                                             </div>
@@ -125,9 +143,8 @@
                     </div>
                 </div>
                 <!-- Class Table Area End Here -->
-                <footer class="footer-wrap-layout1">
-                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
-                </footer>
+                {% include 'partial/copyright.html' %}
+
             </div>
         </div>
         <!-- Page Area End Here -->

@@ -56,7 +56,7 @@
                     <h3>Classes</h3>
                     <ul>
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="{% url 'all-salle' %}">All Salle</a>
                         </li>
                         <li>Add New salle de classe</li>
                     </ul>
@@ -83,8 +83,17 @@
                         <form class="new-added-form" method="POST">
                             {% csrf_token %}
                             <div class="row">
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Niveau *</label>
+                                    <select class="select2" name = "niveau">
+                                        <option value="">Please Select niveau *</option>
+                                        {% for niveau in niveaux %}
+                                            <option value="{{niveau.id}}">{{niveau.classe}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Nom de la salle *</label>
+                                    <label>Nom de la salle (groupe) *</label>
                                     <input type="text" name="nom" class="form-control" required>
                                 </div>
                         
@@ -92,19 +101,7 @@
                                     <label>Capacité *</label>
                                     <input type="number" name="capacite" class="form-control" required min="1">
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Niveau *</label>
-                                    <select class="select2" name = "niveau">
-                                        <option value="">Please Select niveau *</option>
-                                        <option value="6ème">6e</option>
-                                        <option value="5ème">5e</option>
-                                        <option value="4ème">4e</option>
-                                        <option value="3ème">3e</option>
-                                        <option value="2nd">2c</option>
-                                        <option value="1re">1ere</option>
-                                        <option value="Tl">Tl</option>
-                                    </select>
-                                </div>
+                                
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
                                     <label>Emplacement</label>
                                     <input type="text" name="emplacement" class="form-control" placeholder="Ex : Bâtiment A, étage 2 (facultatif)">
@@ -120,9 +117,8 @@
                     </div>
                 </div>
                 <!-- Add Class Area End Here -->
-                <footer class="footer-wrap-layout1">
-                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
-                </footer>
+                {% include 'partial/copyright.html' %}
+
             </div>
         </div>
         <!-- Page Area End Here -->

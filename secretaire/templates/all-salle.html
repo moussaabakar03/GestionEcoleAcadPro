@@ -82,9 +82,9 @@
                                                 <label class="form-check-label">ID</label>
                                             </div>
                                         </th>
-                                        <th>Nom</th>
-                                        <th>Capacité</th>
                                         <th>Niveau</th>
+                                        <th>Nom</th>
+                                        <th>Capacité d'accueil</th>
                                         <th>Emplacement</th>
                                         <th>Action</th>
                                     </tr>
@@ -99,9 +99,9 @@
                                             </div>
                                         </td>
                                         {% comment %} <td class="text-center"><img src="img/figure/student2.png" alt="student"></td> {% endcomment %}
+                                        <td>{{salle.niveau}}</td>
                                         <td>{{salle.nom}}</td>
                                         <td>{{salle.capacite}}</td>
-                                        <td>{{salle.niveau}}</td>
                                         <td>{{salle.emplacement}}</td>
                                          <td>
                                             <div class="dropdown">
@@ -111,7 +111,7 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{% url 'supprimerSalle' salle.nom %}" onclick = "return confirm('Voulez-vous vraiment supprimer cette salle de classe?');"><i class="fas fa-times text-orange-red"></i>Delete</a>
                                                     <a class="dropdown-item" href="{% url 'modifierSalle' salle.nom %}"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                                    <a class="dropdown-item" href="{% url 'studentParSalle' salle.id %}"><i class="fas fa-eye" title = "voir plus"></i>voir plus</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -123,9 +123,8 @@
                     </div>
                 </div>
                 <!-- Class Table Area End Here -->
-                <footer class="footer-wrap-layout1">
-                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
-                </footer>
+                {% include 'partial/copyright.html' %}
+
             </div>
         </div>
         <!-- Page Area End Here -->

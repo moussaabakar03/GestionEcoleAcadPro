@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <!doctype html>
 <html class="no-js" lang="">
 
@@ -8,24 +11,25 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
     <!-- Normalize CSS -->
-    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
     <!-- Flaticon CSS -->
-    <link rel="stylesheet" href="fonts/flaticon.css">
+    <link rel="stylesheet" href="{% static 'fonts/flaticon.css' %}">
     <!-- Animate CSS -->
-    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <!-- Modernize js -->
-    <script src="js/modernizr-3.6.0.min.js"></script>
+    <script src="{% static 'js/modernizr-3.6.0.min.js' %}"></script>
 </head>
+
 
 <body>
     <!-- Preloader Start Here -->
@@ -257,6 +261,12 @@
                     <li class="nav-item">
                         <a href="messaging.html" class="nav-link"><i class="flaticon-chat"></i><span>Messeage</span></a>
                     </li>
+                    <li class="nav-item sidebar-nav-item">
+                        <a href="presence.html" class="nav-link"><i class="flaticon-clock"></i><span>Presence</span></a>
+                    </li>
+                    <li class="nav-item sidebar-nav-item">
+                        <a href="payments.html" class="nav-link"><i class="flaticon-credit-card"></i><span>Payments</span></a>
+                    </li>
                 </ul>
             </div>
             </div>
@@ -437,17 +447,18 @@
         <!-- Page Area End Here -->
     </div>
     <!-- jquery-->
-    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
     <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- Scroll Up Js -->
-    <script src="js/jquery.scrollUp.min.js"></script>
+    <script src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
     <!-- Custom Js -->
-    <script src="js/main.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    
 
 </body>
 

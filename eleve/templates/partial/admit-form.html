@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html class="no-js" lang="">
 
@@ -7,28 +8,30 @@
     <title>AcadPro | Admission Form</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'eleve/img/favicon.png' %}">
     <!-- Normalize CSS -->
-    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/normalize.css' %}">
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/main.css' %}">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/bootstrap.min.css' %}">
     <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/all.min.css' %}">
     <!-- Flaticon CSS -->
-    <link rel="stylesheet" href="fonts/flaticon.css">
+    <link rel="stylesheet" href="{% static 'eleve/fonts/flaticon.css' %}">
     <!-- Animate CSS -->
-    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/animate.min.css' %}">
     <!-- Select 2 CSS -->
-    <link rel="stylesheet" href="css/select2.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/select2.min.css' %}">
     <!-- Date Picker CSS -->
-    <link rel="stylesheet" href="css/datepicker.min.css">
+    <link rel="stylesheet" href="{% static 'eleve/css/datepicker.min.css' %}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'eleve/style.css' %}">
     <!-- Modernize js -->
-    <script src="js/modernizr-3.6.0.min.js"></script>
+    <script src="{% static 'eleve/js/modernizr-3.6.0.min.js' %}"></script>
+    
 </head>
 
 <body>
@@ -423,22 +426,23 @@
         </div>
         <!-- Page Area End Here -->
     </div>
-    <!-- jquery-->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
-    <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Select 2 Js -->
-    <script src="js/select2.min.js"></script>
-    <!-- Date Picker Js -->
-    <script src="js/datepicker.min.js"></script>
-    <!-- Scroll Up Js -->
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <!-- Custom Js -->
-    <script src="js/main.js"></script>
+<!-- jquery -->
+<script src="{% static 'eleve/js/jquery-3.3.1.min.js' %}"></script>
+<!-- Plugins js -->
+<script src="{% static 'eleve/js/plugins.js' %}"></script>
+<!-- Popper js -->
+<script src="{% static 'eleve/js/popper.min.js' %}"></script>
+<!-- Bootstrap js -->
+<script src="{% static 'eleve/js/bootstrap.min.js' %}"></script>
+<!-- Select 2 Js -->
+<script src="{% static 'eleve/js/select2.min.js' %}"></script>
+<!-- Date Picker Js -->
+<script src="{% static 'eleve/js/datepicker.min.js' %}"></script>
+<!-- Scroll Up Js -->
+<script src="{% static 'eleve/js/jquery.scrollUp.min.js' %}"></script>
+<!-- Custom Js -->
+<script src="{% static 'eleve/js/main.js' %}"></script>
+
 
 </body>
 

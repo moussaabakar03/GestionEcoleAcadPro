@@ -136,12 +136,11 @@
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Salle de classe *</label>
-                                    <select class="select2" name = "salleDeClasse">
+                                    <select class="select2" name="salleDeClasse">
                                         <option value="">Please Select classroom *</option>
                                         {% for section in sections %}
-                                        <option value="{{ section.nom }}- ({{section.capacite}})">{{ section.nom }}-({{section.capacite}})</option>
+                                            <option value="{{ section.id }}">{{ section.nom }} - ({{ section.capacite }})</option>
                                         {% endfor %}
-                                        
                                     </select>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
@@ -177,10 +176,8 @@
                     </div>
                 </div>
                 <!-- Admit Form Area End Here -->
-                <footer class="footer-wrap-layout1">
-                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a
-                            href="#">PsdBosS</a></div>
-                </footer>
+                {% include 'partial/copyright.html' %}
+
             </div>
         </div>
         <!-- Page Area End Here -->

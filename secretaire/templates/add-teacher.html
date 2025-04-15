@@ -114,18 +114,6 @@
                                     {% comment %} <i class="far fa-calendar-alt"></i> {% endcomment %}
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Groupe sanguin *</label>
-                                    <select class="select2" name="groupe_sanguin">
-                                        <option value="">Please Select Group *</option>
-                                        <option value="A+">A+</option>
-                                        <option value="A-">A-</option>
-                                        <option value="B+">B+</option>
-                                        <option value="B-">B-</option>
-                                        <option value="O+">O+</option>
-                                        <option value="O-">O-</option>
-                                    </select>
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Diplome</label>
                                     <input type="text" name="diplome" placeholder="" class="form-control">
                                 </div>
@@ -138,19 +126,33 @@
                                     <input type="email" name="email" placeholder="" class="form-control">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Section *</label>
-                                    <select class="select2" name="section">
-                                        <option value="">Please Select Section *</option>
-                                        <option value="Pink">Pink</option>
-                                        <option value="Blue">Blue</option>
-                                        <option value="Bird">Bird</option>
-                                        <option value="Rose">Rose</option>
-                                        <option value="Red">Red</option>
-                                    </select>
+                                    <label>Lieu de naissance</label>
+                                    <input type="text" name="lieuDeNaissance" placeholder="" class="form-control">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Phone</label>
                                     <input type="text" name="phone" placeholder="" class="form-control">
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Salaire</label>
+                                    <input type="text" name="salaire" placeholder="" class="form-control">
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Tye de contrat</label>
+                                    <select class="select2" name="typeDeContrat">
+                                        <option value="Non-specifié">*</option>
+                                        <option value="CDI">CDI</option>
+                                        <option value="CDD">CDD</option>
+                                        <option value="Autres">Autres</option>
+                                    </select>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Date debut contrat</label>
+                                    <input type="date" name="date_debut_contrat" placeholder="" class="form-control">
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Date fin contrat</label>
+                                    <input type="Date" name="date_fin_contrat" placeholder="" class="form-control">
                                 </div>
                                 <div class="col-lg-6 col-12 form-group mg-t-30">
                                     <label class="text-dark-medium">Upload Student Photo (150px X 150px)</label>
@@ -166,9 +168,8 @@
                     </div>
                 </div>
                 <!-- Add New Teacher Area End Here -->
-                <footer class="footer-wrap-layout1">
-                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
-                </footer>
+                {% include 'partial/copyright.html' %}
+
             </div>
         </div>
         <!-- Page Area End Here -->

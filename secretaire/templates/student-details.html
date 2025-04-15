@@ -334,11 +334,13 @@
                             <div class="content">
                                 <div class="photo">
                                     <div class="face-placeholder">
-                                        {% comment %} <div class="head"></div>
-                                        <div class="face"></div>
-                                        <div class="suit"></div>
-                                        <div class="collar"></div> {% endcomment %}
-                                        <img src = "{{etudiant.photo.url}}" alt = "image" style = "width: 160px; padding: 5px; object-fit: cover; "/>
+                                        
+                                        {% if etudiant.photo %}
+                                            <img src = "{{etudiant.photo.url}}" alt = "image" style = "width: 160px; padding: 5px; object-fit: cover; border-radius: 10%;"/>
+                                        {% else %}
+                                            <p class="text-center"><i class="fa fa-user"></i></p> 
+                                        {% endif %}
+                                        
                                     </div>
                                 </div>
                                 
@@ -366,7 +368,7 @@
                                         <span class="info-label">Sexe :</span>
                                         <span class="info-value">{{etudiant.genre}}</span>
                                         <span style="margin-left: 70px;">Classe:</span>
-                                        <span class="info-value" style="margin-left: 10px;">{{etudiant.salleDeClasse_id}}</span>
+                                        <span class="info-value" style="margin-left: 10px;">{{etudiant.salleDeClasse_id.niveau.classe}}</span>
                                     </div>
                                     
                                     <div class="info-row">
@@ -391,9 +393,8 @@
 
                 <div>
                     <!-- Student Details Area End Here -->
-                    <footer class="footer-wrap-layout1">
-                        <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
-                    </footer>
+                    {% include 'partial/copyright.html' %}
+
                 </div>
             </div>
         </div>
