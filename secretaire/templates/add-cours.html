@@ -53,12 +53,12 @@
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Classes</h3>
+                    <h3>Cours</h3>
                     <ul>
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="{% url 'all-cours' %}">All Cours</a>
                         </li>
-                        <li>Add New salle de classe</li>
+                        <li>Add New Cours</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -67,7 +67,7 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Add New Salle de classe</h3>
+                                <h3>Add New Cours</h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
@@ -78,35 +78,72 @@
                                     <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
                                     <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                                 </div>
+                               
                             </div>
                         </div>
                         <form class="new-added-form" method="POST">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Classe *</label>
-                                    <select class="select2" name = "classe">
-                                        <option value="">Please Select niveau *</option>
-                                        <option value="6ème">6e</option>
-                                        <option value="5ème">5e</option>
-                                        <option value="4ème">4e</option>
-                                        <option value="3ème">3e</option>
-                                        <option value="2nd">2c</option>
-                                        <option value="1re">1ere</option>
-                                        <option value="Tl">Tl</option>
+                                    <label>Matière *</label>
+                                    <select name="matiere" class="select2 form-control" required>
+                                        <option value="">Sélectionnez une matière *</option>
+                                        {% for matiere in matieres %}
+                                            <option value={{matiere.nom}}>{{ matiere.nom }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                         
-                                {% comment %} <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Capacité *</label>
-                                    <input type="number" name="capacite" class="form-control" required min="1">
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Enseignant *</label>
+                                    <select name="enseignant" class="select2 form-control" required>
+                                        <option value="">Sélectionnez un enseignant *</option>
+                                        {% for enseignant in enseignants %}
+                                            <option value="{{ enseignant.id }}"> {{ enseignant.nom }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                         
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Scolarité (F CFA) *</label>
-                                    <input type="number" name="scolarite" class="form-control" required min="0">
+                                    <label>Classe *</label>
+                                    <select name="classe" class="select2 form-control" required>
+                                        <option value="">Sélectionnez une classe *</option>
+                                        {% for classe in classes %}
+                                            <option value={{classe.id}}>{{ classe.classe }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
-                         {% endcomment %}
+                        
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Date de début du cours *</label>
+                                    <input type="date" name="dateDebutCours" class="form-control" required>
+                                </div>
+                        
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Durée du cours (en heures) *</label>
+                                    <input type="number" name="dureeCours" class="form-control" min="1" required>
+                                </div>
+                        
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Trimestre *</label>
+                                    <select name="trimestre" class="form-control" required>
+                                        <option value="">Sélectionnez un trimestre</option>
+                                        <option value = "Trimestre 1">Trimestre 1</option>
+                                        <option value = "Trimestre 2">Trimestre 2</option>
+                                        <option value = "Trimestre 3">Trimestre 3</option>
+                                    </select>
+                                </div>
+                        
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>État du cours *</label>
+                                    <select name="etat" class="form-control" required>
+                                        <option value="">Sélectionnez un état</option>
+                                        <option value = "En cours">En cours</option>
+                                        <option value = "Effectué">Effectué</option>
+                                        <option value = "Planifié">Planifié</option>
+                                    </select>
+                                </div>
+                        
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Enregistrer</button>
                                     <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Réinitialiser</button>
@@ -114,12 +151,10 @@
                             </div>
                         </form>
                         
-                        
                     </div>
                 </div>
                 <!-- Add Class Area End Here -->
                 {% include 'partial/copyright.html' %}
-
             </div>
         </div>
         <!-- Page Area End Here -->

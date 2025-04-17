@@ -56,9 +56,9 @@
                     <h3>Classes</h3>
                     <ul>
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="{% url 'all-scolarite' %}">All Scolarité</a>
                         </li>
-                        <li>Add New salle de classe</li>
+                        <li>Modifier scolarité</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -67,7 +67,7 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Add New Salle de classe</h3>
+                                <h3>Add New scolarité</h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
@@ -83,37 +83,56 @@
                         <form class="new-added-form" method="POST">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                <!-- Sélection de la Classe -->
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Classe *</label>
-                                    <select class="select2" name = "classe">
-                                        <option value="">Please Select niveau *</option>
-                                        <option value="6ème">6e</option>
-                                        <option value="5ème">5e</option>
-                                        <option value="4ème">4e</option>
-                                        <option value="3ème">3e</option>
-                                        <option value="2nd">2c</option>
-                                        <option value="1re">1ere</option>
-                                        <option value="Tl">Tl</option>
+                                    <select class="select2" name="classe" required>
+                                        <option value="">Please Select Classe *</option>
+                                        {% for classe in classes %}
+                                            <option value="{{ classe.id }}" {% if scolarite.classe and scolarite.classe.id == classe.id %}selected{% endif %}>
+                                                {{ classe.classe }}
+                                            </option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                         
-                                {% comment %} <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Capacité *</label>
-                                    <input type="number" name="capacite" class="form-control" required min="1">
+                                <!-- Coût de la scolarité -->
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Coût Scolarité *</label>
+                                    <input type="number" name="coutScolarite" class="form-control" required
+                                           value="{{ scolarite.coutScolarite }}" step="0.01">
                                 </div>
                         
+                                <!-- Montant payé -->
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Scolarité (F CFA) *</label>
-                                    <input type="number" name="scolarite" class="form-control" required min="0">
+                                    <label>Montant Payé *</label>
+                                    <input type="number" name="montantPaye" class="form-control" required
+                                           value="{{ scolarite.montantPaye }}" step="0.01">
                                 </div>
-                         {% endcomment %}
+                        
+                                <!-- Montant restant -->
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Montant Restant *</label>
+                                    <input type="number" name="montantRestant" class="form-control" required
+                                           value="{{ scolarite.montantRestant }}" step="0.01">
+                                </div>
+                        
+                                <!-- État -->
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>État *</label>
+                                    <select name="etat" class="select2 form-control" required>
+                                        <option value="">Please Select État *</option>
+                                        <option value="Reglé" {% if scolarite.etat == "Reglé" %}selected{% endif %}>Reglé</option>
+                                        <option value="A completé" {% if scolarite.etat == "A completé" %}selected{% endif %}>A completé</option>
+                                    </select>
+                                </div>
+                        
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Enregistrer</button>
                                     <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Réinitialiser</button>
                                 </div>
                             </div>
                         </form>
-                        
                         
                     </div>
                 </div>

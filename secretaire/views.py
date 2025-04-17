@@ -2,7 +2,7 @@ from django.contrib import messages
 
 from django.shortcuts import get_object_or_404, render, redirect
 
-from . models import Classe, Etudiant, Enseignant, Matiere, Parent, SalleDeClasse
+from . models import Classe, Cours, Cout, Etudiant, Enseignant, Evaluation, Inscription, Matiere, Parent, SalleDeClasse
 
 def index(request):
     return render(request, 'index.html')
@@ -20,7 +20,8 @@ def index5(request):
 #Etudiant
 def all_student(request):
     etudiants = Etudiant.objects.all()
-    context = {'etudiants': etudiants}
+    inscription = Inscription.objects.all()
+    context = {'etudiants': etudiants, 'inscription': inscription}
     return render(request, 'all-student.html', context)
 
 def admit_form(request):
@@ -34,7 +35,7 @@ def admit_form(request):
         date_naissance = request.POST["date_naissance"]
         groupe_sanguin = request.POST["groupe_sanguin"]
         mail = request.POST["mail"]
-        salleDeClasse_id = request.POST["salleDeClasse"]
+        # salleDeClasse_id = request.POST["salleDeClasse"]
         # niveau = request.POST["niveau"]
         telephone = request.POST["telephone"]
         nationnalite = request.POST["nationnalite"]
@@ -43,11 +44,11 @@ def admit_form(request):
 
         # salleDeClasse_id = request.POST.get("salleDeClasse")
        
-        salle = SalleDeClasse.objects.get(pk=int(salleDeClasse_id))
+        # salle = SalleDeClasse.objects.get(pk=int(salleDeClasse_id))
         parent_id = Parent.objects.get(pk=int(parent))
 
         
-        # Vérifier si un étudiant avec le même matricule existe déjà
+        # Vérifier si un étudiant avec le même matricule  déjà
         # if Etudiant.objects.filter(matricule=matricule).exists():
         #     return render(request, "admit-form.html", {"error": "Matricule déjà utilisé !"})
 
@@ -61,7 +62,7 @@ def admit_form(request):
             date_naissance=date_naissance,
             groupe_sanguin=groupe_sanguin,
             mail=mail,
-            salleDeClasse_id=salle,
+            # salleDeClasse_id=salle,
             telephone=telephone,
             nationnalite=nationnalite,
             photo=photo
@@ -76,7 +77,6 @@ def modifier_student(request, matricule):
     mtrcle = mtrcle = get_object_or_404(Etudiant, matricule=matricule)
     
     groupes_sanguins = ["A+", "A-", "B+", "B-", "O+", "O-"]
-    niveaux = ["6e", "5e", "4e", "3e", "2e", "1e", "Tl"]
     sections = SalleDeClasse.objects.all()
 
     if request.method == "POST":
@@ -91,7 +91,7 @@ def modifier_student(request, matricule):
         mtrcle.telephone = request.POST["telephone"]
         mtrcle.nationnalite = request.POST["nationnalite"]
         mtrcle.photo = request.FILES.get("photo")
-        mtrcle.salleDeClasse = SalleDeClasse.objects.get(pk=int(request.POST["salleDeClasse"]))
+        # mtrcle.salleDeClasse = SalleDeClasse.objects.get(pk=int(request.POST["salleDeClasse"]))
 
         mtrcle.save()
         return redirect("all-student")
@@ -100,7 +100,6 @@ def modifier_student(request, matricule):
     return render(request, "modifier-student.html", {
         "student": mtrcle,
         "groupes_sanguins": groupes_sanguins,
-        "niveaux": niveaux,
         "sections": sections,
     })
 
@@ -121,7 +120,9 @@ def student_detail(request, matricule):
 def detailEtudiant(request, matricule, id):
     etudiant = Etudiant.objects.get(matricule = matricule)
     parent = Parent.objects.get(id = id)
-    context = {"etudiant": etudiant, "parent": parent }
+    inscriptions = etudiant.inscriptions.all()
+    evaluation = etudiant.evaluations.all()
+    context = {"etudiant": etudiant, "parent": parent, "inscriptions": inscriptions, "evaluations": evaluation }
     return render(request, 'detailEtudiant.html', context)
 
 
@@ -375,17 +376,252 @@ def all_niveau(request):
 def add_niveau(request):
     if request.method == "POST":
         classe = request.POST["classe"]
-        capacite = int(request.POST["capacite"])
-        scolarite = request.POST["scolarite"]
+        # capacite = int(request.POST["capacite"])
+        # scolarite = request.POST["scolarite"]
         
         Classe.objects.create(
             classe = classe,
-            capacite = capacite,
-            scolarite = scolarite
+            # capacite = capacite,
+            # scolarite = scolarite
         )
         return redirect("all_niveau")
     return render(request, 'add-niveau.html')
 
+
+
+
+#Scolarité  add-scolarite.html
+ 
+# def all_scolarite(request):
+#     if request.method == 'POST':
+#         classe = request.POST['classe']
+#         coutScolarite = request.POST['coutScolarite']
+#         montantPaye = request.POST['montantPaye']
+#         montantRestant = request.POST['montantRestant']
+#         etat = request.POST['etat']
+
+        
+
+#inscription  
+# <td>{{ inscription.salleClasse.niveau.classe.couts }} F CFA</td>
+
+# def all_inscription(request):
+#     inscriptions = Inscription.objects.all()
+#     classe = Classe.objects.all()
+#     cout = classe.couts.all()
+#     return render(request, 'all-inscription.html', {"inscriptions": inscriptions, "classe": classe, "cout": cout})
+
+def all_inscription(request):
+    inscriptions = Inscription.objects.select_related('etudiant', 'salleClasse__niveau').all()
+    return render(request, 'all-inscription.html', {"inscriptions": inscriptions})
+
+def add_inscription(request):
+    if request.method == "POST":
+        etudiant_id = request.POST["etudiant"]
+        salleClasse_id = request.POST["salleClasse"]
+        # coutA = request.POST["coutA"]
+        montantVerse = request.POST["montantVerse"]
+        
+        etudiant = Etudiant.objects.get(pk=int(etudiant_id))
+        salleDeClasse = SalleDeClasse.objects.get(pk=int(salleClasse_id))
+        
+        Inscription.objects.create(
+            etudiant = etudiant,
+            salleClasse = salleDeClasse,
+            # coutA = coutA,
+            montantVerse = montantVerse
+        )
+        return redirect("all_inscription")
+      
+    context = {
+        'etudiants': Etudiant.objects.all(),
+        'salles': SalleDeClasse.objects.all(),
+    }
+    return render(request, 'add-inscription.html', context)
+    
+def delete_inscription(request, id):
+    inscription = Inscription.objects.get(pk=id)
+    inscription.delete()
+    return redirect("all_inscription")
+
+def modifierInscription(request, id):
+    inscription = Inscription.objects.get(pk=id)
+    if request.method == 'POST':
+        etudiant = request.POST["etudiant"]
+        salleDeClasse = request.POST["salleClasse"]
+        inscription.coutA = request.POST["coutA"]
+        inscription.montantVerse = request.POST["montantVerse"]
+        
+        inscription.etudiant_id = Etudiant.objects.get(id =etudiant)
+        inscription.salleClasse_id = SalleDeClasse.objects.get(id =salleDeClasse)
+        
+        inscription.save()
+        return redirect("all_inscription")
+    context = {
+        'etudiants': Etudiant.objects.all(),
+        'salles': SalleDeClasse.objects.all(),
+        'inscription': inscription
+    }
+    return render(request, 'modifier-inscription.html', context)
+        
+
+
+
+#Cours
+
+def all_cours(request):
+    cours = Cours.objects.all()
+    context = {'cours_list': cours}
+    return render(request, 'all-cours.html', context)
+
+def add_cours(request):
+    if request.method == 'POST':
+        matiere_nom = request.POST["matiere"]
+        enseignant_nom = request.POST["enseignant"]
+        classe_nom = request.POST["classe"]
+        date_debut = request.POST["dateDebutCours"]
+        duree = request.POST["dureeCours"]
+        trimestre = request.POST["trimestre"]
+        etat = request.POST["etat"]
+
+        # Récupérer les objets liés à partir des noms
+        matiere = Matiere.objects.get(nom=matiere_nom)
+        # enseignant = Enseignant.objects.get(nom=enseignant_nom.split()[0], prenom=enseignant_nom.split()[1])
+        enseignant = Enseignant.objects.get(pk=int(enseignant_nom))
+        classe = Classe.objects.get(pk=int(classe_nom))
+
+        # Création du cours
+        Cours.objects.create(
+            matiere=matiere,
+            enseignant=enseignant,
+            classe=classe,
+            dateDebutCours=date_debut,
+            dureeCours=duree,
+            trimestre=trimestre,
+            etat=etat
+        )
+        return redirect('all-cours')  
+
+    context = {
+        'matieres': Matiere.objects.all(),
+        'enseignants': Enseignant.objects.all(),
+        'classes': Classe.objects.all(),
+    }
+    return render(request, 'add-cours.html', context)
+
+def modifier_cours(request, pk):
+    cours = Cours.objects.get(pk=pk)
+    if request.method == 'POST':
+        matiere_nom = request.POST["matiere"]
+        enseignant_nom = request.POST["enseignant"]
+        classe_nom = request.POST["classe"]
+        cours.dateDebutCours = request.POST["dateDebutCours"]
+        cours.dureeCours = request.POST["dureeCours"]
+        cours.trimestre = request.POST["trimestre"]
+        cours.etat = request.POST["etat"]
+
+        # Récupérer les objets liés à partir des noms
+        cours.matiere = Matiere.objects.get(nom=matiere_nom)
+        # enseignant = Enseignant.objects.get(nom=enseignant_nom.split()[0], prenom=enseignant_nom.split()[1])
+        cours.enseignant = Enseignant.objects.get(pk=int(enseignant_nom))
+        cours.classe = Classe.objects.get(pk=int(classe_nom))
+        
+        cours.save()
+        return redirect('all-cours')
+    context = {'cours': cours, 'matieres': Matiere.objects.all(), 'enseignants': Enseignant.objects.all(), 'classes': Classe.objects.all()}
+    return render(request, 'modifier-cours.html', context)
+
+def supprimer_cours(request, pk):
+    Cours.objects.get(pk=pk).delete()
+    return redirect('all-cours')
+
+
+
+def all_evaluation(request):
+    evaluations = Evaluation.objects.all()
+    context = {'evaluations': evaluations}
+    return render(request, 'all-evaluation.html', context)
+
+def add_evaluation(request):
+    if request.method == 'POST':
+        cours_id = request.POST["cours"]
+        trimestre = request.POST["trimestre"]
+        type_evaluation = request.POST["typeEvaluation"]
+        date_evaluation = request.POST["dateEvaluation"]
+        note = request.POST["note"]
+        etudiant_id = request.POST["etudiant"]
+
+        cours = get_object_or_404(Cours, id=cours_id)
+        etudiant = get_object_or_404(Etudiant, id=etudiant_id)
+
+        Evaluation.objects.create(
+            cours=cours,
+            trimestre=trimestre,
+            typeEvaluation=type_evaluation,
+            dateEvaluation=date_evaluation,
+            note=note,
+            etudiant=etudiant
+        )
+        return redirect('all_evaluation')
+    
+    cours_list = Cours.objects.all()
+    etudiants = Etudiant.objects.all()
+
+    return render(request, 'add-evaluation.html', {
+        'cours_list': cours_list,
+        'etudiants': etudiants,
+    })
+
+
+
+
+#coût
+def all_cout(request):
+    couts = Cout.objects.all()
+    context = {'couts': couts}
+    return render(request, 'all-cout.html', context)
+
+def add_cout(request):
+    if request.method == 'POST':
+        classe_id = request.POST["classe"]
+        coutInscription = request.POST['coutInscription']
+        coutScolarite = request.POST['coutScolarite']
+        fraisEtudeDossier = request.POST['fraisEtudeDossier']
+        
+        classe = get_object_or_404(Classe, id=classe_id)
+        if Cout.objects.filter(classe = classe).exists():
+            messages.error(request, "Les coûts de cette classe ont déjà été ajoutés. veuillez modifier les coûts existants")
+        
+        else:
+            Cout.objects.create(
+                classe=classe,
+                coutInscription=coutInscription,
+                coutScolarite=coutScolarite,
+                fraisEtudeDossier=fraisEtudeDossier
+                )
+            return redirect('all_cout')
+    context = {'classe_list': Classe.objects.all()}
+    return render(request, 'add-cout.html', context)
+
+def delete_cout(request, id):
+    cout = get_object_or_404(Cout, id=id)
+    cout.delete()
+    return redirect('all_cout')
+
+def update_cout(request, id):
+    cout = get_object_or_404(Cout, id=id)
+    if request.method == 'POST':
+        classe_id = request.POST["classe"]
+        cout.coutInscription = request.POST['coutInscription']
+        cout.coutScolarite = request.POST['coutScolarite']
+        cout.fraisEtudeDossier = request.POST['fraisEtudeDossier']
+        
+        cout.classe = get_object_or_404(Classe, id=classe_id)
+        
+        cout.save()
+        return redirect('all_cout')
+    context = {'cout': cout, 'classe_list': Classe.objects.all()}
+    return render(request, 'modifier-cout.html', context)
 
 
 def all_subject(request):

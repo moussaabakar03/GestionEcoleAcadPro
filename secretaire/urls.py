@@ -43,10 +43,32 @@ urlpatterns = [
     path('supprimerSalle/<str:nom>', views.supprimerSalle, name='supprimerSalle'),
     
     
-    
     path('all_niveau/', views.all_niveau, name='all_niveau'),
     path('add_niveau/', views.add_niveau, name='add_niveau'),
     
+    
+    path('all_inscription', views.all_inscription, name='all_inscription'),
+    path('add_inscription', views.add_inscription, name='add_inscription'),
+    path('modifierInscription/<int:id>', views.modifierInscription, name='modifierInscription'),
+    path('delete_inscription/<int:id>', views.delete_inscription, name='delete_inscription'),
+    
+    
+    
+    path('all_cours/', views.all_cours, name='all-cours'),
+    path('add_cours/', views.add_cours, name='add-cours'),
+    path('supprimer_cours/<int:pk>', views.supprimer_cours, name='supprimer_cours'),
+    path('modifier_cours/<int:pk>', views.modifier_cours, name='modifier_cours'),
+    
+    
+    path('all_evaluation/', views.all_evaluation, name='all_evaluation'),
+    path('add_evaluation/', views.add_evaluation, name='add_evaluation'),
+    
+    
+    
+    path('all_cout/', views.all_cout, name='all_cout'),
+    path('add_cout/', views.add_cout, name='add_cout'),
+    path('delete_cout/<int:id>', views.delete_cout, name='delete_cout'),
+    path('update_cout/<int:id>', views.update_cout, name='update_cout'),
     
     
     path('all-subject/', views.all_subject, name='all-subject'),

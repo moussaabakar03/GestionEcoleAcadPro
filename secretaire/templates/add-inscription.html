@@ -6,11 +6,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | Add Class</title>
+    <title>AKKHOR | Add Teacher</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'secretaire/img/favicon.png' %}">
     <!-- Normalize CSS -->
     <link rel="stylesheet" href="{% static 'secretaire/css/normalize.css' %}">
     <!-- Main CSS -->
@@ -31,6 +31,8 @@
     <link rel="stylesheet" href="{% static 'secretaire/style.css' %}">
     <!-- Modernize js -->
     <script src="{% static 'secretaire/js/modernizr-3.6.0.min.js' %}"></script>
+
+    
 </head>
 
 <body>
@@ -39,35 +41,37 @@
     <!-- Preloader End Here -->
     <div id="wrapper" class="wrapper bg-ash">
          <!-- Header Menu Area Start Here -->
-        
+       
          {% include 'partial/header.html' %}
 
         <!-- Header Menu Area End Here -->
         <!-- Page Area Start Here -->
         <div class="dashboard-page-one">
             <!-- Sidebar Area Start Here -->
-           
+
+
             {% include 'partial/aside.html' %}
+
 
             <!-- Sidebar Area End Here -->
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Classes</h3>
+                    <h3>Inscription</h3>
                     <ul>
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="{% url 'index' %}">Home</a>
                         </li>
-                        <li>Add New salle de classe</li>
+                        <li>Add New Inscription</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
-                <!-- Add Class Area Start Here -->
+                <!-- Add New Teacher Area Start Here -->
                 <div class="card height-auto">
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Add New Salle de classe</h3>
+                                <h3>Add New Inscription</h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
@@ -83,30 +87,40 @@
                         <form class="new-added-form" method="POST">
                             {% csrf_token %}
                             <div class="row">
+                                <!-- Étudiant -->
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Classe *</label>
-                                    <select class="select2" name = "classe">
-                                        <option value="">Please Select niveau *</option>
-                                        <option value="6ème">6e</option>
-                                        <option value="5ème">5e</option>
-                                        <option value="4ème">4e</option>
-                                        <option value="3ème">3e</option>
-                                        <option value="2nd">2c</option>
-                                        <option value="1re">1ere</option>
-                                        <option value="Tl">Tl</option>
+                                    <label>Étudiant *</label>
+                                    <select class="select2 form-control" name="etudiant" required>
+                                        <option value="">Veuillez sélectionner un étudiant</option>
+                                        {% for etudiant in etudiants %}
+                                            <option value="{{ etudiant.id }}">{{ etudiant.nom }} {{ etudiant.prenom }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                         
-                                {% comment %} <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Capacité *</label>
-                                    <input type="number" name="capacite" class="form-control" required min="1">
+                                <!-- Salle de classe -->
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Salle de Classe *</label>
+                                    <select class="select2 form-control" name="salleClasse" required>
+                                        <option value="">Veuillez sélectionner une salle</option>
+                                        {% for salle in salles %}
+                                            <option value="{{ salle.id }}">{{salle.niveau.classe}} {{ salle.nom }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                         
+                                <!-- Coût attendu -->
+                                {% comment %} <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Coût attendu *</label>
+                                    <input type="number" name="coutA" class="form-control" required step="0.01">
+                                </div> {% endcomment %}
+                        
+                                <!-- Montant versé -->
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Scolarité (F CFA) *</label>
-                                    <input type="number" name="scolarite" class="form-control" required min="0">
+                                    <label>Montant versé *</label>
+                                    <input type="number" name="montantVerse" class="form-control" required step="0.01">
                                 </div>
-                         {% endcomment %}
+                        
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Enregistrer</button>
                                     <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Réinitialiser</button>
@@ -114,17 +128,16 @@
                             </div>
                         </form>
                         
-                        
                     </div>
                 </div>
-                <!-- Add Class Area End Here -->
+                <!-- Add New Teacher Area End Here -->
                 {% include 'partial/copyright.html' %}
 
             </div>
         </div>
         <!-- Page Area End Here -->
     </div>
-    <!-- jquery-->
+   <!-- jquery-->
     <script src="{% static 'secretaire/js/jquery-3.3.1.min.js' %}"></script>
     <!-- Plugins js -->
     <script src="{% static 'secretaire/js/plugins.js' %}"></script>
@@ -136,10 +149,13 @@
     <script src="{% static 'secretaire/js/select2.min.js' %}"></script>
     <!-- Date Picker Js -->
     <script src="{% static 'secretaire/js/datepicker.min.js' %}"></script>
+    <!-- Smoothscroll Js -->
+    <script src="{% static 'secretaire/js/jquery.smoothscroll.min.js' %}"></script>
     <!-- Scroll Up Js -->
     <script src="{% static 'secretaire/js/jquery.scrollUp.min.js' %}"></script>
     <!-- Custom Js -->
     <script src="{% static 'secretaire/js/main.js' %}"></script>
+
 
 </body>
 

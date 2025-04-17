@@ -29,26 +29,27 @@
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Salle</h3>
+                    <h3>Frais</h3>
                     <ul>
                         <li>
                             <a href="{% url 'index' %}">Home</a>
                         </li>
-                        <li>All Salle</li>
+                        <li>All Frais</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
-                <!-- Class Table Area Start Here -->
+            
+                <!-- Cout Table Area Start Here -->
                 <div class="card height-auto">
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>All Salle de classe</h3>
+                                <h3>All Frais</h3>
                             </div>
-                           <div class="dropdown">
+                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
-                                data-toggle="dropdown" aria-expanded="false">...</a>
-        
+                                   data-toggle="dropdown" aria-expanded="false">...</a>
+            
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
                                     <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
@@ -56,22 +57,18 @@
                                 </div>
                             </div>
                         </div>
+            
                         <form class="mg-b-20">
                             <div class="row gutters-8">
-                                <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by ID ..." class="form-control">
+                                <div class="col-6 col-lg-4 form-group">
+                                    <input type="text" placeholder="Search by Classe ..." class="form-control">
                                 </div>
-                                <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by Name ..." class="form-control">
-                                </div>
-                                <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by Class ..." class="form-control">
-                                </div>
-                                <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
+                                <div class="col-6 col-lg-2 form-group">
                                     <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
                                 </div>
                             </div>
                         </form>
+            
                         <div class="table-responsive">
                             <table class="table display data-table text-nowrap">
                                 <thead>
@@ -83,37 +80,39 @@
                                             </div>
                                         </th>
                                         <th>Classe</th>
-                                        {% comment %} <th>Capacité</th>
-                                        <th>Scolarité</th> {% endcomment %}
+                                        <th>Frais d'inscription</th>
+                                        <th>Frais de scolarité</th>
+                                        <th>Frais d'étude du dossier</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for classe in niveaux %}
+                                    {% for cout in couts %}
                                     <tr>
                                         <td>
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input">
-                                                <label class="form-check-label">{{ classe.id }}</label>
+                                                <label class="form-check-label">{{ cout.id }}</label>
                                             </div>
                                         </td>
-                                        <td>{{ classe.classe }}</td>
-                                        {% comment %} <td>{{ classe.capacite }}</td>
-                                        <td>{{ classe.scolarite }} F CFA</td> {% endcomment %}
+                                        <td>{{ cout.classe.classe }}</td>
+                                        <td>{{ cout.coutInscription }} F CFA</td>
+                                        <td>{{ cout.coutScolarite }} F CFA</td>
+                                        <td>{{ cout.fraisEtudeDossier }} F CFA</td>
                                         <td>
                                             <div class="dropdown">
                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                     <span class="flaticon-more-button-of-three-dots"></span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="" onclick="return confirm('Voulez-vous vraiment supprimer cette classe ?');">
-                                                        <i class="fas fa-times text-orange-red"></i> Supprimer
+                                                    <a class="dropdown-item" href="{% url 'update_cout' cout.id %}">
+                                                        <i class="fas fa-cogs text-dark-pastel-green"></i>Modifier
                                                     </a>
-                                                    <a class="dropdown-item" href="">
-                                                        <i class="fas fa-cogs text-dark-pastel-green"></i> Modifier
+                                                    <a class="dropdown-item" href="{% url 'delete_cout' cout.id %}" onclick="return confirm('Voulez-vous vraiment supprimer ce frais ?')">
+                                                        <i class="fas fa-times text-orange-red"></i>Supprimer
                                                     </a>
                                                     <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-redo-alt text-orange-peel"></i> Rafraîchir
+                                                        <i class="fas fa-redo-alt text-orange-peel"></i>Rafraîchir
                                                     </a>
                                                 </div>
                                             </div>
@@ -123,13 +122,13 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+            
                     </div>
                 </div>
-                <!-- Class Table Area End Here -->
+                <!-- Cout Table Area End Here -->
                 {% include 'partial/copyright.html' %}
-
             </div>
+            
         </div>
         <!-- Page Area End Here -->
     </div>

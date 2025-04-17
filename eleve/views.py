@@ -47,4 +47,4 @@ def presence(request):
     return render(request, 'partial/presence.html')
 
 def payements(request):
-    return render(request, 'partial/payements.html')
+    return render(request, 'partial/payments.html')
