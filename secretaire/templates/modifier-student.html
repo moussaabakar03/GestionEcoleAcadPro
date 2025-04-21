@@ -106,6 +106,17 @@
                                 </div>
                         
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Parent *</label>
+                                    <select class="select2" name = "parent">
+                                        <option value="">Please Select parent *</option>
+                                        {% for parent in parents %}
+                                            <option value="{{ parent.id }}" {% if student.parent.nom == parent.nom %} selected {% endif %}>{{parent.nom}} {{parent.prenom}}</option>
+                                        {% endfor %}
+                                        <option value="Non-renseigné">Autre</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Genre *</label>
                                     <select class="select2" name="genre">
                                         <option value="">Please Select Gender *</option>
@@ -168,7 +179,7 @@
                         
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Mettre à jour</button>
-                                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Annuler</button>
+                                    <a href="{% url 'all-student' %}" type="button" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Annuler</a>
                                 </div>
                             </div>
                         </form>

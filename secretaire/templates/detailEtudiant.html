@@ -296,34 +296,40 @@
                     <div class="container">
                         <h2>NOTES DE L'ETUDIANT: {{etudiant.nom}} {{etudiant.prenom}}</h2>
                         <div class="table-wrapper" style="max-height: 500px; overflow-y: auto;">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Matière</th>
-                                        <th>Note</th>
-                                        <th>Type note</th>
-                                        <th>Trimestre</th>
-                                        <th>Enseignant</th>
-                                        <th>Date evaluation</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for evaluation in evaluations%}
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
                                         <tr>
-                                            <td>{{ evaluation.cours.matiere.nom }}</td>
-                                            <td>{{ evaluation.note }}</td>
-                                            <td>{{ evaluation.typeEvaluation }}</td>
-                                            <td>{{ evaluation.trimestre }}</td>
-                                            <td>{{ evaluation.cours.enseignant.nom }} {{ evaluation.cours.enseignant.prenom }}</td>
-                                            <td>{{ evaluation.dateEvaluation|date:"d/m/Y" }}</td>
-                                            <td class="action-icons">
-                                                <a href="" onclick= "return confirm('voulez-vous vraiment supprimer ce test?')"  class='btn btn-danger btn-sm'><i class='fas fa-trash' style='font-size: 18px'></i></a>
-                                            </td>
+                                            <th>Matière</th>
+                                            <th>Note</th>
+                                            <th>Type.E</th>
+                                            <th>Trimestre</th>
+                                            <th>Enseignant</th>
+                                            <th>Date evaluation</th>
+                                            <th>Action</th>
                                         </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {% for evaluation in evaluations%}
+                                            <tr>
+                                                <td>{{ evaluation.cours.matiere.nom }}</td>
+                                                {% if evaluation.note > 10  %}
+                                                    <td><span style= "font-weight: bold; color: green;">{{ evaluation.note }}</span></td>
+                                                {% else %}
+                                                    <td><span style= "font-weight: bold; color: red;">{{ evaluation.note }}</span></td>
+                                                {% endif %}
+                                                <td>{{ evaluation.typeEvaluation }}</td>
+                                                <td>{{ evaluation.trimestre }}</td>
+                                                <td>{{ evaluation.cours.enseignant.nom }} {{ evaluation.cours.enseignant.prenom }}</td>
+                                                <td>{{ evaluation.dateEvaluation|date:"d/m/Y" }}</td>
+                                                <td class="action-icons">
+                                                    <a href="{% url 'supprimer_evaluation' evaluation.id %}" onclick= "return confirm('voulez-vous vraiment supprimer ce test?')"  class='btn btn-danger btn-sm'><i class='fas fa-trash' style='font-size: 18px'></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

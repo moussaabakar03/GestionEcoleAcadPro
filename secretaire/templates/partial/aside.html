@@ -107,13 +107,13 @@
                 </ul>
             </li>
             <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"><i class="fas fa-clipboard-check"></i><span>Notes</span></a>
+                <a href="#" class="nav-link"><i class="flaticon-shopping-list"></i><span>Notes</span></a>
                 <ul class="nav sub-group-menu">
                     <li class="nav-item">
-                        <a href="#" class="nav-link"><i class="fas fa-angle-right"></i>Ajout de Note individuelle</a>
+                        <a href="{% url 'selectClasse' %}" class="nav-link"><i class="fas fa-angle-right"></i>Ajout de Note individuelle</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'add_evaluation' %}" class="nav-link"><i class="fas fa-angle-right"></i>Ajout de Note groupée</a>
+                        <a href="{% url 'selectClasseEvaluation' %}" class="nav-link"><i class="fas fa-angle-right"></i>Ajout de Note groupée</a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'all_evaluation' %}" class="nav-link"><i class="fas fa-angle-right"></i>Détail des Notes</a>

@@ -85,6 +85,7 @@ DATABASES = {
         'PORT': '5432'
     }
 }
+LOGIN_URL = 'connexion' 
 
 
 # Password validation

@@ -86,7 +86,10 @@
                                     <label>Frais d’étude de dossier *</label>
                                     <input type="number" step="0.01" name="fraisEtudeDossier" class="form-control" value="{{ cout.fraisEtudeDossier }}" required>
                                 </div>
-        
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Frais Associés *</label>
+                                    <input type="number" name="fraisAssocie" class="form-control" value = "{{ cout.fraisAssocie }}" required>
+                                </div>
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Mettre à jour</button>
                                     <a href="{% url 'all_cout' %}" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Annuler</a>

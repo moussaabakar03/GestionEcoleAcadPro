@@ -2,10 +2,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('index/', views.index, name='index'),
     path('index3/', views.index3, name='index3'),
     path('index4/', views.index4, name='index4'),
     path('index5/', views.index5, name='index5'),
+    path('login/', views.connexion, name='login'),
+    
+    path('', views.inscription, name='inscription'),
+    # path('connexion/', views.connexion, name='connexion'),
+    # path('acceuil/', views.acceuil, name='acceuil'),
+    path('deconnexion/', views.deconnexion, name='deconnexion'),
     
     path('all-student/', views.all_student, name='all-student'),
     path('admit-form/', views.admit_form, name='admit-form'),
@@ -15,6 +21,7 @@ urlpatterns = [
     path('modifier_student/<str:matricule>', views.modifier_student, name = 'modifier_student'),
     path('supprimer_student/<str:matricule>', views.supprimer_student, name = 'supprimer_student'),
     path('studentParSalle/<int:id>', views.studentParSalle, name = 'studentParSalle'),
+    path('listePresence/<int:id>', views.listePresence, name = 'listePresence'),
     # path('ajouter_etudiant/', views.ajouter_etudiant, name = 'ajouter_etudiant'),
 
     path('all-teacher/', views.all_teacher, name='all-teacher'),
@@ -45,6 +52,8 @@ urlpatterns = [
     
     path('all_niveau/', views.all_niveau, name='all_niveau'),
     path('add_niveau/', views.add_niveau, name='add_niveau'),
+    path('modifierNiveau/<int:id>', views.modifierNiveau, name='modifierNiveau'),
+    path('supprimerNiveau/<int:id>', views.supprimerNiveau, name='supprimerNiveau'),
     
     
     path('all_inscription', views.all_inscription, name='all_inscription'),
@@ -61,7 +70,18 @@ urlpatterns = [
     
     
     path('all_evaluation/', views.all_evaluation, name='all_evaluation'),
-    path('add_evaluation/', views.add_evaluation, name='add_evaluation'),
+    # path('add_evaluation/', views.add_evaluation, name='add_evaluation'),
+    path('supprimer_evaluation/<int:pk>', views.supprimer_evaluation, name='supprimer_evaluation'),
+    path('modifier_evaluation/<int:id>', views.modifier_evaluation, name='modifier_evaluation'),
+    
+    path('evaluation_groupee/<int:id>', views.evaluation_groupee, name='evaluation_groupee'),
+    path('filtre_evaluation/<int:id>', views.filtre_evaluation, name='filtre_evaluation'),
+    path('selectClasseEvaluation/', views.selectClasseEvaluation, name='selectClasseEvaluation'),
+    
+    path('selectClasse/', views.selectClasse, name='selectClasse'),
+    path('note_individuelle/<int:id>', views.note_individuelle, name='note_individuelle'),
+    path('ajout_note_individuelle/<int:id>', views.ajout_note_individuelle, name='ajout_note_individuelle'),
+    
     
     
     

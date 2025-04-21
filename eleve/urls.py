@@ -2,35 +2,35 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='inddex'),
-    path('index3/', views.index3, name='index3'),
-    path('index4/', views.index4, name='index4'),
-    path('index5/', views.index5, name='index5'),
+    # path('', views.index, name='inddex'),
+    # path('index3/', views.index3, name='index3'),
+    # path('index4/', views.index4, name='index4'),
+    # path('index5/', views.index5, name='index5'),
 
     # path('admit-form/', views.admit_form, name='admit-form'),
 
-    path('button/', views.button, name='button'),
+    # path('button/', views.button, name='button'),
 
-    path('class-routine/', views.class_routine, name='class-routine'),
+    # path('class-routine/', views.class_routine, name='class-routine'),
 
-    path('exam-grade/', views.exam_grade, name='exam_grade'),
+    # path('exam-grade/', views.exam_grade, name='exam_grade'),
 
-    path('grid/', views.grid, name='grid'),
+    # path('grid/', views.grid, name='grid'),
 
-    path('messaging/', views.messaging, name='messaging'),
+    # path('messaging/', views.messaging, name='messaging'),
 
-    path('modal/', views.modal, name='modal'),
+    # path('modal/', views.modal, name='modal'),
 
-    path('notice-board/', views.notice_board, name='notice-board'),
+    # path('notice-board/', views.notice_board, name='notice-board'),
 
-    path('notification-alart/', views.notification_alart, name='notification-alart'),
+    # path('notification-alart/', views.notification_alart, name='notification-alart'),
 
-    path('progress-bar/', views.progress_bar, name='progress-bar'),
+    # path('progress-bar/', views.progress_bar, name='progress-bar'),
 
-    path('presence/', views.presence, name='presence'),
+    # path('presence/', views.presence, name='presence'),
 
-    path('payements/', views.payements, name='payements'),
+    # path('payements/', views.payements, name='payements'),
     
-    path('progress-bar/', views.progress_bar, name='progress-bar')
+    # path('progress-bar/', views.progress_bar, name='progress-bar')
     
 ]

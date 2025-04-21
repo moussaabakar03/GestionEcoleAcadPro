@@ -12,7 +12,6 @@ class Classe(models.Model):
     def __str__(self):
         return f"{self.classe}"
     
-    
 class SalleDeClasse(models.Model):
     niveau = models.ForeignKey(Classe, on_delete=models.CASCADE, null =True, blank=True, related_name='salle_de_classe')
     nom = models.CharField(max_length=50, unique=True)
@@ -94,14 +93,14 @@ class Matiere(models.Model):
     code = models.CharField(max_length=10)
     nom = models.CharField(max_length=100)
     enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE, null=True, blank=True)
-    niveau = models.ForeignKey(Classe, on_delete=models.CASCADE, null=True, blank=True)
+    niveau = models.ForeignKey(Classe, on_delete=models.CASCADE, null=True, blank=True, related_name='niveau')
     description = models.TextField(null=True, blank=True)
     coefficient = models.PositiveIntegerField()
 
 
 class Inscription(models.Model):
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE, null=True, blank=True,  related_name='inscriptions')
-    salleClasse = models.ForeignKey(SalleDeClasse, on_delete=models.CASCADE, null=True, blank=True)
+    salleClasse = models.ForeignKey(SalleDeClasse, on_delete=models.CASCADE, null=True, blank=True, related_name='inscris')
     dateEnregistrement = models.DateTimeField(auto_now_add=True)
     # coutA = models.DecimalField(max_digits=10, decimal_places=2)
     montantVerse = models.DecimalField(max_digits=10, decimal_places=2)
@@ -116,7 +115,7 @@ class Scolarite(models.Model):
     
     
 class Cours(models.Model):
-    matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, null=True, blank=True)
+    matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, null=True, blank=True, related_name='cours')
     enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE, null=True, blank=True)
     classe = models.ForeignKey(Classe, on_delete=models.CASCADE, null=True, blank=True)
     dateDebutCours = models.DateField()
@@ -127,12 +126,11 @@ class Cours(models.Model):
 
 
 class Evaluation(models.Model):
-    cours = models.ForeignKey(Cours, on_delete=models.CASCADE, null=False, blank=True)
+    cours = models.ForeignKey(Cours, on_delete=models.CASCADE, null=False, blank=True, related_name='evaluations')
     trimestre = models.CharField(max_length=100, choices=[('Trimestre 1', 'Trimestre 1'), ('Trimestre 2', 'Trimestre 2'), ('Trimestre 3', 'Trimestre 3')])
     typeEvaluation = models.CharField(max_length=100, choices=[('Devoir', 'Devoir'), ('Interrogation', 'Interrogation'), ('Composition', 'Composition')])
     dateEvaluation = models.DateField()
     note = models.DecimalField(max_digits=10, decimal_places=2)
-    
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE, null=True, blank=True, related_name='evaluations')
     
 
@@ -141,5 +139,15 @@ class Cout(models.Model):
     coutInscription = models.DecimalField(max_digits=10, decimal_places=2)
     coutScolarite = models.DecimalField(max_digits=10, decimal_places=2)
     fraisEtudeDossier = models.DecimalField(max_digits=10, decimal_places=2)
+    fraisAssocie = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class Emargement(models.Model):
+    salleClasse = models.ForeignKey(SalleDeClasse, on_delete=models.CASCADE, null=True, blank=True, related_name='emargements')
+    etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE, null=True, blank=True, related_name ='emargements')
+    dateHeureDebut = models.DateField()
+    date_heure_fin = models.DateTimeField(auto_now_add=True)
+    commentaire = models.TextField( blank=True, null=True)
+    presence = models.BooleanField(default=False)
     
     

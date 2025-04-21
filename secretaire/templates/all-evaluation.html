@@ -83,50 +83,31 @@
                                                 <label class="form-check-label">ID</label>
                                             </div>
                                         </th>
-                                        <th>Élève</th>
                                         <th>Classe</th>
                                         <th>Matière</th>
-                                        <th>Enseignant</th>
                                         <th>Trimestre</th>
-                                        <th>Type</th>
-                                        <th>Date</th>
-                                        <th>Note</th>
-                                        <th>Action</th>
+                                        <th>Type d'évaluation</th>
+                                        <th>Détails</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for evaluation in evaluations %}
+                                    {% for cours in cours %}
                                     <tr>
                                         <td>
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input">
-                                                <label class="form-check-label">{{ evaluation.id }}</label>
+                                                <label class="form-check-label">{{ cours.id }}</label>
                                             </div>
                                         </td>
-                                        <td>{{ evaluation.etudiant.nom }} {{ evaluation.etudiant.prenom }}</td>
-                                        <td>{{ evaluation.cours.classe.classe }}</td>
-                                        <td>{{ evaluation.cours.matiere.nom }}</td>
-                                        <td>{{ evaluation.cours.enseignant.nom }} {{ evaluation.cours.enseignant.prenom }}</td>
-                                        <td>{{ evaluation.trimestre }}</td>
-                                        <td>{{ evaluation.typeEvaluation }}</td>
-                                        <td>{{ evaluation.dateEvaluation|date:"d/m/Y" }}</td>
-                                        <td>{{ evaluation.note }}</td>
+                                        <td>{{ cours.classe.classe }}</td>
+                                        <td>{{ cours.matiere.nom }}</td>
+                                        <td>{{ cours.trimestre }}</td>
+                                        <td>{{ cours.evaluations.typeEvaluation }}</td>
                                         <td>
-                                            <div class="dropdown">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    <span class="flaticon-more-button-of-three-dots"></span>
+                                            <div class="">
+                                                <a class="dropdown-item" href="{% url 'filtre_evaluation' cours.classe.id %}">
+                                                    <i class="fas fa-eye" title = "voir plus" aria-hidden="true" style="color:rgb(25, 25, 103); font-size: 22px; margin-right: 10px;"></i> Voir plus
                                                 </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="">
-                                                        <i class="fas fa-cogs text-dark-pastel-green"></i>Modifier
-                                                    </a>
-                                                    <a class="dropdown-item" href="" onclick="return confirm('Voulez-vous vraiment supprimer cette évaluation ?')">
-                                                        <i class="fas fa-times text-orange-red"></i>Supprimer
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fas fa-redo-alt text-orange-peel"></i>Rafraîchir
-                                                    </a>
-                                                </div>
                                             </div>
                                         </td>
                                     </tr>

@@ -1,0 +1,99 @@
+{% load static %}
+
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+
+   {% include 'partial/head.html' %}
+
+</head>
+
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+         <!-- Header Menu Area Start Here -->
+        
+         {% include 'partial/header.html' %}
+
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+
+            {% include 'partial/aside.html' %}
+
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Salle</h3>
+                    <ul>
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li>All Salle</li>
+                    </ul>
+                </div>
+                <!-- Breadcubs Area End Here -->
+                <!-- Class Table Area Start Here -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>Veillez choisir la classe correspondante!</h3>
+                            </div>
+                        </div>
+                       
+                        <div class="table-responsive">
+                            <table class="table display data-table text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Classe</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for classe in niveaux %}
+                                    <tr>
+                                        <td>{{ classe.classe }}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="{% url 'evaluation_groupee' classe.id %}">
+                                                    <i class="fas fa-clipboard-check"> </i> Attribuer Notes
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- Class Table Area End Here -->
+                {% include 'partial/copyright.html' %}
+
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    <script src="{% static 'secretaire/js/jquery-3.3.1.min.js' %}"></script>
+    <!-- Plugins js -->
+    <script src="{% static 'secretaire/js/plugins.js' %}"></script>
+    <!-- Popper js -->
+    <script src="{% static 'secretaire/js/popper.min.js' %}"></script>
+    <!-- Bootstrap js -->
+    <script src="{% static 'secretaire/js/bootstrap.min.js' %}"></script>
+    <!-- Scroll Up Js -->
+    <script src="{% static 'secretaire/js/jquery.scrollUp.min.js' %}"></script>
+    <!-- Data Table Js -->
+    <script src="{% static 'secretaire/js/jquery.dataTables.min.js' %}"></script>
+    <!-- Custom Js -->
+    <script src="{% static 'secretaire/js/main.js' %}"></script>
+</body>
+
+</html>

@@ -38,9 +38,15 @@
                     <h3>Students</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'index' %}">Home</a>
+                            <a href="{% url 'all-salle' %}">All salles de classe</a>
                         </li>
-                        <li>All Students</li>
+                        <li>{{salle.niveau.classe}} {{salle.nom}}</li>
+                        <li>
+                            <a href=""><i class="fa fa-print" style = "color: #ffaa01;"></i> Imprimer </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'listePresence' salle.id %}"><i class="fa fa-user-check" style = "color: #ffaa01;"></i> Créer une liste d'appel de présence </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -49,8 +55,10 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>All Students Data</h3>
+                                <h6>Liste de tous les élèves inscrit dans la salle de classe: <span style = "font-weight: bold; color: #ffaa01; font-size: 17px;"> <<{{salle.niveau.classe}} {{salle.nom}}>> </span> </h6>
+                                <h6> <i class="fa fa-list"></i>  Total des élèves <span style = "font-weight: bold; color: #ffaa01; font-size: 17px;"> <<{{nombre}}>> </span></h6>
                             </div>
+                            
                             <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                                     aria-expanded="false">...</a>
@@ -65,16 +73,17 @@
                                 </div>
                             </div>
                         </div>
-                        <form class="mg-b-20">
+                        <form class="mg-b-20" method="POST">
+                            {% csrf_token %}
                             <div class="row gutters-8">
                                 <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by Roll ..." class="form-control">
+                                    <input type="text" name="matricule" placeholder="Search by register ..." class="form-control">
                                 </div>
                                 <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by Name ..." class="form-control">
+                                    <input type="text" name ="nom" placeholder="Search by Name ..." class="form-control">
                                 </div>
                                 <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by Class ..." class="form-control">
+                                    <input type="hidden" placeholder="Search by Class ..." class="form-control">
                                 </div>
                                 <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
                                     <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
@@ -100,24 +109,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for etudiant in etudiants %}
+                                    {% for inscrit in inscrits %}
                                     <tr>
                                         <td>
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input">
-                                                <label class="form-check-label">{{etudiant.matricule}}</label>
+                                                <label class="form-check-label">{{inscrit.etudiant.matricule}}</label>
                                             </div>
                                         </td>
-                                        {% if etudiant.photo %}
-                                            <td><img src="{{etudiant.photo.url}}" alt="Photo" style="width: 160px; height: 50px; border-radius: 7px; object-fit: cover;"></td>
+                                        {% if inscrit.etudiant.photo %}
+                                            <td><img src="{{ inscrit.etudiant.photo.url }}" alt="Photo" style="width: 160px; height: 50px; border-radius: 7px; object-fit: cover;"></td>
                                         {% else %}
                                             <td class="text-center"><i class="fa fa-user"></i></td> 
                                         {% endif %}
-                                        <td>{{etudiant.nom}}</td>
-                                        <td>{{etudiant.prenom}}</td>
-                                        <td>{{etudiant.genre}}</td>
-                                        <td>{{etudiant.salleDeClasse_id.niveau.classe}}- {{etudiant.salleDeClasse_id.nom}}</td>
-                                        <td>{{etudiant.mail}}</td>
+                                        <td>{{inscrit.etudiant.nom}}</td>
+                                        <td>{{inscrit.etudiant.prenom}}</td>
+                                        <td>{{inscrit.etudiant.genre}}</td>
+                                        <td>{{inscrit.salleClasse.niveau.classe}}- {{inscrit.salleClasse.nom}}</td>
+                                        <td>{{inscrit.etudiant.mail}}</td>
                                        
                                     </tr>
                                     {% endfor %}

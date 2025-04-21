@@ -1,3 +1,33 @@
+{% comment %} <h3>Inscriptions pour la classe : {{ classe.classe }}</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Étudiant</th>
+            <th>Salle de classe</th>
+            <th>Montant versé</th>
+            <th>Date d'enregistrement</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for inscription in inscrits %}
+            <tr>
+                <td>{{ inscription.etudiant.nom }} {{ inscription.etudiant.prenom }}</td>
+                <td>{{ inscription.salleClasse.nom }}</td>
+                <td>{{ inscription.montantVerse }} F CFA</td>
+                <td>{{ inscription.dateEnregistrement|date:"d/m/Y H:i" }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">Aucune inscription trouvée.</td></tr>
+        {% endfor %}
+    </tbody>
+</table> {% endcomment %}
+
+
+
+
+{% comment %} #################################################################################### {% endcomment %}
+
 {% load static %}
 
 <!doctype html>
@@ -67,18 +97,11 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Add New Evaluation</h3>
+                                <h3>Liste de note pour la classe : {{ classe.classe }} {{ salle.nom }}</h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
                                 data-toggle="dropdown" aria-expanded="false">...</a>
-        
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                </div>
-                               
                             </div>
                         </div>
                         <form method="POST">
@@ -100,41 +123,12 @@
                                 <div class="col-md-2">
                                     <label for="cours">Cours:</label>
                                     <select class="form-control" name="cours" required>
-                                        {% for cours in cours_list %}
-                                            <option value="{{ cours.id }}">{{ cours.matiere.nom }}</option>
+                                        <option value = ""> Veillez Choisir une matière</option>
+                                        {% for cours in courrs %}
+                                            <option value="{{ cours.id }}"> {{ cours.matiere.nom }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
-                        
-                                <div class="col-md-2">
-                                    <label for="cours">Etudiant:</label>
-                                    <select class="form-control" name="etudiant" required>
-                                        {% for etudiant in etudiants %}
-                                            <option value="{{ etudiant.id }}">{{ etudiant.nom }} {{ etudiant.prenom }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-
-                                <!-- Matière -->
-                                {% comment %} <div class="col-md-2">
-                                    <label for="matiere">Matière:</label>
-                                    <select class="form-control" name="matiere" required>
-                                        {% for matiere in matieres %}
-                                            <option value="{{ matiere.id }}">{{ matiere.nom }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div> 
-                        
-                                <!-- Coefficient -->
-                                <div class="col-md-1">
-                                    <label for="coefficient">Coefficient:</label>
-                                    <select class="form-control" name="coefficient" required>
-                                        {% for i in 1|to:10 %}
-                                            <option value="{{ i }}">{{ i }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                {% endcomment %}
 
                                 <div class="col-md-3">
                                     <label for="typeEvaluation">Type d'évaluation:</label>
@@ -152,45 +146,47 @@
                                     <input type="date" name="dateEvaluation" class="form-control" required>
                                 </div>
                         
-                                {% comment %} <!-- Bouton continuer -->
-                                <div class="col-md-2 align-self-end">
-                                    <button type="submit" class="btn btn-primary btn-block">Continuer l'insertion</button>
-                                </div> {% endcomment %}
                             </div>
                         
                             <hr>
                         
-                            <div class="row mt-3">
-                                {% for etudiant in etudiants %}
-                                    <!-- Nom & Prénom -->
-                                    <div class="col-md-3">
-                                        <label>Nom & Prénom:</label>
-                                        <input type="text" name="etudiant_nom" class="form-control" value="{{ etudiant.nom }} {{ etudiant.prenom }}" readonly>
-                                    </div>
-                            
-                                    <!-- Matricule -->
-                                    <div class="col-md-2">
-                                        <label>Matricule:</label>
-                                        <input type="text" name="matricule" class="form-control" value="{{etudiant.matricule}}" readonly>
-                                    </div>
-                            
-                                    <!-- Classe & Matière & Trimestre -->
-                                    <div class="col-md-4">
-                                        <label>Classe & Matière & Trimestre:</label>
-                                        <input type="text" name="resume" class="form-control" value="TLE Z - Sciences - 1er Module" readonly>
-                                    </div>
-                            
-                                    <!-- Note -->
-                                    <div class="col-md-2">
-                                        <label>Note (15.50 ou 13):</label>
-                                        <input type="text" name="note" class="form-control" required>
-                                    </div>
-                                
-                                    <!-- Bouton sauvegarder -->
-                                    <div class="col-md-1 align-self-end">
-                                        <button type="submit" class="btn btn-danger btn-block">Sauvegarder</button>
-                                    </div>
-                                {% endfor %}
+                            <div class="table-responsive">
+                                <table class="table display data-table text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">Matricule</label>
+                                                </div>
+                                            </th>
+                                            <th> Nom & Prenom </th>
+                                            <th> Note (/20) </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for inscrit in inscrits %}
+                                            <tr>
+                                                <!-- Matricule -->
+                                                <td>
+                                                    {{inscrit.etudiant.matricule}}
+                                                </td>
+                                                <!-- Nom & Prénom -->
+                                                <td>
+                                                    {{ inscrit.etudiant.nom }} {{ inscrit.etudiant.prenom }}
+                                                </td>
+                                                
+                                                <!-- Note -->
+                                                <td>
+                                                    <input type="number" name="note_{{ inscrit.etudiant.id }}" class="form-control" required>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Bouton sauvegarder -->
+                            <div class="col-12 form-group mg-t-8" style="text-align: center;">
+                                <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Sauvegarder</button>
                             </div>
                         </form>
                         
