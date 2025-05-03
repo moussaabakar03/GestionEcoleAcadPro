@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | etudiants Details</title>
+    <title>AcadPro | élèves Details</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
@@ -28,13 +28,6 @@
     <script src="{% static 'secretaire/js/modernizr-3.6.0.min.js' %}"></script>
 
     <style>
-        {% comment %} body {
-          font-family: Arial, sans-serif;
-          background: #f2f2f2;
-          margin: 0;
-          padding: 20px;
-        } {% endcomment %}
-    
         .container {
             background: #fff;
             border-radius: 10px;
@@ -96,14 +89,6 @@
         .table-wrapper table tr {
             height: 70px; /* augmente la hauteur des lignes */
         }
-{% comment %} 
-        .table-wrapper table td, 
-        .table-wrapper table th {
-            padding-top: 20px;
-            padding-bottom: 20px;
-            vertical-align: middle;
-        } {% endcomment %}
-
         .detailEtudiant{
             display: flex;
             flex-direction: column;
@@ -150,15 +135,15 @@
                 <div class="breadcrumbs-area">
                     <h3>etudiants</h3>
                     <ul>
-                        <li>
-                            <a href="{% url 'all-student' %}">All students</a>
-                        </li>
+                        <li> <a href="{% url 'all-student' %}">All students</a> </li>
                         <li> <a href ="{% url 'students-detail' etudiant.matricule %}" ><i class="fas fa-id-card"></i>  Génerer la carte scolaire de l'étudiant</a></li>
                         <li> <a href ="{% url 'modifier_student' etudiant.matricule %}" ><i class='fas fa-edit'></i>  Editer les infos de l'élève</a></li>
+                        <li> <a href ="{% url 'presenceEtudiant' etudiant.matricule %}" ><i class="fas fa-check-circle text-success"></i>  Ma présence</a></li>
+                        <li> <a href ="{% url 'generationBilletin' etudiant.matricule 'Tl' %}" >generationBilletin</a></li>
+                        {% comment %} <li> <a href ="" >generationBilletin</a></li> {% endcomment %}
                     </ul>
                 </div>
-                <!-- Breadcubs Area End Here -->
-                <!-- etudiant Details Area Start Here -->
+
                 <div class="card height-auto">
                     <div class="container">
                         <h2>IDENTIFICATION DE L'APPRENANT</h2>
@@ -294,7 +279,36 @@
                           
                     </div>
                     <div class="container">
-                        <h2>NOTES DE L'ETUDIANT: {{etudiant.nom}} {{etudiant.prenom}}</h2>
+                        <div>
+                            <h2  style= "text-align: center;">NOTES DE L'ETUDIANT: {{etudiant.nom}} {{etudiant.prenom}}</h2>
+                            <form class="mg-b-20" method="POST">
+                                {% csrf_token %}
+                                <div class="row gutters-8">
+                                    <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                        <input type="text" name="matiere" placeholder="Filtre par matière ..." class="form-control">
+                                    </div>
+                                    <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
+                                        <select class="form-control" name="trimestre">
+                                            <option value="">Filtre par trimestre ...</option>
+                                            <option value="1er trimestre">1er trimestre</option>
+                                            <option value="2e trimestre">2e trimestre</option>
+                                            <option value="3e trimestre">3e trimestre</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                        <select class="form-control" name="typeEvaluation">
+                                            <option value=""> Filtre par type evaluation ... </option>
+                                            <option value="Devoir">Devoir</option>
+                                            <option value="Interrogation">Interrogation</option>
+                                            <option value="Composition">Composition</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
+                                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="table-wrapper" style="max-height: 500px; overflow-y: auto;">
                             <div class="table-responsive">
                                 <table class="data-table">
@@ -302,6 +316,7 @@
                                         <tr>
                                             <th>Matière</th>
                                             <th>Note</th>
+                                            <th>Coefficient</th>
                                             <th>Type.E</th>
                                             <th>Trimestre</th>
                                             <th>Enseignant</th>
@@ -315,9 +330,12 @@
                                                 <td>{{ evaluation.cours.matiere.nom }}</td>
                                                 {% if evaluation.note > 10  %}
                                                     <td><span style= "font-weight: bold; color: green;">{{ evaluation.note }}</span></td>
+                                                {% elif evaluation.note == 10  %}
+                                                    <td><span style= "font-weight: bold; color: #ffa001;">{{ evaluation.note }}</span></td>
                                                 {% else %}
                                                     <td><span style= "font-weight: bold; color: red;">{{ evaluation.note }}</span></td>
                                                 {% endif %}
+                                                <td>{{ evaluation.cours.matiere.coefficient }}</td>
                                                 <td>{{ evaluation.typeEvaluation }}</td>
                                                 <td>{{ evaluation.trimestre }}</td>
                                                 <td>{{ evaluation.cours.enseignant.nom }} {{ evaluation.cours.enseignant.prenom }}</td>
@@ -327,6 +345,43 @@
                                                 </td>
                                             </tr>
                                         {% endfor %}
+                                        
+                                        {% if messages %}
+                                            {% for message in messages %}
+                                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show flash-message" role="alert" style="color: red;">
+                                                    {{ message }}                                                    
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                
+                                        <script>
+                                            setTimeout(function() {
+                                                const flashMessages = document.querySelectorAll(".flash-message");
+                                                flashMessages.forEach(function(flash) {
+                                                    flash.classList.remove("show");
+                                                    flash.classList.add("hide");
+                                                });
+                                            }, 5000);
+                                        </script>
+                                           
+                                        <tr>
+                                            <td colspan = "5"><strong>Moyenne générale </strong></td>
+                                            {% if moyenne >= 10 %}
+                                                <td colspan = "3" style = "color: green; text-align: center; font-weight: bold;">
+                                                    {{ moyenne|floatformat:2 }} / 20
+                                                </td>
+                                            {% elif moyenne == 0.0 %}
+                                                <td colspan = "3" style = "text-align: center; font-weight: bold; font-size: 10px;">
+                                                    Filtrer pour voir la moyenne (les champs haut.)
+                                                </td>
+                                            {% else %}
+                                                <td colspan = "3" style = "color: red; text-align: center; font-weight: bold;">
+                                                    {{ moyenne|floatformat:2 }} / 20
+                                                </td>
+                                            {% endif %}
+                                        </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>

@@ -29,12 +29,12 @@
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>cours</h3>
+                    <h3>Cours</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'index' %}">Home</a>
+                            <a href="{% url 'index' %}">Tableau de Bord</a>
                         </li>
-                        <li>All cours</li>
+                        <li>Cours *</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -43,33 +43,32 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>All cours</h3>
+                                <h3>Cours *</h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
                                 data-toggle="dropdown" aria-expanded="false">...</a>
-        
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Fermer</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Modifier</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refrecher</a>
                                 </div>
-                               
                             </div>
                         </div>
-                        <form class="mg-b-20">
+                        <form class="mg-b-20" method= "POST">
+                            {% csrf_token %}
                             <div class="row gutters-8">
                                 <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by ID ..." class="form-control">
+                                    <input type="text" name = "matiere" placeholder="Filtrer par matière ..." class="form-control">
                                 </div>
                                 <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by Name ..." class="form-control">
+                                    <input type="text" name = "classe" placeholder="Filtrer par classe ..." class="form-control">
                                 </div>
                                 <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by Class ..." class="form-control">
+                                    <input type="text" name = "enseignant" placeholder="Filtrer par Enseignant ..." class="form-control">
                                 </div>
                                 <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">Filtrer</button>
                                 </div>
                             </div>
                         </form>
@@ -103,8 +102,16 @@
                                             </div>
                                         </td>
                                         <td>{{ cours.matiere.nom }}</td>
-                                        <td>{{ cours.enseignant.nom }} {{ cours.enseignant.prenom }}</td>
-                                        <td>{{ cours.classe.classe }}</td>
+                                        {% if cours.enseignant %}
+                                            <td>{{ cours.enseignant.nom }} {{ cours.enseignant.prenom }}</td>
+                                        {% else %}
+                                            <td>Aucun enseignant assigné</td>
+                                        {% endif %}
+                                        {%if cours.classe%}
+                                            <td>{{ cours.classe.classe }}</td>
+                                        {% else %}
+                                            <td>Aucune classe assigné</td>
+                                        {% endif %}
                                         <td>{{ cours.dateDebutCours|date:"d/m/Y" }}</td>
                                         <td>{{ cours.dureeCours }}</td>
                                         <td>{{ cours.trimestre }}</td>

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | Students Details</title>
+    <title>AcadPro | Details élèves</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
@@ -250,12 +250,13 @@
                 <!-- Breadcubs Area Start Here -->
                 <div style= "display: flex; justify-content: space-between;">
                     <div class="breadcrumbs-area">
-                        <h3>Students</h3>
+                        <h3>Elèves</h3>
                         <ul>
                             <li>
-                                <a href="{% url 'all-student' %}">All Students</a>
+                                <a href="{% url 'all-student' %}">Elèves *</a>
                             </li>
-                            <li>Student Details</li>
+                            {% comment %} <li> <a href ="{% url 'detailEtudiant' etudiant.matricule parent.id %}" ><i class="fas fa-info-circle"></i> Mes Infos</a></li> {% endcomment %}
+                            <li>Details élèves</li>
                         </ul>
                     </div>
                     <div class="">

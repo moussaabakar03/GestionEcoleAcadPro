@@ -40,7 +40,13 @@
 <body>
   <div class="modal-custom">
     <div class="modal-header mb-3">
-      Ajout de note de: <strong>{{etudiant.nom}} {{etudiant.prenom}}</strong> - Classe: <strong>{{etudiant.inscriptions.salleClasse.niveau.classe}}</strong>
+      <div>
+        <p>Ajout de note de: <span style= "color: #ff9d01; margin-left: 20px;">{{etudiant.nom}} {{etudiant.prenom}}</span></p>
+      </div>
+      <div>
+        <p> Classe: <span style= "color: #ff9d01; margin-left: 20px;">{{classe.classe}}</span></p>
+      </div>
+     
     </div>
     <form method= "POST">
         {%  csrf_token %}
@@ -60,7 +66,7 @@
             <select class="form-control" name="cours" required>
                 <option value = "null">-- Choix --</option>
                 {% for cours in cours_list %}
-                    <option value="{{ cours.id }}">{{ cours.matiere.nom }}</option>
+                    <option value="{{ cours.id }}">{{ cours.matiere.nom }} </option>
                 {% endfor %}
             </select>
         </div>

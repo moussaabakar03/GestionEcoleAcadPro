@@ -1,0 +1,9 @@
+<div class="nav-tabs">
+    <a href="#" class="nav-tab"><i class="fas fa-list"></i> Progression</a>
+    <a href="{% url 'inscriptionPayement' %}" class="nav-tab"><i class="fas fa-euro-sign"></i> Inscriptions et Payements</a>
+    <a href="{% url 'notes' 'ALIM00212000' %}" class="nav-tab"><i class="fas fa-sticky-note"></i> Notes</a>
+    <a href="#" class="nav-tab"><i class="fas fa-calendar-times"></i> Absenses</a>
+    <a href="#" class="nav-tab"><i class="fas fa-book"></i> Emploie du temps</a>
+    <a href="{% url 'presence' 'ALIM00212000' %}" class="nav-tab"><i class="fas fa-user-check"></i> Ma - Presence</a>
+    {% comment %} <a href="#" class="nav-tab"><i class="fas fa-clipboard-list"></i> Présence aux cours</a> {% endcomment %}
+</div>

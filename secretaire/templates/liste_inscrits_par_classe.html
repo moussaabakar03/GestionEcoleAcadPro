@@ -1,33 +1,3 @@
-{% comment %} <h3>Inscriptions pour la classe : {{ classe.classe }}</h3>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Étudiant</th>
-            <th>Salle de classe</th>
-            <th>Montant versé</th>
-            <th>Date d'enregistrement</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for inscription in inscrits %}
-            <tr>
-                <td>{{ inscription.etudiant.nom }} {{ inscription.etudiant.prenom }}</td>
-                <td>{{ inscription.salleClasse.nom }}</td>
-                <td>{{ inscription.montantVerse }} F CFA</td>
-                <td>{{ inscription.dateEnregistrement|date:"d/m/Y H:i" }}</td>
-            </tr>
-        {% empty %}
-            <tr><td colspan="4">Aucune inscription trouvée.</td></tr>
-        {% endfor %}
-    </tbody>
-</table> {% endcomment %}
-
-
-
-
-{% comment %} #################################################################################### {% endcomment %}
-
 {% load static %}
 
 <!doctype html>
@@ -36,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | Add Class</title>
+    <title>AcadPro | Inscrits</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
@@ -86,9 +56,9 @@
                     <h3>Evaluation</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'all_evaluation' %}">All Evaluation</a>
+                            <a href="{% url 'all_evaluation' %}">Evaluations *</a>
                         </li>
-                        <li>Add New Evaluation</li>
+                        <li>Ajout Evaluation</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -97,7 +67,7 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Liste de note pour la classe : {{ classe.classe }} {{ salle.nom }}</h3>
+                                <h3>Liste de note pour la salle de classe : {{ salleClasse.nom }} -({{salleClasse.niveau.classe}})</h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 

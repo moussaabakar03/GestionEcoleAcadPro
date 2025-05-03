@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | All Parents</title>
+    <title>AcadPro | Parents *</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
@@ -59,9 +59,9 @@
                     <h3>Parents</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'index' %}">Home</a>
+                            <a href="{% url 'index' %}">Tableau de Bord</a>
                         </li>
-                        <li>All Parents</li>
+                        <li>Parents *</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -70,36 +70,31 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>All Parents Data</h3>
+                                <h3>Infos Parents</h3>
                             </div>
                             <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                                     aria-expanded="false">...</a>
-
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i
-                                            class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i
-                                            class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i
-                                            class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-
-                                </div>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Fermer</a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Modifier</a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refrecher</a>
+                                    </div>
                             </div>
                         </div>
                         <form class="mg-b-20">
                             <div class="row gutters-8">
                                 <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by ID ..." class="form-control">
+                                    <input type="text" placeholder="Filtrer par ID ..." class="form-control">
                                 </div>
                                 <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by Name ..." class="form-control">
+                                    <input type="text" placeholder="Filtrer par nom ..." class="form-control">
                                 </div>
                                 <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="text" placeholder="Search by Phone ..." class="form-control">
+                                    <input type="text" placeholder="Filtrer par Phone ..." class="form-control">
                                 </div>
                                 <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">Filtrer</button>
                                 </div>
                             </div>
                         </form>
@@ -153,9 +148,9 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{% url 'supprimer_parent' parent.id %}" onclick = "return confirm('Voulez-vous vraiment supprimer ce parent?')"><i
-                                                            class="fas fa-times text-orange-red"></i>Close</a>
+                                                            class="fas fa-times text-orange-red"></i>Supprimer</a>
                                                     <a class="dropdown-item" href="{% url 'modifier_parent' parent.id %}"><i
-                                                            class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                                            class="fas fa-cogs text-dark-pastel-green"></i>Modifier</a>
                                                 </div>
                                             </div>
                                         </td>

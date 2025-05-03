@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | Add Class</title>
+    <title>AcadPro | Note individuelle</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
@@ -58,7 +58,7 @@
                         <li>
                             <a href="{% url 'all_evaluation' %}">All Evaluation</a>
                         </li>
-                        <li>individuelle evaluation</li>
+                        <li>Evaluation individuelle</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -105,7 +105,7 @@
                                                 
                                                 <!-- Note -->
                                                 <td>
-                                                    <a href="{% url 'ajout_note_individuelle' inscrit.etudiant.id %}" type="button" class="btn btn-warning" style ="width: 100px; height: 100%; margin: 5px; padding: 5px; border-radius: 5px; font-size: 12px;">Nouvelle Note</a>
+                                                    <a href="{% url 'ajout_note_individuelle' inscrit.etudiant.id inscrit.salleClasse.niveau.id %}" type="button" class="btn btn-warning" style ="width: 100px; height: 100%; margin: 5px; padding: 5px; border-radius: 5px; font-size: 12px;">Nouvelle Note</a>
                                                 </td>
                                             </tr>
                                         {% endfor %}

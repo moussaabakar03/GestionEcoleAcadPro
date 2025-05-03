@@ -32,9 +32,9 @@
                     <h3>Salle</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'index' %}">Home</a>
+                            <a href="{% url 'index' %}">Tableau de Bord</a>
                         </li>
-                        <li>All Salle</li>
+                        <li>Salle *</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -56,12 +56,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for classe in niveaux %}
+                                    {% for salleClasse in salleClasses %}
                                     <tr>
-                                        <td>{{ classe.classe }}</td>
+                                        <td>{{ salleClasse.nom }} -{{ salleClasse.niveau.classe }}</td>
                                         <td>
                                             <div class="dropdown">
-                                                <a href="{% url 'evaluation_groupee' classe.id %}">
+                                                <a href="{% url 'evaluation_groupee' salleClasse.id salleClasse.niveau.id %}">
                                                     <i class="fas fa-clipboard-check"> </i> Attribuer Notes
                                                 </a>
                                             </div>

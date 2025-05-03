@@ -11,9 +11,12 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-@login_required
+# @login_required
 def index(request):
-    return render(request, 'index.html')
+    inscriptions = Inscription.objects.all().count()
+    enseignants = Enseignant.objects.count()
+    contains = {'inscriptions': inscriptions, 'enseignants': enseignants}
+    return render(request, 'index.html', contains)
 
 def index3(request):
     return render(request, 'index3.html')
@@ -71,7 +74,6 @@ def all_student(request):
         etudiant = Etudiant.objects.all()
         context = {'etudiants': etudiant, 'inscription': inscription}
         return render(request, 'all-student.html', context)
-
 
 def admit_form(request):
     salles = SalleDeClasse.objects.all()
@@ -168,16 +170,83 @@ def student_promotion(request):
 def student_detail(request, matricule):
     etudiant = Etudiant.objects.get(matricule = matricule)
     inscrits = etudiant.inscriptions.all()
+    # parent = Etudiant.objects.get(parent = etudiant.parent)
+    
     context = {"etudiant": etudiant, "inscrits": inscrits}
     return render(request, 'student-details.html', context)
 
 def detailEtudiant(request, matricule, id):
-    etudiant = Etudiant.objects.get(matricule = matricule)
-    parent = Parent.objects.get(id = id)
+    etudiant = Etudiant.objects.get(matricule=matricule)
+    parent = Parent.objects.get(id=id)
     inscriptions = etudiant.inscriptions.all()
-    evaluation = etudiant.evaluations.all()
-    context = {"etudiant": etudiant, "parent": parent, "inscriptions": inscriptions, "evaluations": evaluation }
-    return render(request, 'detailEtudiant.html', context)
+    
+
+    somme_notes_ponderees = 0.0
+    somme_coefficients = 0
+    
+    if request.method == "POST":
+                
+        matiere = request.POST['matiere']
+        trimestre = request.POST['trimestre']
+        typeEvaluation = request.POST['typeEvaluation']
+        
+        evaluations = etudiant.evaluations.all()
+        
+        if matiere:
+            evaluations = etudiant.evaluations.filter(cours__matiere__nom__contains = matiere.strip())
+            for evaluation in evaluations:
+                coefficient = evaluation.cours.matiere.coefficient
+                somme_notes_ponderees += float(evaluation.note) * coefficient
+                somme_coefficients += coefficient
+        elif trimestre:
+            evaluations = etudiant.evaluations.filter(trimestre__contains = trimestre.strip())
+            for evaluation in evaluations:
+                coefficient = evaluation.cours.matiere.coefficient
+                somme_notes_ponderees += float(evaluation.note) * coefficient
+                somme_coefficients += coefficient
+        elif typeEvaluation:
+            evaluations = etudiant.evaluations.filter(typeEvaluation__contains = typeEvaluation.strip())
+            for evaluation in evaluations:
+                coefficient = evaluation.cours.matiere.coefficient
+                somme_notes_ponderees += float(evaluation.note) * coefficient
+                somme_coefficients += coefficient
+        elif matiere and trimestre and typeEvaluation:
+            evaluations = etudiant.evaluations.filter(typeEvaluation__contains = typeEvaluation, trimestre__contains = trimestre, cours__matiere__nom__contains = matiere.strip())
+            for evaluation in evaluations:
+                coefficient = evaluation.cours.matiere.coefficient
+                somme_notes_ponderees += float(evaluation.note) * coefficient
+                somme_coefficients += coefficient
+        else:
+            messages.error(request, "Aucune donnée troucées!!!")
+        moyenne = round(somme_notes_ponderees / somme_coefficients, 2) if somme_coefficients != 0 else 0.0
+        
+        context = {
+            "etudiant": etudiant,
+            "parent": parent,
+            "inscriptions": inscriptions,
+            "evaluations": evaluations,
+            "moyenne": moyenne,
+            }
+        return render(request, 'detailEtudiant.html', context)
+        
+        
+    else:    
+        evaluations = etudiant.evaluations.all()
+        for evaluation in evaluations:
+            coefficient = evaluation.cours.matiere.coefficient
+            somme_notes_ponderees += float(evaluation.note) * coefficient
+            somme_coefficients += coefficient
+
+        moyenne = round(somme_notes_ponderees / somme_coefficients, 2) if somme_coefficients != 0 else 0.0
+
+        context = {
+            "etudiant": etudiant,
+            "parent": parent,
+            "inscriptions": inscriptions,
+            "evaluations": evaluations,
+            "moyenne": moyenne
+        }
+        return render(request, 'detailEtudiant.html', context)
 
 
 
@@ -252,7 +321,7 @@ def all_parents(request):
     parents = Parent.objects.all()
     return render(request, 'all-parents.html', {"parents": parents})
 
-def add_parents(request):
+def ajout_parents(request):
     if request.method == "POST":
         nom = request.POST["nom"]
         prenom = request.POST["prenom"]
@@ -320,32 +389,30 @@ def all_class(request):
         return render(request, 'all-class.html', {"matieres": matiere})
 
 def add_class(request):
-    enseignants = Enseignant.objects.all()
-    niveaux = Classe.objects.all()
-    content = {"enseignants": enseignants, "niveaux": niveaux}
+    # enseignants = Enseignant.objects.all()
+    # niveaux = Classe.objects.all()
+    # content = {"enseignants": enseignants, "niveaux": niveaux}
     if request.method == "POST":
         nom = request.POST["nom"]
-        niveau = request.POST["niveau"]
+        # niveau = request.POST["niveau"]
         coefficient = request.POST["coefficient"]
         description = request.POST.get("description", "")  # facultatif
-        enseignant_id = request.POST["enseignant"]
-        enseignant = Enseignant.objects.get(pk=int(enseignant_id))
-        classe = Classe.objects.get(pk=int(niveau))
+        # enseignant_id = request.POST["enseignant"]
+        # enseignant = Enseignant.objects.get(pk=int(enseignant_id))
+        # classe = Classe.objects.get(pk=int(niveau))
         
-        if Matiere.objects.filter(nom=nom, niveau=classe).exists():
+        if Matiere.objects.filter(nom=nom).exists():
             messages.error(request, "Cette matière existe déjà")
         else:
             Matiere.objects.create(
                 nom=nom,
-                niveau=classe,
                 coefficient=coefficient,
                 description=description,
-                enseignant=enseignant
             )
             # messages.success(request, "Matière ajoutée avec succès")
             return redirect("all-class")
 
-    return render(request, 'add-class.html', content)
+    return render(request, 'add-class.html')
 
 def supprimer_matiere(request, id):
     Matiere.objects.get(id=id).delete()
@@ -357,21 +424,20 @@ def modifier_matiere(request, id):
     if request.method == "POST":
         matiere.nom = request.POST["nom"]
         # matiere.niveau = request.POST["niveau"]
+        matiere.code = request.POST["code"]
         matiere.coefficient = request.POST["coefficient"]
         matiere.description = request.POST.get("description", "") 
 
-        enseignant_id = request.POST["enseignant"]
-        matiere.enseignant = Enseignant.objects.get(pk=int(enseignant_id))
+        # enseignant_id = request.POST["enseignant"]
+        # matiere.enseignant = Enseignant.objects.get(pk=int(enseignant_id))
 
-        niveau_id = request.POST["niveau"]
-        matiere.niveau = Classe.objects.get(pk=int(niveau_id))
+        # niveau_id = request.POST["niveau"]
+        # matiere.niveau = Classe.objects.get(pk=int(niveau_id))
 
         matiere.save()
         return redirect("all-class")
     return render(request, "modifierMatiere.html", {
         "matiere": matiere,
-        "enseignants": Enseignant.objects.all(),
-        "niveaux": Classe.objects.all()
     })
 
 
@@ -414,17 +480,21 @@ def modifierSalle(request, nom):
     if request.method == "POST":
         salle.nom = request.POST["nom"]
         salle.capacite = int(request.POST["capacite"])
-        salle.niveau = request.POST["niveau"]
+        niveau_id = request.POST["niveau"]
         salle.emplacement = request.POST.get("emplacement", "")  # champ facultatif
+
+        salle.niveau = Classe.objects.get(pk=int(niveau_id))
 
         salle.save()
         return redirect('all-salle')
 
-    return render(request, 'modifier_Salle.html', {"salle": salle})
+    return render(request, 'modifier_Salle.html', {"salle": salle, "niveaux": Classe.objects.all()})
 
 def supprimerSalle(request, nom):
     SalleDeClasse.objects.get(nom=nom).delete()
     return redirect('all-salle')
+
+
 
 def studentParSalle(request, id):
     salle = SalleDeClasse.objects.get(pk=id)
@@ -444,40 +514,64 @@ def studentParSalle(request, id):
 
 def listePresence(request, id):
     salle = SalleDeClasse.objects.get(pk=id)
-    emargement = Emargement.objects.filter(salleClasse=salle)
-    
-    if request.method == 'POST':
-        for em in emargement:
-            # emargement = Emargement.objects.get(pk=em.pk)
-            presence = request.POST.get(f"presence_{em.etudiant.matricule}")
-            etudiant = Etudiant.objects.get(matricule=em.etudiant.matricule)
-            
-        dateHeureDebut = request.POST["dateHeureDebut"]
-        commentaire = request.POST["commentaire"]
-        
-        Emargement.objects.create(
-            salleClasse=salle,
-            etudiant  =etudiant,
-            dateHeureDebut = dateHeureDebut,
-            commentaire = commentaire,
-            presence = presence
-        )    
-        
 
-        matricule = request.POST['matricule']
-        nom = request.POST.get('nom')
-        inscrit = Inscription.objects.filter(salleClasse=salle)
-        inscrits = inscrit.filter(etudiant__matricule__icontains=matricule, etudiant__nom__icontains=nom)
-        nombre = inscrits.count()
-        
-        return render(request, 'listePresence.html', {"salle": salle, 'inscrits': inscrits, 'nombre': nombre})
-    else:
+    if request.method == 'POST' and 'dateHeureDebut' in request.POST:
+        dateHeureDebut = request.POST.get("dateHeureDebut")
+        commentaire = request.POST.get("commentaire")
+
+        inscrits = Inscription.objects.filter(salleClasse=salle)
+
+        for inscrit in inscrits:
+            etudiant = inscrit.etudiant
+            presence_key = f"presence_{etudiant.matricule}"
+            presence_val = request.POST.get(presence_key)
+
+            if presence_val in ['P', 'A']: 
+                Emargement.objects.create(
+                    salleClasse=salle,
+                    etudiant=etudiant,
+                    dateHeureDebut=dateHeureDebut,
+                    commentaire=commentaire,
+                    presence=(presence_val == 'P')
+                )
+
+        # messages.success(request, "Liste de présence enregistrée avec succès.")
         inscrits = Inscription.objects.filter(salleClasse=salle)
         nombre = inscrits.count()
-        return render(request, 'listePresence.html', {"salle": salle, 'inscrits': inscrits, 'nombre': nombre})
+        # return render(request, 'listePresence.html', {"salle": salle, 'inscrits': inscrits, 'nombre': nombre})
+        return redirect('listePresencePasse', id=id)
 
+    matricule = request.POST.get('matricule', '')
+    nom = request.POST.get('nom', '')
+    inscrits = Inscription.objects.filter(salleClasse=salle).filter(
+        etudiant__matricule__icontains=matricule,
+        etudiant__nom__icontains=nom
+    )
+    nombre = inscrits.count()
+    return render(request, 'listePresence.html', {"salle": salle, 'inscrits': inscrits, 'nombre': nombre})
 
+def listePresencePasse(request, id):
+    # inscriptions = Emargement.objects.select_related('etudiant', 'salleClasse').filter(presence=True)
+    salleClasse = SalleDeClasse.objects.get(id=id)
+    emargement = Emargement.objects.filter(salleClasse = salleClasse)
+    
+    if request.method == "POST":
+        matricule = request.POST['matricule']
+        nom = request.POST.get('nom')
+        inscription = Inscription.objects.filter(salleClasse = salleClasse)
+        inscrits = inscription.filter(etudiant__matricule__icontains=matricule, etudiant__nom__icontains=nom)
+        
+        return render(request, 'listePresencePasse.html', {"emargements": emargement, "salleClasse": salleClasse, 'inscrits':inscrits})
+    
+    else:
+        return render(request, 'listePresencePasse.html', {"emargements": emargement, "salleClasse": salleClasse})
 
+def presenceEtudiant(request, matricule):
+    etudiant = Etudiant.objects.get(matricule=matricule)
+    # parent = Etudiant.objects.get(parent = etudiant.parent)
+    emargements = Emargement.objects.filter(etudiant=etudiant).order_by('-id')
+    return render(request, 'presenceStudent.html', {"etudiant": etudiant, "emargements": emargements})
+    
 
 #Classe(niveau)
 def all_niveau(request):
@@ -510,32 +604,14 @@ def supprimerNiveau(request, id):
     Classe.objects.get(pk=id).delete()
     return redirect('all_niveau')
 
-#Scolarité  add-scolarite.html
- 
-# def all_scolarite(request):
-#     if request.method == 'POST':
-#         classe = request.POST['classe']
-#         coutScolarite = request.POST['coutScolarite']
-#         montantPaye = request.POST['montantPaye']
-#         montantRestant = request.POST['montantRestant']
-#         etat = request.POST['etat']
 
-        
 
-#inscription  
-# <td>{{ inscription.salleClasse.niveau.classe.couts }} F CFA</td>
-
-# def all_inscription(request):
-#     inscriptions = Inscription.objects.all()
-#     classe = Classe.objects.all()
-#     cout = classe.couts.all()
-#     return render(request, 'all-inscription.html', {"inscriptions": inscriptions, "classe": classe, "cout": cout})
 
 def all_inscription(request):
     inscriptions = Inscription.objects.select_related('etudiant', 'salleClasse__niveau').all()
     return render(request, 'all-inscription.html', {"inscriptions": inscriptions})
 
-def add_inscription(request):
+def ajoutInscription(request):
     if request.method == "POST":
         etudiant_id = request.POST["etudiant"]
         salleClasse_id = request.POST["salleClasse"]
@@ -569,7 +645,7 @@ def modifierInscription(request, id):
     if request.method == 'POST':
         etudiant = request.POST["etudiant"]
         salleDeClasse = request.POST["salleClasse"]
-        inscription.coutA = request.POST["coutA"]
+        # inscription.coutA = request.POST["coutA"]
         inscription.montantVerse = request.POST["montantVerse"]
         
         inscription.etudiant_id = Etudiant.objects.get(id =etudiant)
@@ -591,10 +667,26 @@ def modifierInscription(request, id):
 
 def all_cours(request):
     cours = Cours.objects.all()
-    context = {'cours_list': cours}
-    return render(request, 'all-cours.html', context)
+    
+    if request.method == "POST":
+        matiere = request.POST['matiere']
+        classe = request.POST['classe']
+        enseignant = request.POST['enseignant']
+        
+        if matiere:
+            cours = Cours.objects.filter(matiere__nom = matiere.strip())
+        if classe:
+            cours = Cours.objects.filter(classe__classe = classe.strip())
+        if enseignant:
+            cours = Cours.objects.filter(enseignant__nom = enseignant.strip())
+        
+        return render(request, 'all-cours.html', {'cours_list': cours})
+    
+    else:
+        context = {'cours_list': cours}
+        return render(request, 'all-cours.html', context)
 
-def add_cours(request):
+def ajoutCours(request):
     if request.method == 'POST':
         matiere_nom = request.POST["matiere"]
         enseignant_nom = request.POST["enseignant"]
@@ -605,7 +697,7 @@ def add_cours(request):
         etat = request.POST["etat"]
 
         # Récupérer les objets liés à partir des noms
-        matiere = Matiere.objects.get(nom=matiere_nom)
+        matiere = Matiere.objects.get(pk=int(matiere_nom))
         # enseignant = Enseignant.objects.get(nom=enseignant_nom.split()[0], prenom=enseignant_nom.split()[1])
         enseignant = Enseignant.objects.get(pk=int(enseignant_nom))
         classe = Classe.objects.get(pk=int(classe_nom))
@@ -661,9 +753,10 @@ def supprimer_cours(request, pk):
 def all_evaluation(request):
     # niveaux = Classe.objects.all()
     # evaluations = Evaluation.objects.all()
-    cours = Cours.objects.all()
+    # cours = Cours.objects.all()
+    salleDeClasse = SalleDeClasse.objects.all()
     # context = {'evaluations': evaluations, 'niveaux': niveaux}
-    return render(request, 'all-evaluation.html', {'cours': cours})
+    return render(request, 'all-evaluation.html', {'salleDeClasses': salleDeClasse})
 
 def supprimer_evaluation(request, pk):
     Evaluation.objects.get(pk=pk).delete()
@@ -698,15 +791,17 @@ def modifier_evaluation(request, id):
     }
     return render(request, 'modifier-evaluation.html', context)
 
-def evaluation_groupee(request, id):
-    classe = Classe.objects.get(id=id)
+def evaluation_groupee(request, id, id1):
+    # classe = Classe.objects.get(id=id)
+    salleClasse = SalleDeClasse.objects.get(id=id)
     inscrits = Inscription.objects.filter(
-        salleClasse__niveau=classe
+        salleClasse=salleClasse
     ).select_related('etudiant', 'salleClasse')
 
-    matieres = Matiere.objects.filter(niveau=classe)
-    salle = SalleDeClasse.objects.get(niveau=classe)
-    courrs = Cours.objects.filter(classe=classe)
+    # matieres = Matiere.objects.filter(niveau=classe)
+    # salle = SalleDeClasse.objects.get(niveau=classe)
+    courrs = Cours.objects.filter(classe__id = id1)
+    
     if request.method == 'POST':
         trimestre = request.POST["trimestre"]
         cours_id = request.POST["cours"]
@@ -732,39 +827,48 @@ def evaluation_groupee(request, id):
         return redirect('all_evaluation')  
 
     context = {
-        'matieres': matieres,
-        'salle': salle,
-        'classe': classe,
+        # 'matieres': matieres,
+        # 'salle': salle,
+        'salleClasse': salleClasse,
         'inscrits': inscrits,
         'courrs': courrs,
     }
     return render(request, 'liste_inscrits_par_classe.html', context)
 
 def selectClasseEvaluation(request):
-    classe = Classe.objects.all()
-    return render(request, 'selectClasseEvaluation.html', {'niveaux': classe})
+    # classe = Classe.objects.all()
+    salleClasse = SalleDeClasse.objects.all()
+    
+    return render(request, 'selectClasseEvaluation.html', {'salleClasses': salleClasse})
 
 def selectClasse(request):
     classe = Classe.objects.all()
     return render(request, 'selectClasse.html', {'niveaux': classe})
 
 def filtre_evaluation(request, id):
-    classe = Classe.objects.get(id=id)
-    
+    salle = get_object_or_404(SalleDeClasse, id=id)
+    classe = salle.niveau
+
+    evaluation = Evaluation.objects.filter(cours__classe=classe)
+
     if request.method == 'POST':
-        typeEvaluation = request.POST['typeEvaluation']
-        nom = request.POST.get('nom')        
-        
-        evaluation = Evaluation.objects.filter(cours__classe=classe).select_related('etudiant', 'cours__matiere', 'cours__enseignant', 'cours__classe')
-        
-        evaluations = evaluation.filter(etudiant__nom__icontains = nom, typeEvaluation__icontains = typeEvaluation)
-        context = {'evaluations': evaluations, 'classe': classe}
-        
-        return render(request, 'filtre-evaluation.html', context)
-    else:
-        evaluations = Evaluation.objects.filter(cours__classe=classe).select_related('etudiant', 'cours__matiere', 'cours__enseignant', 'cours__classe')
-        context = {'evaluations': evaluations, 'classe': classe}
-        return render(request, 'filtre-evaluation.html', context)
+        typeEvaluation = request.POST.get('typeEvaluation')
+        nom = request.POST.get('nom')
+        matiere = request.POST.get('matiere')
+        trimestre = request.POST.get('trimestre')
+
+        if nom:
+            evaluation = evaluation.filter(etudiant__nom__icontains=nom)
+        if typeEvaluation:
+            evaluation = evaluation.filter(typeEvaluation__icontains=typeEvaluation)
+        if trimestre:
+            evaluation = evaluation.filter(trimestre__icontains=trimestre)
+        if matiere:
+            evaluation = evaluation.filter(cours__matiere__nom__icontains=matiere)
+
+    context = {'evaluations': evaluation, 'salle':salle}
+    return render(request, 'filtre-evaluation.html', context)
+
         
 def note_individuelle(request, id):
     classe = Classe.objects.get(id=id)
@@ -782,7 +886,7 @@ def note_individuelle(request, id):
     }
     return render(request, 'note-individuelle.html', context)
 
-def ajout_note_individuelle(request, id):
+def ajout_note_individuelle(request, id, id1):
     etudiant = Etudiant.objects.get(id=id)
     
     if request.method == 'POST':
@@ -806,16 +910,21 @@ def ajout_note_individuelle(request, id):
         )
         return redirect('all_evaluation')
     
-    cours_list = Cours.objects.all()
+    cours_list = Cours.objects.filter(classe__id = id1)
+    classe = Classe.objects.get(id = id1)
 
     context = {
         'cours_list': cours_list,
-        'etudiant': etudiant
+        'etudiant': etudiant, 
+        'classe': classe
     }
     return render(request, 'ajout_note_individuelle.html', context)
     
-
+def deleteEvaluation(request, id):
+    Evaluation.objects.get(id=id).delete()
+    return redirect('all_evaluation')
     
+     
     
     
 #coût
@@ -824,7 +933,7 @@ def all_cout(request):
     context = {'couts': couts}
     return render(request, 'all-cout.html', context)
 
-def add_cout(request):
+def ajoutCout(request):
     if request.method == 'POST':
         classe_id = request.POST["classe"]
         coutInscription = request.POST['coutInscription']
@@ -848,12 +957,12 @@ def add_cout(request):
     context = {'classe_list': Classe.objects.all()}
     return render(request, 'add-cout.html', context)
 
-def delete_cout(request, id):
+def suppCout(request, id):
     cout = get_object_or_404(Cout, id=id)
     cout.delete()
     return redirect('all_cout')
 
-def update_cout(request, id):
+def modifierCout(request, id):
     cout = get_object_or_404(Cout, id=id)
     if request.method == 'POST':
         classe_id = request.POST["classe"]
@@ -899,3 +1008,231 @@ def messaging(request):
 
 def account_settings(request):
     return render(request, 'account-settings.html')
+
+
+
+
+from collections import defaultdict
+from django.db.models import Avg
+
+
+def generationBilletin(request, matricule, classe):
+    etudiant = Etudiant.objects.get(matricule=matricule)
+    inscrits = etudiant.inscriptions.all()
+    cours_classe = Cours.objects.filter(classe__classe=classe, trimestre="2e Trimestre")
+
+    evaluations = Evaluation.objects.filter(
+        etudiant=etudiant,
+        trimestre="2e Trimestre",
+        cours__in=cours_classe
+    )
+
+    # Regrouper les moyennes par matière et type d'évaluation
+    notes_par_matiere = defaultdict(lambda: {"Devoir": [], "Composition": [], "Interrogation": [], "coef": 1})
+
+    for eval in evaluations:
+        matiere = eval.cours.matiere
+        notes_par_matiere[matiere.nom]["coef"] = matiere.coefficient
+        notes_par_matiere[matiere.nom][eval.typeEvaluation].append(float(eval.note))
+
+    # Calcul des moyennes par matière
+    bulletin = []
+    somme_notes_ponderees = 0.0
+    somme_coefficients = 0.0
+
+    for matiere, notes in notes_par_matiere.items():
+        coef = notes["coef"]
+
+        def moyenne(note_list):
+            return round(sum(note_list) / len(note_list), 2) if note_list else 0.0
+
+        moy_dev = moyenne(notes["Devoir"])
+        moy_int = moyenne(notes["Interrogation"])
+        moy_comp = moyenne(notes["Composition"])
+
+        moy_globale = round((moy_dev + moy_int + moy_comp) / 3, 2) if (moy_dev or moy_int or moy_comp) else 0.0
+        moy_coef = round(moy_globale * coef, 2)
+
+        bulletin.append({
+            "matiere": matiere,
+            "coef": coef,
+            "dev": moy_dev,
+            "int": moy_int,
+            "comp": moy_comp,
+            "moyenne": moy_globale,
+            "ponderee": moy_coef
+        })
+
+        somme_notes_ponderees += moy_coef
+        somme_coefficients += coef
+
+    moyenne_generale = round(somme_notes_ponderees / somme_coefficients, 2) if somme_coefficients else 0.0
+
+    return render(request, 'generationBilletin.html', {
+        "etudiant": etudiant,
+        "inscrits": inscrits,
+        "bulletin": bulletin,
+        "moyenne_generale": moyenne_generale
+    })
+
+
+
+from collections import defaultdict
+
+# def generationBilletin(request, matricule, id):
+#     etudiant = get_object_or_404(Etudiant, matricule=matricule)
+    
+#     classe = get_object_or_404(Classe, id = id)
+    
+#     cours = classe.cours.all()
+    
+#     # Pour stocker les notes groupées par matière + trimestre
+#     notes_groupées = defaultdict(lambda: {"total_notes": 0.0, "coefficient": 0.0, "count": 0})
+    
+#     evaluations = etudiant.evaluations.all()
+    
+#     for evaluation in evaluations:
+#         cours = evaluation.cours
+#         matiere = cours.matiere
+#         trimestre = cours.trimestre
+
+#         if matiere and trimestre:
+#             key = f"{matiere.nom}_{trimestre}"
+#             notes_groupées[key]["total_notes"] += float(evaluation.note)
+#             notes_groupées[key]["coefficient"] = matiere.coefficient  # le même pour chaque matière
+#             notes_groupées[key]["count"] += 1
+
+#     somme_note_pondérée = 0.0
+#     somme_coefficients = 0.0
+#     moyenne_matiere = 0.0
+#     for valeurs in notes_groupées.values():
+#         moyenne_matiere = valeurs["total_notes"] / valeurs["count"]
+#         coef = valeurs["coefficient"]
+#         somme_note_pondérée += moyenne_matiere * coef
+#         somme_coefficients += coef
+
+#     moyenne_generale = somme_note_pondérée / somme_coefficients if somme_coefficients != 0 else 0.0
+
+#     return render(request, 'generationBilletin.html', {
+#         "evaluations": evaluations,
+#         "moyenne_matiere": moyenne_matiere,
+#         "cours": cours,
+#         "moyenne_generale": round(moyenne_generale, 2)
+#     })
+
+
+
+# def generationBilletin(request, matricule, classe):
+#     etudiant = Etudiant.objects.get(matricule=matricule)
+    
+#     inscrits = etudiant.inscriptions.all()
+    
+#     cours = Cours.objects.filter(classe__classe = classe)
+#     somme_note = 0.0
+#     moyenne_generale = 0.0
+#     somme_coeficient = 0.0
+#     # evaluations = etudiant.evaluations.all()
+#     evaluations = etudiant.evaluations.filter(trimestre="2e trimestre")
+    
+    
+#     for evaluation in evaluations:
+#         if evaluation.cours.matiere.nom.exits() and evaluation.cours.trimestre.exits():
+#             coef = evaluation.cours.matiere.coefficient
+#             moyene_matiere = float(evaluation.note/coef)
+#             somme_coeficient += coef
+#             somme_note += moyene_matiere
+        
+#     moyenne_generale = float(somme_note/somme_coeficient)
+            
+#     return render(request, 'generationBilletin.html', 
+#                   {"inscrits": inscrits, "evaluations": evaluations, "moyenne_generale": moyenne_generale, 
+#                    "etudiant": etudiant, "cours":cours})
+    
+
+
+
+
+def compteEtudiant(request, matricule):
+    etudiant = Etudiant.objects.get(matricule=matricule)
+    inscriptions = etudiant.inscriptions.all()
+
+    somme_notes_ponderees = 0.0
+    somme_coefficients = 0
+    
+    if request.method == "POST":
+        # moyenne = 0.0
+        
+        matiere = request.POST['matiere']
+        trimestre = request.POST['trimestre']
+        typeEvaluation = request.POST['typeEvaluation']
+        
+        evaluations = etudiant.evaluations.all()
+        
+        if matiere:
+            evaluations = etudiant.evaluations.filter(cours__matiere__nom__contains = matiere.strip())
+            for evaluation in evaluations:
+                coefficient = evaluation.cours.matiere.coefficient
+                somme_notes_ponderees += float(evaluation.note) * coefficient
+                somme_coefficients += coefficient
+        elif trimestre:
+            evaluations = etudiant.evaluations.filter(trimestre__contains = trimestre.strip())
+            for evaluation in evaluations:
+                coefficient = evaluation.cours.matiere.coefficient
+                somme_notes_ponderees += float(evaluation.note) * coefficient
+                somme_coefficients += coefficient
+        elif typeEvaluation:
+            evaluations = etudiant.evaluations.filter(typeEvaluation__contains = typeEvaluation.strip())
+            for evaluation in evaluations:
+                coefficient = evaluation.cours.matiere.coefficient
+                somme_notes_ponderees += float(evaluation.note) * coefficient
+                somme_coefficients += coefficient
+        elif matiere and trimestre and typeEvaluation:
+            evaluations = etudiant.evaluations.filter(typeEvaluation__contains = typeEvaluation, trimestre__contains = trimestre, cours__matiere__nom__contains = matiere.strip())
+            for evaluation in evaluations:
+                coefficient = evaluation.cours.matiere.coefficient
+                somme_notes_ponderees += float(evaluation.note) * coefficient
+                somme_coefficients += coefficient
+        
+        moyenne = round(somme_notes_ponderees / somme_coefficients, 2) if somme_coefficients != 0 else 0.0
+        
+        context = {
+            "etudiant": etudiant,
+            "evaluations": evaluations,
+            "moyenne": moyenne
+            }
+        return render(request, 'eleve/compteEtudiant.html', context)
+        
+        
+    else:    
+        evaluations = etudiant.evaluations.all()
+        for evaluation in evaluations:
+            coefficient = evaluation.cours.matiere.coefficient
+            somme_notes_ponderees += float(evaluation.note) * coefficient
+            somme_coefficients += coefficient
+
+        moyenne = round(somme_notes_ponderees / somme_coefficients, 2) if somme_coefficients != 0 else 0.0
+
+        context = {
+            "etudiant": etudiant,
+            "evaluations": evaluations,
+            "moyenne": moyenne
+        }
+        return render(request, 'eleve/compteEtudiant.html', context)
+
+
+def presence(request, matricule):
+    etudiant = Etudiant.objects.get(matricule=matricule)
+    # parent = Etudiant.objects.get(parent = etudiant.parent)
+    emargements = Emargement.objects.filter(etudiant=etudiant).order_by('-id')
+    return render(request, 'eleve/presence.html', {"etudiant": etudiant, "emargements": emargements})
+    
+    
+def notes(request, matricule):
+    etudiant = Etudiant.objects.get(matricule=matricule)
+    # inscriptions = etudiant.inscriptions.all()
+    evaluations = Evaluation.objects.filter(etudiant = etudiant)
+    
+    return render(request, 'eleve/notes.html', {'evaluations': evaluations, 'etudiant': etudiant})
+    
+def inscriptionPayement(request):
+    return render(request, 'eleve/inscriptionPayement.html')

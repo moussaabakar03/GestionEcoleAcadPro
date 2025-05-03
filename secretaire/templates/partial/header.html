@@ -33,7 +33,7 @@
                             <span class="flaticon-search" aria-hidden="true"></span>
                         </button>
                     </span>
-                    <input type="text" class="form-control" placeholder="Find Something . . .">
+                    <input type="text" class="form-control" placeholder="Fitrer . . .">
                 </div>
             </li>
         </ul>
@@ -42,7 +42,7 @@
                 <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                     aria-expanded="false">
                     <div class="admin-title">
-                        <h5 class="item-title">Stevne Zone</h5>
+                        <h5 class="item-title">AcadPro</h5>
                         <span>Admin</span>
                     </div>
                     <div class="admin-img">
@@ -183,13 +183,44 @@
                     </div>
                 </div>
             </li>
-             <li class="navbar-item dropdown header-language">
+            <li class="navbar-item dropdown header-language">
                 <a class="navbar-nav-link dropdown-toggle" href="#" role="button" 
                 data-toggle="dropdown" aria-expanded="false"><i class="fas fa-globe-americas"></i>Fr</a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="#">English</a>
                     <a class="dropdown-item" href="#">Français</a>
                     <a class="dropdown-item" href="#">Arabe</a>
+                </div>
+            </li>
+            {% comment %} <li class="navbar-item dropdown header-language">
+                <a class="navbar-nav-link dropdown-toggle" href="#" role="button" 
+                data-toggle="dropdown" aria-expanded="false"><i class="flaticon-settings"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#">Etudiant</a>
+                    <a class="dropdown-item" href="#">Parent</a>
+                    <a class="dropdown-item" href="#">Classe</a>
+                </div>
+            </li> {% endcomment %}
+            <li class="navbar-item dropdown header-admin">
+                <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <div class="admin-img" >
+                        <i class="flaticon-settings" title = "Paremètre" style = "color: #000000;"></i>
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="item-header">
+                        <h6 class="item-title">Paramètre</h6>
+                    </div>
+                    <div class="item-content">
+                        <ul class="settings-list">
+                            <li><a href="#"><i class="flaticon-user"></i>Parent</a></li>
+                            <li><a href="#"><i class="flaticon-list"></i>Classe</a></li>
+                            <li><a href="#"><i class="flaticon-chat-comment-oval-speech-bubble-with-text-lines"></i>Elève</a></li>
+                            <li><a href="#"><i class="flaticon-gear-loading"></i>Enseigant</a></li>
+                            <li><a href="#"><i class="flaticon-turn-off"></i>Matière</a></li>
+                        </ul>
+                    </div>
                 </div>
             </li>
         </ul>

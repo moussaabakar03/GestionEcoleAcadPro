@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | Add Teacher</title>
+    <title>AcadPro | Inscription</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
@@ -60,7 +60,7 @@
                     <h3>Inscription</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'all_inscription' %}">All inscription</a>
+                            <a href="{% url 'all_inscription' %}">Inscription *</a>
                         </li>
                         <li>Modifier inscription</li>
                     </ul>
@@ -104,7 +104,7 @@
                                     <select class="select2 form-control" name="salleClasse" required>
                                         <option value="">Veuillez sélectionner une salle</option>
                                         {% for salle in salles %}
-                                            <option value="{{ salle.id }}" {% if salle.id == inscription.salleClasse.id %} selected {% endif %}>{{ salle.nom }}</option>
+                                            <option value="{{ salle.id }}" {% if salle.id == inscription.salleClasse.id %} selected {% endif %}>{{salle.niveau.classe}} {{ salle.nom }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>

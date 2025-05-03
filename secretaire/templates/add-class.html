@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | Add Class</title>
+    <title>AKKHOR | Ajout  Matiere</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
@@ -56,9 +56,9 @@
                     <h3>Matière</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'all-class' %}">All matière</a>
+                            <a href="{% url 'all-class' %}">Matière *</a>
                         </li>
-                        <li>Add New matière</li>
+                        <li>Ajout matière</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -67,16 +67,16 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Add New matière</h3>
+                                <h3>Ajout nouvelle matière</h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
                                 data-toggle="dropdown" aria-expanded="false">...</a>
         
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Fermer</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Modifier</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refrecher</a>
                                 </div>
                                 {% if messages %}
                                     {% for message in messages %}
@@ -104,10 +104,14 @@
                             {% csrf_token%}
                             <div class="row">
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Code de la matière *</label>
+                                    <input type="text" name="nom" class="form-control" required>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
                                     <label>Nom de la matière *</label>
                                     <input type="text" name="nom" class="form-control" required>
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                {% comment %} <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Niveau *</label>
                                     <select class="select2" name = "niveau">
                                         <option value="">Select classe(niveau) *</option>
@@ -115,7 +119,7 @@
                                             <option value="{{ niveau.id }}">{{ niveau.classe }}</option>
                                         {% endfor %}
                                     </select>
-                                </div>
+                                </div> {% endcomment %}
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
                                     <label>Coefficient *</label>
                                     <input type="number" name="coefficient" class="form-control" required min="1">
@@ -124,15 +128,15 @@
                                     <label>Description</label>
                                     <textarea name="description" class="form-control" rows="3" placeholder="Description de la matière (facultatif)"></textarea>
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-12 form-group">
+                                {% comment %} <div class="col-xl-6 col-lg-6 col-12 form-group">
                                     <label>Enseignant responsable</label>
                                     <select name="enseignant" class="select2 form-control">
                                         <option value="">Veuillez sélectionner</option>
                                         {% for enseignant in enseignants %}
-                                            <option value="{{ enseignant.id }}">{{ enseignant.prenom }} {{ enseignant.nom }}</option>
+                                            <option value="{{ enseignant.id }}">{{ enseignant.nom }} {{ enseignant.prenom }}</option>
                                         {% endfor %}
                                     </select>
-                                </div>
+                                </div> {% endcomment %}
                                 
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Enregistrer</button>

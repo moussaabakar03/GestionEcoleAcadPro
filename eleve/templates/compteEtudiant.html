@@ -1,0 +1,467 @@
+{% load static %}
+
+
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AKKHOR | All Students</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    {% include 'partial/head.html' %}
+    <style>
+        .nav-tabs .nav-link.active {
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+            font-weight: bold;
+            color: #ff6b00;
+        }
+        .tab-content {
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-top: none;
+        }
+        .custom-tab .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .form-section {
+            margin-top: 15px;
+        }
+        .btn-light-blue {
+            background-color: #e6f0fa;
+            color: #333;
+            border: 1px solid #cfe2f3;
+        }
+
+
+
+
+
+
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            overflow-x: auto; /* permet le scroll horizontal si nécessaire */
+            }
+            
+        .table-wrapper {
+        overflow-x: auto;
+        width: 100%;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+    
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+    
+        th {
+            color:rgb(203, 150, 58);
+            font-weight: bold;
+            background: #f9f9f9;
+        }
+    
+        tr:nth-child(even) {
+            background: #f1f1f1;
+        }
+    
+        .action-icons img {
+            height: 24px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    
+        .flex-boxes {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+    
+        .box {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .table-wrapper table tr {
+            height: 70px; /* augmente la hauteur des lignes */
+        }
+        .detailEtudiant{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffa001;
+            {% comment %} padding: 20px; {% endcomment %}
+            width: 50%;
+            margin: 20px auto;
+            border-radius: 10px;
+
+        }
+    </style>
+</head>
+    
+
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        
+        <div class="navbar navbar-expand-md header-menu-one bg-light">
+            <div class="nav-bar-header-one">
+                <div class="header-logo">
+                    <a href="">
+                        <img src="{% static 'secretaire/img/logo.png' %}" alt="logo" class="img-fluid" style =" overflow : hidden;">
+                    </a>
+                </div>
+            </div>
+            <div class="header-main-menu collapse navbar-collapse" id="mobile-navbar">
+                <ul class="navbar-nav">
+                    <li class="navbar-item header-search-bar">
+                        <div class="input-group stylish-input-group">
+                            <span class="input-group-addon">
+                                <button type="submit">
+                                    <span class="flaticon-search" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Find Something . . .">
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="navbar-item dropdown header-message">
+                        <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="far fa-envelope"></i>
+                            <div class="item-title d-md-none text-16 mg-l-10">Message</div>
+                            <span>5</span>
+                        </a>
+        
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="item-header">
+                                <h6 class="item-title">05 Message</h6>
+                            </div>
+                            <div class="item-content">
+                                <div class="media">
+                                    <div class="item-img bg-skyblue author-online">
+                                        <img src="{% static 'secretaire/img/figure/student11.png' %}" alt="img">
+                                    </div>
+                                    <div class="media-body space-sm">
+                                        <div class="item-title">
+                                            <a href="#">
+                                                <span class="item-name">Maria Zaman</span> 
+                                                <span class="item-time">18:30</span> 
+                                            </a>  
+                                        </div>
+                                        <p>What is the reason of buy this item. 
+                                        Is it usefull for me.....</p>
+                                    </div>
+                                </div>
+                                <div class="media">
+                                    <div class="item-img bg-yellow author-online">
+                                        <img src="{% static 'secretaire/img/figure/student12.png' %}" alt="secretaire/img">
+                                    </div>
+                                    <div class="media-body space-sm">
+                                        <div class="item-title">
+                                            <a href="#">
+                                                <span class="item-name">Benny Roy</span> 
+                                                <span class="item-time">10:35</span> 
+                                            </a>  
+                                        </div>
+                                        <p>What is the reason of buy this item. 
+                                        Is it usefull for me.....</p>
+                                    </div>
+                                </div>
+                                <div class="media">
+                                    <div class="item-img bg-pink">
+                                        <img src="{% static 'secretaire/img/figure/student13.png' %}" alt="img">
+                                    </div>
+                                    <div class="media-body space-sm">
+                                        <div class="item-title">
+                                            <a href="#">
+                                                <span class="item-name">Steven</span> 
+                                                <span class="item-time">02:35</span> 
+                                            </a>  
+                                        </div>
+                                        <p>What is the reason of buy this item. 
+                                        Is it usefull for me.....</p>
+                                    </div>
+                                </div>
+                                <div class="media">
+                                    <div class="item-img bg-violet-blue">
+                                        <img src="{% static 'secretaire/img/figure/student11.png' %}" alt="secretaire/img">
+                                    </div>
+                                    <div class="media-body space-sm">
+                                        <div class="item-title">
+                                            <a href="#">
+                                                <span class="item-name">Joshep Joe</span> 
+                                                <span class="item-time">12:35</span> 
+                                            </a>  
+                                        </div>
+                                        <p>What is the reason of buy this item. 
+                                        Is it usefull for me.....</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="navbar-item dropdown header-notification">
+                        <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="far fa-bell"></i>
+                            <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
+                            <span>8</span>
+                        </a>
+        
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="item-header">
+                                <h6 class="item-title">03 Notifiacations</h6>
+                            </div>
+                            <div class="item-content">
+                                <div class="media">
+                                    <div class="item-icon bg-skyblue">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="media-body space-sm">
+                                        <div class="post-title">Complete Today Task</div>
+                                        <span>1 Mins ago</span>
+                                    </div>
+                                </div>
+                                <div class="media">
+                                    <div class="item-icon bg-orange">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="media-body space-sm">
+                                        <div class="post-title">Director Metting</div>
+                                        <span>20 Mins ago</span>
+                                    </div>
+                                </div>
+                                <div class="media">
+                                    <div class="item-icon bg-violet-blue">
+                                        <i class="fas fa-cogs"></i>
+                                    </div>
+                                    <div class="media-body space-sm">
+                                        <div class="post-title">Update Password</div>
+                                        <span>45 Mins ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="navbar-item dropdown header-admin">
+                        <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">
+                            <div class="admin-title">
+                                <h5 class="item-title">Stevne Zone</h5>
+                                <span>Admin</span>
+                            </div>
+                            <div class="admin-img">
+                                <img src="{% static 'secretaire/img/figure/admin.jpg' %}" alt="Admin">
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="item-header">
+                                <h6 class="item-title">Steven Zone</h6>
+                            </div>
+                            <div class="item-content">
+                                <ul class="settings-list">
+                                    <li><a href="#"><i class="flaticon-user"></i>My Profile</a></li>
+                                    <li><a href="#"><i class="flaticon-list"></i>Task</a></li>
+                                    <li><a href="#"><i class="flaticon-chat-comment-oval-speech-bubble-with-text-lines"></i>Message</a></li>
+                                    <li><a href="#"><i class="flaticon-gear-loading"></i>Account Settings</a></li>
+                                    <li><a href="{% url 'deconnexion' %}"><i class="flaticon-turn-off"></i>Log Out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+           
+            {% comment %} {% include 'partial/aside.html' %} {% endcomment %}
+
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Student Table Area Start Here -->
+                <div class="p-4">
+
+                    <ul class="nav nav-tabs custom-tab">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-list-alt"></i> Progression</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-money-bill"></i> Inscriptions et Payements</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#"><i class="fas fa-briefcase"></i> Notes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-bolt"></i> Absenses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-book"></i> Programme de cours</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-bolt"></i> Ma - Presence</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-list-alt"></i> Présence aux cours</a>
+                        </li>
+                    </ul>
+                
+                    <div class="form-section border border-top-0 p-3">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder="Annee">
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{% url 'compteEtudiant' ALIM00212000 3 %}" type="button" class="btn btn-light-blue w-100">
+                                    <i class="fas fa-search"></i> Afficher les notes
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-light-blue w-100">
+                                    <i class="fas fa-search"></i> Afficher les moyennes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div>
+                            <h2  style= "text-align: center;">NOTES DE L'ETUDIANT: {{etudiant.nom}} {{etudiant.prenom}}</h2>
+                            <form class="mg-b-20" method="POST">
+                                {% csrf_token %}
+                                <div class="row gutters-8">
+                                    <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                        <input type="text" name="matiere" placeholder="Filtre par matière ..." class="form-control">
+                                    </div>
+                                    <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
+                                        <select class="form-control" name="trimestre">
+                                            <option value="">Filtre par trimestre ...</option>
+                                            <option value="1er trimestre">1er trimestre</option>
+                                            <option value="2e trimestre">2e trimestre</option>
+                                            <option value="3e trimestre">3e trimestre</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                        <select class="form-control" name="typeEvaluation">
+                                            <option value=""> Filtre par type evaluation ... </option>
+                                            <option value="Devoir">Devoir</option>
+                                            <option value="Interrogation">Interrogation</option>
+                                            <option value="Composition">Composition</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
+                                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-wrapper" style="max-height: 500px; overflow-y: auto;">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Matière</th>
+                                            <th>Note</th>
+                                            <th>Coefficient</th>
+                                            <th>Type.E</th>
+                                            <th>Trimestre</th>
+                                            <th>Enseignant</th>
+                                            <th>Date evaluation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for evaluation in evaluations%}
+                                            <tr>
+                                                <td>{{ evaluation.cours.matiere.nom }}</td>
+                                                {% if evaluation.note > 10  %}
+                                                    <td><span style= "font-weight: bold; color: green;">{{ evaluation.note }}</span></td>
+                                                {% elif evaluation.note == 10  %}
+                                                    <td><span style= "font-weight: bold; color: #ffa001;">{{ evaluation.note }}</span></td>
+                                                {% else %}
+                                                    <td><span style= "font-weight: bold; color: red;">{{ evaluation.note }}</span></td>
+                                                {% endif %}
+                                                <td>{{ evaluation.cours.matiere.coefficient }}</td>
+                                                <td>{{ evaluation.typeEvaluation }}</td>
+                                                <td>{{ evaluation.trimestre }}</td>
+                                                <td>{{ evaluation.cours.enseignant.nom }} {{ evaluation.cours.enseignant.prenom }}</td>
+                                                <td>{{ evaluation.dateEvaluation|date:"d/m/Y" }}</td>
+                                                
+                                            </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <td colspan = "5"><strong>Moyenne générale </strong></td>
+                                            {% if moyenne >= 10 %}
+                                                <td colspan = "3" style = "color: green; text-align: center; font-weight: bold;">
+                                                    {{ moyenne|floatformat:2 }} / 20
+                                                </td>
+                                            {% elif moyenne == 0.0 %}
+                                                <td colspan = "3" style = "text-align: center; font-weight: bold; font-size: 10px;">
+                                                    Filtrer pour voir la moyenne (les champs haut.)
+                                                </td>
+                                            {% else %}
+                                                <td colspan = "3" style = "color: red; text-align: center; font-weight: bold;">
+                                                    {{ moyenne|floatformat:2 }} / 20
+                                                </td>
+                                            {% endif %}
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Font Awesome pour les icônes -->
+                    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+                </div>
+                <!-- Student Table Area End Here -->
+                {% include 'partial/copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    <!-- jquery-->
+    <script src="{% static 'secretaire/js/jquery-3.3.1.min.js' %}"></script>
+    <!-- Plugins js -->
+    <script src="{% static 'secretaire/js/plugins.js' %}"></script>
+    <!-- Popper js -->
+    <script src="{% static 'secretaire/js/popper.min.js' %}"></script>
+    <!-- Bootstrap js -->
+    <script src="{% static 'secretaire/js/bootstrap.min.js' %}"></script>
+    <!-- Scroll Up Js -->
+    <script src="{% static 'secretaire/js/jquery.scrollUp.min.js' %}"></script>
+    <!-- Data Table Js -->
+    <script src="{% static 'secretaire/js/jquery.dataTables.min.js' %}"></script>
+    <!-- Custom Js -->
+    <script src="{% static 'secretaire/js/main.js' %}"></script>
+
+</body>
+
+</html>

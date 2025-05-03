@@ -32,11 +32,11 @@
                     <h3>Evaluation</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'index' %}">Home</a>
+                            <a href="{% url 'index' %}">Tableau de Bord</a>
                             
                         </li>
-                        <li><a href="{% url 'all_evaluation' %}">All Evaluation</a></li>
-                        <li>Notes {{classe.classe}}</li>
+                        <li><a href="{% url 'all_evaluation' %}">Evaluation *</a></li>
+                        <li>Notes {{salle.nom}}</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -45,18 +45,16 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Notes evaluations {{classe.classe}} </h3>
+                                <h3>Notes evaluations de la salle <span style = "color: #ffaa01; margin-left: 15px;"> {{salle.niveau.classe}} -({{salle.nom}})</span> </h3>
                             </div>
                            <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
                                 data-toggle="dropdown" aria-expanded="false">...</a>
-        
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Fermer</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Modifier</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refrecher</a>
                                 </div>
-                               
                             </div>
                         </div>
                         <form class="mg-b-20" method="POST">
@@ -65,14 +63,28 @@
                                 <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
                                     <input type="text" name="nom" placeholder="Filtre par Nom etudiant ..." class="form-control">
                                 </div>
-                                <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                                    <input type="text" name = "typeEvaluation" placeholder="Filtre par type evaluation ..." class="form-control">
+                                <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                    <select class="form-control" name="typeEvaluation">
+                                        <option value=""> Filtre par type evaluation ... </option>
+                                        <option value="Devoir">Devoir</option>
+                                        <option value="Interrogation">Interrogation</option>
+                                        <option value="Composition">Composition</option>
+                                    </select>
                                 </div>
                                 <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="hidden" placeholder="Search by Class ..." class="form-control">
+                                    <input type="text" name="matiere" placeholder="Filtre par matiere ..." class="form-control">
                                 </div>
                                 <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
                                     <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                </div>
+                                
+                                <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
+                                    <select class="form-control" name="trimestre">
+                                        <option value="">Filtre par trimestre ...</option>
+                                        <option value="1er trimestre">1er trimestre</option>
+                                        <option value="2e trimestre">2e trimestre</option>
+                                        <option value="3e trimestre">3e trimestre</option>
+                                    </select>
                                 </div>
                             </div>
                         </form>

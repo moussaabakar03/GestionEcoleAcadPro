@@ -32,9 +32,9 @@
                     <h3>Frais</h3>
                     <ul>
                         <li>
-                            <a href="{% url 'index' %}">Home</a>
+                            <a href="{% url 'index' %}">Tableau de Bord</a>
                         </li>
-                        <li>All Frais</li>
+                        <li>Frais *</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -44,16 +44,15 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>All Frais</h3>
+                                <h3>Frais *</h3>
                             </div>
                             <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" 
                                    data-toggle="dropdown" aria-expanded="false">...</a>
-            
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                   <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Fermer</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Modifier</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refrecher</a>
                                 </div>
                             </div>
                         </div>
@@ -61,10 +60,10 @@
                         <form class="mg-b-20">
                             <div class="row gutters-8">
                                 <div class="col-6 col-lg-4 form-group">
-                                    <input type="text" placeholder="Search by Classe ..." class="form-control">
+                                    <input type="text" placeholder="Filtrer par Classe .." class="form-control">
                                 </div>
                                 <div class="col-6 col-lg-2 form-group">
-                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">Filtrer</button>
                                 </div>
                             </div>
                         </form>

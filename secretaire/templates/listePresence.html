@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | All Students</title>
+    <title>AcadPro | Presence</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -35,7 +35,7 @@
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Students</h3>
+                    <h3>Elèves</h3>
                     <ul>
                         <li>
                             <a href="{% url 'studentParSalle' salle.id %}"><i class="fa fa-arrow-left"></i> Retour</a>
@@ -43,6 +43,9 @@
                         <li>{{salle.niveau.classe}} {{salle.nom}}</li>
                         <li>
                             <a href=""><i class="fa fa-print" style = "color: #ffaa01;"></i> Imprimer </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'listePresencePasse' salle.id %}"> Voir les presences passées </a>
                         </li>
                     </ul>
                 </div>
@@ -52,7 +55,7 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h6>Liste d'appel des élèves de salle: <span style = "font-weight: bold; color: #ffaa01; font-size: 17px;"> <<{{salle.niveau.classe}} {{salle.nom}}>> </span> </h6>
+                                <h6>Liste d'appel des élèves de salle: <span style = "font-weight: bold; color: #ffaa01; font-size: 17px;"> << {{salle.niveau.classe}}  {{salle.nom}} >> </span></h6>
                             </div>
                             <div>
                                 <h6> <i class="fa fa-list"></i>  Total des élèves <span style = "font-weight: bold; color: #ffaa01; font-size: 17px;"> <<{{nombre}}>> </span></h6>
@@ -62,16 +65,16 @@
                             {% csrf_token %}
                             <div class="row gutters-8">
                                 <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
-                                    <input type="text" name="matricule" placeholder="Search by register ..." class="form-control">
+                                    <input type="text" name="matricule" placeholder="Filtrer par matricule..." class="form-control">
                                 </div>
                                 <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
-                                    <input type="text" name ="nom" placeholder="Search by Name ..." class="form-control">
+                                    <input type="text" name ="nom" placeholder="Filtrer par nom..." class="form-control">
                                 </div>
                                 <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
                                     <input type="hidden" placeholder="Search by Class ..." class="form-control">
                                 </div>
                                 <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">FILTRER</button>
                                 </div>
                             </div>
                         </form>
@@ -94,6 +97,7 @@
                                             {% comment %} <th>Salle</th> {% endcomment %}
                                             <th style = "color: green;">Présent</th>
                                             <th style = "color: red;">Absent</th>
+                                            {% comment %} <th> commentaire {% endcomment %}
                                         </tr>
                                     </thead>
                                         <tbody>
@@ -115,17 +119,20 @@
                                                 <td>
                                                     <input type="radio" name="presence_{{inscrit.etudiant.matricule}}" value="A" required>
                                                 </td>
-                                            
+                                                {% comment %} <td>
+                                                    <textarea width = "30" height = "29" value="A" required></textarea>
+                                                </td> {% endcomment %}
                                             </tr>
                                             {% endfor %}
                                         </tbody>
                                 </table>
                                 <div style ="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 20px; ">
                                     <div>
+                                        <lable> Debut heure de presence </lable>
                                         <input type="datetime-local" name="dateHeureDebut" required>
                                     </div>
                                     <div>
-                                        <textarea style = "margin-bottom: 15px; margin-left: 20px;" name="commentaire" placeholder="Commentaires..." required></textarea>
+                                        <textarea style = "margin-bottom: 15px; margin-left: 20px;" name="commentaire" placeholder="Commentaires..."></textarea>
                                     </div>
                                 </div>
                                 <div  style = "width: 40%; margin-left: 27%;">

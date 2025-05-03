@@ -92,8 +92,8 @@ class Enseignant(models.Model):
 class Matiere(models.Model):
     code = models.CharField(max_length=10)
     nom = models.CharField(max_length=100)
-    enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE, null=True, blank=True)
-    niveau = models.ForeignKey(Classe, on_delete=models.CASCADE, null=True, blank=True, related_name='niveau')
+    # enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE, null=True, blank=True)
+    # niveau = models.ForeignKey(Classe, on_delete=models.CASCADE, null=True, blank=True, related_name='niveau')
     description = models.TextField(null=True, blank=True)
     coefficient = models.PositiveIntegerField()
 
@@ -106,6 +106,7 @@ class Inscription(models.Model):
     montantVerse = models.DecimalField(max_digits=10, decimal_places=2)
     # montantRestant = models.DecimalField(max_digits=10, decimal_places=2)
     
+    
 class Scolarite(models.Model):
     classe = models.ForeignKey(Classe, on_delete=models.CASCADE, null=True, blank=True)
     coutScolarite = models.DecimalField(max_digits=10, decimal_places=2)
@@ -116,8 +117,8 @@ class Scolarite(models.Model):
     
 class Cours(models.Model):
     matiere = models.ForeignKey(Matiere, on_delete=models.CASCADE, null=True, blank=True, related_name='cours')
-    enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE, null=True, blank=True)
-    classe = models.ForeignKey(Classe, on_delete=models.CASCADE, null=True, blank=True)
+    enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE, null=True, blank=True, related_name="cours")
+    classe = models.ForeignKey(Classe, on_delete=models.CASCADE, null=True, blank=True, related_name="cours")
     dateDebutCours = models.DateField()
     dureeCours = models.PositiveIntegerField()
     trimestre = models.CharField(max_length=100, choices=[('Trimestre 1', 'Trimestre 1'), ('Trimestre 2', 'Trimestre 2'), ('Trimestre 3', 'Trimestre 3' )])
@@ -145,7 +146,7 @@ class Cout(models.Model):
 class Emargement(models.Model):
     salleClasse = models.ForeignKey(SalleDeClasse, on_delete=models.CASCADE, null=True, blank=True, related_name='emargements')
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE, null=True, blank=True, related_name ='emargements')
-    dateHeureDebut = models.DateField()
+    dateHeureDebut = models.DateTimeField()
     date_heure_fin = models.DateTimeField(auto_now_add=True)
     commentaire = models.TextField( blank=True, null=True)
     presence = models.BooleanField(default=False)
