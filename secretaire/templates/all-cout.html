@@ -57,10 +57,11 @@
                             </div>
                         </div>
             
-                        <form class="mg-b-20">
+                        <form class="mg-b-20" method = "POST">
+                            {% csrf_token %}
                             <div class="row gutters-8">
                                 <div class="col-6 col-lg-4 form-group">
-                                    <input type="text" placeholder="Filtrer par Classe .." class="form-control">
+                                    <input type="text" name = "classe" placeholder="Filtrer par Classe .." class="form-control">
                                 </div>
                                 <div class="col-6 col-lg-2 form-group">
                                     <button type="submit" class="fw-btn-fill btn-gradient-yellow">Filtrer</button>

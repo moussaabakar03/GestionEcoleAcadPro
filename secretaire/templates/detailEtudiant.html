@@ -133,9 +133,9 @@
 
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>etudiants</h3>
+                    <h3>Elève</h3>
                     <ul>
-                        <li> <a href="{% url 'all-student' %}">All students</a> </li>
+                        <li> <a href="{% url 'all-student' %}">Elèves *</a> </li>
                         <li> <a href ="{% url 'students-detail' etudiant.matricule %}" ><i class="fas fa-id-card"></i>  Génerer la carte scolaire de l'étudiant</a></li>
                         <li> <a href ="{% url 'modifier_student' etudiant.matricule %}" ><i class='fas fa-edit'></i>  Editer les infos de l'élève</a></li>
                         <li> <a href ="{% url 'presenceEtudiant' etudiant.matricule %}" ><i class="fas fa-check-circle text-success"></i>  Ma présence</a></li>
@@ -304,7 +304,7 @@
                                         </select>
                                     </div>
                                     <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">FILTRER</button>
                                     </div>
                                 </div>
                             </form>
@@ -316,7 +316,7 @@
                                         <tr>
                                             <th>Matière</th>
                                             <th>Note</th>
-                                            <th>Coefficient</th>
+                                            <th>Pourcentage</th>
                                             <th>Type.E</th>
                                             <th>Trimestre</th>
                                             <th>Enseignant</th>
@@ -335,7 +335,7 @@
                                                 {% else %}
                                                     <td><span style= "font-weight: bold; color: red;">{{ evaluation.note }}</span></td>
                                                 {% endif %}
-                                                <td>{{ evaluation.cours.matiere.coefficient }}</td>
+                                                <td>{{ evaluation.pourcentage }} %</td>
                                                 <td>{{ evaluation.typeEvaluation }}</td>
                                                 <td>{{ evaluation.trimestre }}</td>
                                                 <td>{{ evaluation.cours.enseignant.nom }} {{ evaluation.cours.enseignant.prenom }}</td>
@@ -345,25 +345,28 @@
                                                 </td>
                                             </tr>
                                         {% endfor %}
-                                        
                                         {% if messages %}
-                                            {% for message in messages %}
-                                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show flash-message" role="alert" style="color: red;">
-                                                    {{ message }}                                                    
-                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                </div>
-                                            {% endfor %}
+                                            <tr>
+                                                {% for message in messages %}
+                                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show flash-message" role="alert" style="color: red;">
+                                                        <td>{{ message }}</td>                                                 
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                    </div>
+                                                {% endfor %}
+                                                <script>
+                                                    setTimeout(function() {
+                                                        const flashMessages = document.querySelectorAll(".flash-message");
+                                                        flashMessages.forEach(function(flash) {
+                                                            flash.classList.remove("show");
+                                                            flash.classList.add("hide");
+                                                        });
+                                                    }, 5000);
+                                                </script>
+                                            </tr>
+                                            
                                         {% endif %}
-                                
-                                        <script>
-                                            setTimeout(function() {
-                                                const flashMessages = document.querySelectorAll(".flash-message");
-                                                flashMessages.forEach(function(flash) {
-                                                    flash.classList.remove("show");
-                                                    flash.classList.add("hide");
-                                                });
-                                            }, 5000);
-                                        </script>
+                                            
+                                        
                                            
                                         <tr>
                                             <td colspan = "5"><strong>Moyenne générale </strong></td>

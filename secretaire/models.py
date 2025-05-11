@@ -132,6 +132,7 @@ class Evaluation(models.Model):
     typeEvaluation = models.CharField(max_length=100, choices=[('Devoir', 'Devoir'), ('Interrogation', 'Interrogation'), ('Composition', 'Composition')])
     dateEvaluation = models.DateField()
     note = models.DecimalField(max_digits=10, decimal_places=2)
+    pourcentage = models.DecimalField(max_digits=10, decimal_places=2)
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE, null=True, blank=True, related_name='evaluations')
     
 

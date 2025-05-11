@@ -84,46 +84,61 @@
                                 </div>
                             </div>
                         </div>
+                        <div>
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <p style = "color: red; text-align: center;"> {{ message }} </p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
                         <form class="new-added-form" method="POST">
                             {% csrf_token %}
                             <div class="row">
                                 <!-- Étudiant -->
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
                                     <label>Étudiant *</label>
-                                    <select class="select2 form-control" name="etudiant" required>
-                                        <option value="">Veuillez sélectionner un étudiant</option>
-                                        {% for etudiant in etudiants %}
-                                            <option value="{{ etudiant.id }}">{{ etudiant.nom }} {{ etudiant.prenom }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    <select class="select2 form-control" id="etudiant-select" name="etudiant" required>
+                                    <option value="">Veuillez sélectionner un étudiant</option>
+                                    {% for etudiant in etudiants %}
+                                        <option value="{{ etudiant.id }}" 
+                                                data-matricule="{{ etudiant.matricule }}" 
+                                                data-nom="{{ etudiant.nom }}" 
+                                                data-prenom="{{ etudiant.prenom }}">
+                                            {{ etudiant.nom }} {{ etudiant.prenom }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+
                                 </div>
                         
                                 <!-- Salle de classe -->
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
                                     <label>Salle de Classe *</label>
-                                    <select class="select2 form-control" name="salleClasse" required>
+                                    <select class="select2 form-control" id="salle-select" name="salleClasse" required>
                                         <option value="">Veuillez sélectionner une salle</option>
                                         {% for salle in salles %}
-                                            <option value="{{ salle.id }}">{{salle.niveau.classe}} {{ salle.nom }}</option>
+                                            <option value="{{ salle.id }}" 
+                                                    data-cout="{{ salle.niveau.couts.first.coutInscription }}">
+                                                {{ salle.niveau.classe }} {{ salle.nom }}
+                                            </option>
                                         {% endfor %}
                                     </select>
                                 </div>
-                        
-                                <!-- Coût attendu -->
-                                {% comment %} <div class="col-xl-4 col-lg-6 col-12 form-group">
-                                    <label>Coût attendu *</label>
-                                    <input type="number" name="coutA" class="form-control" required step="0.01">
-                                </div> {% endcomment %}
-                        
+
                                 <!-- Montant versé -->
                                 <div class="col-xl-4 col-lg-6 col-12 form-group">
                                     <label>Montant versé *</label>
                                     <input type="number" name="montantVerse" class="form-control" required step="0.01">
                                 </div>
-                        
+                                 <!-- Coût attendu -->
+                                <div class="col-xl-4 col-lg-6 col-12 form-group">
+                                    <label>Coût attendu *</label>
+                                    <input type="number" name="coutA" id="coutA" class="form-control" required step="0.01" readonly>
+                                </div> 
+
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Enregistrer</button>
-                                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Réinitialiser</button>
+                                    <a href="{% url 'all_inscription' %}" type="button" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Réinitialiser</a>
                                 </div>
                             </div>
                         </form>
@@ -155,6 +170,45 @@
     <script src="{% static 'secretaire/js/jquery.scrollUp.min.js' %}"></script>
     <!-- Custom Js -->
     <script src="{% static 'secretaire/js/main.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#etudiant-select').select2({
+            templateResult: function (data) {
+                if (!data.id) return data.text;
+
+                var matricule = $(data.element).data('matricule');
+                var nom = $(data.element).data('nom');
+                var prenom = $(data.element).data('prenom');
+
+                var $result = $(
+                    '<span><strong style="color: red;">' + matricule + '</strong> ' + nom + ' ' + prenom + '</span>'
+                );
+                return $result;
+            },
+            templateSelection: function (data) {
+                if (!data.id) return data.text;
+
+                var matricule = $(data.element).data('matricule');
+                var nom = $(data.element).data('nom');
+                var prenom = $(data.element).data('prenom');
+
+                return matricule + ' - ' + nom + ' ' + prenom;
+            }
+        });
+    });
+</script>
+
+
+{% comment %} remplir le champs cout attendu automatiquemnt {% endcomment %}
+<script>
+    $(document).ready(function() {
+        $('#salle-select').on('change', function() {
+            var cout = $('option:selected', this).data('cout');
+            $('#coutA').val(cout);
+        });
+    });
+</script>
 
 
 </body>

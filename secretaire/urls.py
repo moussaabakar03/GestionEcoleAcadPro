@@ -8,7 +8,7 @@ urlpatterns = [
     path('index5/', views.index5, name='index5'),
     path('login/', views.connexion, name='login'),
     
-    path('/inscription', views.inscription, name='inscription'),
+    path('inscription/', views.inscription, name='inscription'),
     # path('connexion/', views.connexion, name='connexion'),
     # path('acceuil/', views.acceuil, name='acceuil'),
     path('deconnexion/', views.deconnexion, name='deconnexion'),

@@ -5,6 +5,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from . models import Classe, Cours, Cout, Emargement, Etudiant, Enseignant, Evaluation, Inscription, Matiere, Parent, SalleDeClasse
 
 
+import random
+import string
+from django.utils.text import slugify
+
+
 from django.contrib.auth.forms import UserCreationForm 
 from .form import CustomUserCreationForm
 from django.contrib.auth import login, authenticate, logout
@@ -75,35 +80,36 @@ def all_student(request):
         context = {'etudiants': etudiant, 'inscription': inscription}
         return render(request, 'all-student.html', context)
 
+def generate_matricule(nom):
+    prefix = slugify(nom)[:4].upper()  # Les 4 premières lettres du nom, en majuscules
+    suffix = ''.join(random.choices(string.digits, k=4))  # 4 chiffres aléatoires
+    return f"{prefix}{suffix}"
+
 def admit_form(request):
     salles = SalleDeClasse.objects.all()
     parentss = Parent.objects.all()
+
     if request.method == "POST":
         nom = request.POST["nom"]
         prenom = request.POST["prenom"]
-        matricule = request.POST["matricule"]
         genre = request.POST["genre"]
         date_naissance = request.POST["date_naissance"]
         groupe_sanguin = request.POST["groupe_sanguin"]
         mail = request.POST["mail"]
-        # salleDeClasse_id = request.POST["salleDeClasse"]
-        # niveau = request.POST["niveau"]
         telephone = request.POST["telephone"]
         nationnalite = request.POST["nationnalite"]
         photo = request.FILES.get("photo")
         parent = request.POST.get("parent")
 
-        # salleDeClasse_id = request.POST.get("salleDeClasse")
-       
-        # salle = SalleDeClasse.objects.get(pk=int(salleDeClasse_id))
+        # Génération du matricule
+        matricule = generate_matricule(nom)
+
+        # Assurer unicité du matricule
+        while Etudiant.objects.filter(matricule=matricule).exists():
+            matricule = generate_matricule(nom)
+
         parent_id = Parent.objects.get(pk=int(parent))
 
-        
-        # Vérifier si un étudiant avec le même matricule  déjà
-        # if Etudiant.objects.filter(matricule=matricule).exists():
-        #     return render(request, "admit-form.html", {"error": "Matricule déjà utilisé !"})
-
-        # Enregistrement dans la base de données
         Etudiant.objects.create(
             nom=nom,
             prenom=prenom,
@@ -113,13 +119,12 @@ def admit_form(request):
             date_naissance=date_naissance,
             groupe_sanguin=groupe_sanguin,
             mail=mail,
-            # salleDeClasse_id=salle,
             telephone=telephone,
             nationnalite=nationnalite,
             photo=photo
         )
 
-        return redirect("all-student") 
+        return redirect("all-student")
 
     return render(request, "admit-form.html", {"salles": salles, "parentss": parentss})
 
@@ -553,15 +558,14 @@ def listePresence(request, id):
 def listePresencePasse(request, id):
     # inscriptions = Emargement.objects.select_related('etudiant', 'salleClasse').filter(presence=True)
     salleClasse = SalleDeClasse.objects.get(id=id)
-    emargement = Emargement.objects.filter(salleClasse = salleClasse)
+    emargement = Emargement.objects.filter(salleClasse = salleClasse).order_by('-dateHeureDebut')
     
     if request.method == "POST":
         matricule = request.POST['matricule']
         nom = request.POST.get('nom')
-        inscription = Inscription.objects.filter(salleClasse = salleClasse)
-        inscrits = inscription.filter(etudiant__matricule__icontains=matricule, etudiant__nom__icontains=nom)
+        emargement = Emargement.objects.filter(etudiant__matricule__icontains=matricule, etudiant__nom__icontains=nom)
         
-        return render(request, 'listePresencePasse.html', {"emargements": emargement, "salleClasse": salleClasse, 'inscrits':inscrits})
+        return render(request, 'listePresencePasse.html', {"emargements": emargement, "salleClasse": salleClasse})
     
     else:
         return render(request, 'listePresencePasse.html', {"emargements": emargement, "salleClasse": salleClasse})
@@ -606,7 +610,6 @@ def supprimerNiveau(request, id):
 
 
 
-
 def all_inscription(request):
     inscriptions = Inscription.objects.select_related('etudiant', 'salleClasse__niveau').all()
     return render(request, 'all-inscription.html', {"inscriptions": inscriptions})
@@ -620,15 +623,18 @@ def ajoutInscription(request):
         
         etudiant = Etudiant.objects.get(pk=int(etudiant_id))
         salleDeClasse = SalleDeClasse.objects.get(pk=int(salleClasse_id))
-        
-        Inscription.objects.create(
-            etudiant = etudiant,
-            salleClasse = salleDeClasse,
-            # coutA = coutA,
-            montantVerse = montantVerse
-        )
-        return redirect("all_inscription")
-      
+        cout = Cout.objects.get(classe = salleDeClasse.niveau)
+        if float(montantVerse) <= float(cout.coutInscription):
+            Inscription.objects.create(
+                etudiant = etudiant,
+                salleClasse = salleDeClasse,
+                # coutA = coutA,
+                montantVerse = montantVerse
+            )
+            return redirect("all_inscription")
+        else:
+            messages.error(request, "Le montant versé doit être inférieur ou égal au cout d'inscription ")
+            return redirect("add_inscription")
     context = {
         'etudiants': Etudiant.objects.all(),
         'salles': SalleDeClasse.objects.all(),
@@ -774,6 +780,7 @@ def modifier_evaluation(request, id):
         evaluation.typeEvaluation = request.POST["typeEvaluation"]
         evaluation.dateEvaluation = request.POST["dateEvaluation"]
         evaluation.note = request.POST["note"]
+        evaluation.pourcentage = request.POST["pourcentage"]
 
         evaluation.cours = get_object_or_404(Cours, id=cours_id)
         evaluation.etudiant = get_object_or_404(Etudiant, id=etudiant_id)
@@ -807,7 +814,7 @@ def evaluation_groupee(request, id, id1):
         cours_id = request.POST["cours"]
         typeEvaluation = request.POST["typeEvaluation"]
         dateEvaluation = request.POST["dateEvaluation"]
-
+        pourcentage = request.POST["pourcentage"]
         cours = Cours.objects.get(pk=int(cours_id))
 
         for inscrit in inscrits:
@@ -822,6 +829,7 @@ def evaluation_groupee(request, id, id1):
                     dateEvaluation=dateEvaluation,
                     note=note_val,
                     trimestre=trimestre,
+                    pourcentage =pourcentage
                 )
 
         return redirect('all_evaluation')  
@@ -842,14 +850,14 @@ def selectClasseEvaluation(request):
     return render(request, 'selectClasseEvaluation.html', {'salleClasses': salleClasse})
 
 def selectClasse(request):
-    classe = Classe.objects.all()
-    return render(request, 'selectClasse.html', {'niveaux': classe})
+    salleClasses = SalleDeClasse.objects.all()
+    return render(request, 'selectClasse.html', {'salleClasses': salleClasses})
 
 def filtre_evaluation(request, id):
     salle = get_object_or_404(SalleDeClasse, id=id)
     classe = salle.niveau
 
-    evaluation = Evaluation.objects.filter(cours__classe=classe)
+    evaluation = Evaluation.objects.filter(cours__classe=classe).order_by('-id')
 
     if request.method == 'POST':
         typeEvaluation = request.POST.get('typeEvaluation')
@@ -871,9 +879,9 @@ def filtre_evaluation(request, id):
 
         
 def note_individuelle(request, id):
-    classe = Classe.objects.get(id=id)
+    salleClasse = SalleDeClasse.objects.get(id=id)
     inscrits = Inscription.objects.filter(
-        salleClasse__niveau=classe
+        salleClasse = salleClasse
     ).select_related('etudiant', 'salleClasse')
 
     # matieres = Matiere.objects.filter(niveau=classe)
@@ -881,7 +889,7 @@ def note_individuelle(request, id):
     # courrs = Cours.objects.filter(classe=classe)
    
     context = {
-        'classe': classe,
+        'salleClasse': salleClasse,
         'inscrits': inscrits,
     }
     return render(request, 'note-individuelle.html', context)
@@ -929,9 +937,16 @@ def deleteEvaluation(request, id):
     
 #coût
 def all_cout(request):
-    couts = Cout.objects.all()
-    context = {'couts': couts}
-    return render(request, 'all-cout.html', context)
+    if request.method == 'POST':
+        classe = request.POST["classe"]
+        couts = Cout.objects.filter(classe__classe__icontains = classe)
+        
+        context = {'couts': couts}
+        return render(request, 'all-cout.html', {'couts': couts})
+    else:
+        couts = Cout.objects.all()
+        context = {'couts': couts}
+        return render(request, 'all-cout.html', context)
 
 def ajoutCout(request):
     if request.method == 'POST':
@@ -977,7 +992,6 @@ def modifierCout(request, id):
         return redirect('all_cout')
     context = {'cout': cout, 'classe_list': Classe.objects.all()}
     return render(request, 'modifier-cout.html', context)
-
 
 
 

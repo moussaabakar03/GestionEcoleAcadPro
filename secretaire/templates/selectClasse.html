@@ -56,12 +56,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for classe in niveaux %}
+                                    {% for salleClasse in salleClasses %}
                                     <tr>
-                                        <td>{{ classe.classe }}</td>
+                                        <td>{{ salleClasse.niveau.classe }}-{{ salleClasse.nom }}</td>
                                         <td>
                                             <div class="dropdown">
-                                                <a href="{% url 'note_individuelle' classe.id %}">
+                                                <a href="{% url 'note_individuelle' salleClasse.id %}">
                                                     <i class="fas fa-clipboard-check"> </i> Attribuer Notes
                                                 </a>
                                             </div>

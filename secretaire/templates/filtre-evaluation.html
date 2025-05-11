@@ -75,7 +75,7 @@
                                     <input type="text" name="matiere" placeholder="Filtre par matiere ..." class="form-control">
                                 </div>
                                 <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
-                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">FILTRER</button>
                                 </div>
                                 
                                 <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
@@ -102,6 +102,7 @@
                                         <th>Classe</th>
                                         <th>Matière</th>
                                         <th>Note(/20)</th>
+                                        <th>Pourcentage</th>
                                         <th>Trimestre</th>
                                         <th>Enseignant</th>
                                         <th>Type.E</th>
@@ -123,9 +124,12 @@
                                             <td>{{ evaluation.cours.matiere.nom }}</td>
                                             {% if evaluation.note > 10  %}
                                                 <td><span style= "font-weight: bold; color: green;">{{ evaluation.note }}</span></td>
+                                            {% elif evaluation.note == 10  %}
+                                                <td><span style= "font-weight: bold; color: #ffa001;">{{ evaluation.note }}</span></td>
                                             {% else %}
                                                 <td><span style= "font-weight: bold; color: red;">{{ evaluation.note }}</span></td>
                                             {% endif %}
+                                            <td>{{ evaluation.pourcentage }} %</td>
                                             <td>{{ evaluation.trimestre }}</td>
                                             <td>{{ evaluation.cours.enseignant.nom }} {{ evaluation.cours.enseignant.prenom }}</td>
                                             <td>{{ evaluation.typeEvaluation }}</td>

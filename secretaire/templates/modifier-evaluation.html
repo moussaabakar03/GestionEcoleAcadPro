@@ -83,6 +83,10 @@
             <label for="note" class="form-label">Note (/20):</label>
             <input type="text" id="note" name="note" value="{{evaluation.note}}" class="form-control">
         </div>
+        <div class="col-md-3">
+            <label for="pourcentage">Pourcentage:</label>
+            <input type="number" name="pourcentage" value="{{evaluation.pourcentage}}" class="form-control" required min="0">
+        </div>
         <div class="col">
             <input type="hidden" id="date" class="form-control" name= "etudiant" value="{{evaluation.etudiant.id}}">
         </div>
